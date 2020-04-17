@@ -1,0 +1,56 @@
+{
+    "Ticket": {
+        "id_ticket": "101000",
+        "date_achat": "12/02/2020",
+        "montant": 13.5,
+		"commerce" : {
+						"id_commerce": "333",
+						"nom": "Auchan Villeurbanne",
+						"id_groupe": "777"
+					},
+        "achats": [
+           {
+				"id_achat": "111111", 
+				"quantite": 10 ,
+				"prix": 12,
+				"article":
+							{
+								"id_article": "7777",
+								"code_bar": "10101010101",
+								"nom": "Confit Canard 250G ",
+								"description": "Du bon canard du sud-ouest",
+								"produit" : {
+												"id_produit": "12345",
+												"nom": "Confit Canard",
+												"description": "C'est du confit",
+												"categoriecroduit":{
+																		"id_categorieproduit" : "9876",
+																		"nom" : "Conserves"
+																	}
+											}
+							}
+			},
+			{
+				"id_achat": "111112", 
+				"quantite": 2 ,
+				"prix": 5,
+				"article":
+							{
+								"id_article": "7877",
+								"code_bar": "10101000101",
+								"nom": "Pates Panzani 1Kg ",
+								"description": "Its des pates",
+								"produit" : {
+									"id_produit": "12346",
+									"nom": "Pates",
+									"description": "C'est des pates",
+									"categorieproduit":{
+															"id_categorieproduit" : "9877",
+															"nom" : "Feculents"
+														}
+								}
+							}
+			}
+        ]
+    }
+}
