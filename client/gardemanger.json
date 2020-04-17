@@ -1,0 +1,53 @@
+{
+    "GardeManger": {
+        "id_gardemanger": "130697",
+        "id_client"  : "12345",
+        "items": [
+           {
+                "id_item": "111", 
+                "quantite": 10 ,
+                "produit":
+                            {
+                                "id_produit": "777",
+                                "nom": "Lasagnes biens grasses",
+                                "description": "Du bon gras sa mère et du cheval",
+                                "categorieproduit":{
+                                    "id_categorieproduit" : "3",
+                                    "nom" : "Pâtes",
+                                    "description" : "c'est bon et pas cher"
+                                }
+                            }
+            },
+            {
+                "id_item": "221", 
+                "quantite": 5 ,
+                "produit":
+                            {
+                                "id_produit": "789",
+                                "nom": "Saint-Nectaire",
+                                "description": "Bon fromage",
+                                "categorieproduit":{
+                                    "id_categorieproduit" : "7",
+                                    "nom" : "Fromage",
+                                    "description" : "Caprice des dieux, caprice à deux"
+                                }
+                            }
+            },
+            {
+                "id_item": "223", 
+                "quantite": 500 ,
+                "produit":
+                            {
+                                "id_produit": "790",
+                                "nom": "Reblochon de Savoie",
+                                "description": "Très bon fromage",
+                                "categorieproduit":{
+                                    "id_categorieproduit" : "7",
+                                    "nom" : "Fromage",
+                                    "description" : "Caprice des dieux, caprice à deux"
+                                }
+                            }
+            }
+        ]
+    }
+}
