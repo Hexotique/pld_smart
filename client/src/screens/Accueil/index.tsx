@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 
-import { AccueilProp } from "../../navigator";
+import { AccueilProp, GardeMangerProp, ListeCourseProp, ListeTicketProp, TicketDetailProp } from "../../navigator";
 
 function Accueil({ route, navigation }: AccueilProp) {
     return (
@@ -13,6 +13,18 @@ function Accueil({ route, navigation }: AccueilProp) {
                 <Button
                     title="Liste de Courses"
                     onPress={() => navigation.navigate('ListeCourse')}
+                />
+                <Button
+                    title="Garde Manger"
+                    onPress={() => navigation.navigate('GardeManger')}
+                />
+                <Button
+                    title="Liste de Tickets"
+                    onPress={() => navigation.navigate('ListeTicket')}
+                />
+                <Button
+                    title="Details de Ticket"
+                    onPress={() => navigation.navigate('TicketDetail')}
                 />
             </View>
         </View>

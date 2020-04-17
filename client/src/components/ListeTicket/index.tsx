@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList} from 'react-native';
+import { FlatList } from 'react-native';
 import Item from "../../components/ListeTicketItem";
 
 const dataTicket = [
@@ -25,16 +25,15 @@ const dataTicket = [
 
 function TicketListe() {
     return (
-        <view>
-            <FlatList
-                data={dataTicket}
-                keyExtractor={(item,index)=>item+index.toString()}
-                renderItem={({item}) => <Item  prix ={item.prix}
-                                                     commerce={item.commerce}
-                                                     date={item.date}
-                ></Item>}
-            />
-        </view>
+        <FlatList
+            data={dataTicket}
+            keyExtractor={(item, index) => item + index.toString()}
+            renderItem={({ item }) => <Item
+                prix={item.prix}
+                commerce={item.commerce}
+                date={item.date}
+            />}
+        />
     );
 }
 

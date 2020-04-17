@@ -14,7 +14,7 @@ function ItemListe(props: ItemListeProps) {
         onMoveShouldSetPanResponder: (evt, gestureState) => true,
         onPanResponderTerminationRequest: (evt, gestureState) => false,
         onPanResponderMove: (evt, gestureState) => {
-            if (gestureState.dx < 35) {
+            if (gestureState.dx < -35) {
                 props.toggleScroll(false);
                 let newX = gestureState.dx;
                 position.setValue({ x: newX, y: 0 });
@@ -31,13 +31,13 @@ function ItemListe(props: ItemListeProps) {
                 style={[position.getLayout()]}
                 {...panResponder.panHandlers}
             >
-                <View style={styles.absoluteCell}>
-                    <Text style={styles.absoluteCellText}>DELETE</Text>
-                </View>
                 <View style={styles.innerCell}>
-                    <Text>
+                    <Text style={styles.absoluteCellText}>
                         {props.text}
                     </Text>
+                </View>
+                <View style={styles.absoluteCell}>
+                    <Text style={styles.absoluteCellText}>DELETE</Text>
                 </View>
             </Animated.View>
         </View >

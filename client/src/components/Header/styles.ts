@@ -6,18 +6,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'brown',
         paddingLeft: 20,
-        alignItems: 'center'
+        alignItems: 'center',
+        height: 60
     },
     header_title: {
         flex: 6,
-        fontWeight: "500",
+        fontWeight: "bold",
         color: "white",
         fontSize: 30,
         fontFamily: "Impact"
     },
     profile_image: {
         height: 40,
-        width: 40
+        width: 40,
+        marginRight: 10
     },
 });
 

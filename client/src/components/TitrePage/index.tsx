@@ -8,7 +8,7 @@ function TitrePage({titre, imageSrc}: any) {
     let imageComponent;
     switch (imageSrc) {
         case 'GardeManger':
-            imageComponent = <Image style={styles.image} source={require('../../assets/GardeMangerIcon.JPG')} />;
+            imageComponent = <Image style={styles.image} source={require('../../assets/GardeMangerIcon.jpg')} />;
             break;
     }
     return (

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 
-import Header from '../../components/Header';
 import Ticket from '../../components/Ticket';
 
 import { TicketDetailScreenProp } from '../../navigator'
@@ -28,9 +27,6 @@ Ticketdata.push(newcat2);
 function TicketDetail({ route, navigation }: TicketDetailScreenProp) {
      return (
           <View>
-               <View style={{ flex: 1, }}>
-                    <Header></Header>
-               </View>
                <View style={{ flex: 1, marginBottom: 30 }}>
                     <Button
                          title="Go to Home"

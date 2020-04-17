@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
     ticket :{
         flex: 1,
         flexDirection:"row",
-        align:"center",
+        //align:"center",
         marginTop : 5,
         marginLeft : 20,
         marginRight:20,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         fontWeight: "100",
         fontSize: 12,
         fontFamily: "Arial",
-        float:"right",
+        //float:"right",
         flex:2,
         marginBottom: 5,
         marginTop: 4,

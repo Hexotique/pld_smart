@@ -4,7 +4,6 @@ import styles from './styles';
 import TicketList from '../TicketList';
 
 function Ticket() {
-
      return (
           <View style={styles.ticket_container}>
                <View>
@@ -20,7 +19,6 @@ function Ticket() {
                <View>
                     <Text style={{ textAlign: 'right', paddingRight: '5%' }} >Total : 35,12 €</Text>
                </View>
-
           </View>
      );
 }
