@@ -4,12 +4,13 @@ const styles = StyleSheet.create({
      main_container: {
           flex: 1,
           flexDirection: 'row',
-          paddingLeft: 10,
-          paddingRight: 10,
+          paddingLeft: '4%',
+          paddingRight: '4%',
           marginVertical: '1%',
           alignItems: 'center',
      },
      product_container: {
+          paddingVertical:'1%',
           flex: 50,
           backgroundColor: '#e6b8afff',
           borderRadius: 5,
@@ -17,11 +18,13 @@ const styles = StyleSheet.create({
           paddingRight: '5%',
      },
      quantity_container: {
+          paddingVertical:'1%',
           flex: 25,
           alignItems: 'center',
           borderRadius: 5,
      },
      price_container: {
+          paddingVertical:'1%',
           flex: 25,
           backgroundColor: '#e6b8afff',
           alignItems: "center",

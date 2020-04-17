@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
           flex: 1,
           borderRadius: 5,
           flexDirection: 'column',
-          justifyContent: 'center',
+          //justifyContent: 'center',
           backgroundColor: '#fff2ccff'
      },
      nom_enseigne: {

@@ -1,9 +1,10 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 
 import Ticket from '../../components/Ticket';
 
-import { TicketDetailScreenProp } from '../../navigator'
+import { TicketDetailProp } from '../../navigator'
 
 /*
 const Ticketdata = new Array<Category>();
@@ -24,18 +25,9 @@ Ticketdata.push(newcat1);
 Ticketdata.push(newcat2);
 */
 
-function TicketDetail({ route, navigation }: TicketDetailScreenProp) {
+function TicketDetail({ route, navigation }: TicketDetailProp) {
      return (
-          <View>
-               <View style={{ flex: 1, marginBottom: 30 }}>
-                    <Button
-                         title="Go to Home"
-                         onPress={() => navigation.navigate("Home")}
-                    />
-               </View>
-               {/* <TicketLine item_name={purchase[0].data[0].article} quantity={purchase[0].data[0].quantite} price={purchase[0].data[0].prix} /> */}
                <Ticket></Ticket>
-          </View>
      );
 }
 
