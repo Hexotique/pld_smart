@@ -3,7 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { Stack } from "./navigator";
-import Header from "./components/Header";
+import Header from "./components/ComposantsGénériques/Header";
 
 import Accueil from "./screens/Accueil";
 import GardeManger from "./screens/GardeManger";
