@@ -2,14 +2,13 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
      conteneur_principal: {
-          flex          : 1,
           flexDirection : 'row',
           paddingLeft   : '4%',
           paddingRight  : '4%',
           marginVertical: '1%',
           alignItems    : 'center',
      },
-     conteneur_prosuit: {
+     conteneur_produit: {
           paddingVertical: '1%',
           flex           : 50,
           backgroundColor: '#e6b8afff',

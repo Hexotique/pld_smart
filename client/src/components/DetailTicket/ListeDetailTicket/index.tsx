@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View} from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import Categorie from '../../ComposantsGénériques/CategorieListeRetractable'
 
 // imports peronnels
 import styles from './styles';
@@ -98,6 +99,45 @@ function _genereListe() {
                     },
                ]
           },
+          {
+               categorieProduit: "Epicerie",
+               donnees         : [
+                    {
+                         article : "tablette de Chocolat",
+                         quantite: '4',
+                         prix    : '11,01€',
+                    },
+                    {
+                         article : "Quinoa",
+                         quantite: '2',
+                         prix    : '5,62€',
+                    },
+                    {
+                         article : "Spaghetti",
+                         quantite: '1',
+                         prix    : '1,17€',
+                    },
+               ]
+          },{
+               categorieProduit: "Epicerie",
+               donnees         : [
+                    {
+                         article : "tablette de Chocolat",
+                         quantite: '4',
+                         prix    : '11,01€',
+                    },
+                    {
+                         article : "Quinoa",
+                         quantite: '2',
+                         prix    : '5,62€',
+                    },
+                    {
+                         article : "Spaghetti",
+                         quantite: '1',
+                         prix    : '1,17€',
+                    },
+               ]
+          },
      ])
 }
 
@@ -120,17 +160,17 @@ function ListeDetailTicket(purchases: any) {
           <View>
                <FlatList
                     data         = {_genereListe()}
-                    keyExtractor = {(item) => item.toString()}
+                    keyExtractor = {(item, index) => item + index.toString() }
                     renderItem   = {({ item }) =>
                     <View>
                         <Collapse>
                             <CollapseHeader>
-                              <Text style = {styles.entete}>{item.categorieProduit}</Text>
+                              <Categorie item = {item.categorieProduit}/>
                             </CollapseHeader>
                             <CollapseBody>
                                 <FlatList
                                     data         = {item.donnees}
-                                    keyExtractor = {(item) => item.article.toString() }
+                                    keyExtractor = {(item, index) => item.article + index.toString() }
                                     renderItem   = {({ item }) =>
                                          <LigneTicket nomItem = {item.article} quantite = {item.quantite} prix = {item.prix} />
                                     }

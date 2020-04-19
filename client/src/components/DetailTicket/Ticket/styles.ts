@@ -31,8 +31,6 @@ const styles = StyleSheet.create({
           textAlign   : 'right',
           paddingRight: '5%'
      }
-
-
 });
 
 export default styles;
