@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 
 const styles = StyleSheet.create({
-     ticket_container: {
+     conteneur_ticket: {
           flex         : 1,
           borderRadius : 5,
           flexDirection: 'column',
@@ -26,7 +26,12 @@ const styles = StyleSheet.create({
      },
      numTicket: {
           paddingRight: '5%'
+     },
+     prix:{
+          textAlign   : 'right',
+          paddingRight: '5%'
      }
+
 
 });
 
