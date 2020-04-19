@@ -17,12 +17,12 @@ export default function App() {
     return (
         <NavigationContainer>
             <Header />
-            <Stack.Navigator initialRouteName="Accueil">
-                <Stack.Screen options={navOptions} name="Accueil" component={Accueil} />
-                <Stack.Screen options={navOptions} name="GardeManger" component={GardeManger} />
-                <Stack.Screen options={navOptions} name="ListeCourse" component={ListeCourse} />
-                <Stack.Screen options={navOptions} name="ListeTicket" component={ListeTicket} />
-                <Stack.Screen options={navOptions} name="TicketDetail" component={TicketDetail} />
+            <Stack.Navigator initialRouteName = "Accueil">
+            <Stack.Screen    options          = {navOptions} name = "Accueil" component      = {Accueil} />
+            <Stack.Screen    options          = {navOptions} name = "GardeManger" component  = {GardeManger} />
+            <Stack.Screen    options          = {navOptions} name = "ListeCourse" component  = {ListeCourse} />
+            <Stack.Screen    options          = {navOptions} name = "ListeTicket" component  = {ListeTicket} />
+            <Stack.Screen    options          = {navOptions} name = "TicketDetail" component = {TicketDetail} />
             </Stack.Navigator>
         </NavigationContainer>
     );

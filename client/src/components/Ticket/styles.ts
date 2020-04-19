@@ -1,27 +1,27 @@
 import { StyleSheet } from 'react-native';
-import Constants from "expo-constants";
+// import Constants from "expo-constants";
 
 
 const styles = StyleSheet.create({
      ticket_container: {
-          flex: 1,
-          borderRadius: 5,
+          flex         : 1,
+          borderRadius : 5,
           flexDirection: 'column',
           //justifyContent: 'center',
           backgroundColor: '#fff2ccff'
      },
      nom_enseigne: {
-          color: 'black',
-          fontSize: 32,
+          color     : 'black',
+          fontSize  : 32,
           fontWeight: 'bold',
-          textAlign: 'center'
+          textAlign : 'center'
      },
      date_numTicket_conteneur: {
-          flexDirection: 'row',
+          flexDirection : 'row',
           justifyContent: 'space-evenly',
      },
      date: {
-          fontStyle: 'italic',
+          fontStyle  : 'italic',
           paddingLeft: '5%'
      },
      numTicket: {

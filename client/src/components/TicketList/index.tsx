@@ -1,7 +1,9 @@
 import React from 'react';
 import { Text, View, SectionList } from 'react-native';
+import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import styles from './styles';
 import TicketLine from '../TicketLine';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 interface Purchase {
@@ -115,13 +117,35 @@ function TicketList(purchases: any) {
 
      return (
           <View>
-               <SectionList
+               {/* <SectionList
                     sections={_selectionList()}
                     keyExtractor={(item, index) => item.article + index.toString()}
                     renderItem={({ item }) => <TicketLine item_name={item.article} quantity={item.quantite} price={item.prix} />}
                     renderSectionHeader={({ section: { categoryProduit } }) => (
                          <Text style={styles.header}>{categoryProduit}</Text>
                     )}
+               /> */}
+               <FlatList
+                    data = {_selectionList()}
+                    keyExtractor = {(itemKey) => itemKey.toString()}
+                    renderItem   = {({ item }) =>
+                    <View>
+                        <Collapse>
+                            <CollapseHeader>
+                              <Text style = {styles.header}>{item.categoryProduit}</Text>
+                            </CollapseHeader>
+                            <CollapseBody>
+                                <FlatList
+                                    data         = {item.data}
+                                    keyExtractor = {(item) => item.article.toString() }
+                                    renderItem   = {({ item }) =>
+                                         <TicketLine item_name = {item.article} quantity = {item.quantite} price = {item.prix} />
+                                    }
+                                />
+                            </CollapseBody>
+                        </Collapse>
+                    </View>
+                }
                />
           </View>
      );

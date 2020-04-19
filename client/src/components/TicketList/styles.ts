@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import Constants from "expo-constants";
+//import Constants from "expo-constants";
 
 
 const styles = StyleSheet.create({
@@ -8,10 +8,10 @@ const styles = StyleSheet.create({
     //marginTop: Constants.statusBarHeight,
     marginHorizontal: 16
   },
-  item: {
-    backgroundColor: "#f9c2ff",
-    padding: 20,
-  },
+  // item: {
+  //   backgroundColor: "#f9c2ff",
+  //   padding: 20,
+  // },
   header: {
     fontSize: 32,
     backgroundColor: "#dd7e6bff",
