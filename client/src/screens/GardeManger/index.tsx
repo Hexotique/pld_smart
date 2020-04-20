@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
-import Header from '../../components/Header';
+import Header from '../../components/ComposantsGénériques/Header';
 import GardeMangerListe from '../../components/GardeManger/GardeMangerListe';
-import TitrePage from '../../components/TitrePage'
+import TitrePage from '../../components/ComposantsGénériques/TitrePage'
 
 function Home() {
     return (

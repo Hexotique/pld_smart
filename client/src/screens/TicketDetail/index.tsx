@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 
-import Ticket from '../../components/Ticket';
+import Ticket from '../../components/DetailTicket/Ticket';
 
 import { TicketDetailProp } from '../../navigator'
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Text, View, Image, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import GardeMangerJson from '../../../../gardemanger.json'
 import Item from '../GardeMangerItem'
-import Categorie from '../GardeMangerCategorie'
+import Categorie from '../../ComposantsGénériques/CategorieListeRetractable'
 
 function GardeMangerListe() {
     const itemMap: Map<String, Array<any>> = new Map<String, Array<any>>();
@@ -24,20 +24,20 @@ function GardeMangerListe() {
     return (
         <View>
             <FlatList
-                data={keyArray}
-                keyExtractor={(itemKey) => itemKey.toString()}
-                renderItem={({ item }) =>
+                data         = {keyArray}
+                keyExtractor = {(itemKey) => itemKey.toString()}
+                renderItem   = {({ item }) =>
                     <View>
                         <Collapse>
                             <CollapseHeader>
-                                <Categorie item={item}></Categorie>
+                                <Categorie item = {item}></Categorie>
                             </CollapseHeader>
                             <CollapseBody>
                                 <FlatList
-                                    data={itemMap.get(item)}
-                                    keyExtractor={(itemValue) => itemValue.id_item.toString()}
-                                    renderItem={({ item }) =>
-                                        <Item item={item}></Item>
+                                    data         = {itemMap.get(item)}
+                                    keyExtractor = {(itemValue) => itemValue.id_item.toString()}
+                                    renderItem   = {({ item }) =>
+                                        <Item item = {item}></Item>
                                     }
                                 />
                             </CollapseBody>
