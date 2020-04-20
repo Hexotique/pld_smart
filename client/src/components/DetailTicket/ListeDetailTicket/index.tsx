@@ -18,7 +18,7 @@ interface Category {
      categorieProduit: string;
      donnees         : Array<Purchase>;
 }
-
+/*
 function _testparser() {
 
      const Ticketdonnees        = new Array<Category>();
@@ -41,7 +41,7 @@ function _testparser() {
      const temp = JSON.stringify(Ticketdonnees);
      return temp;
 }
-
+*/
 function _genereListe() {
      return ([
           {
@@ -143,18 +143,6 @@ function _genereListe() {
 
 
 function ListeDetailTicket(purchases: any) {
-
-     // length = Object.keys(purchases.achats[0]).length;
-     // let Ticketdonnees = new Array<Category>();
-
-     // for (let i = 0; i < length; i++) {
-     //      if (!Ticketdonnees.find(d => d.title === purchases[i].produit.categorieproduit.nom)) { //if category not yet in Ticketdonnees
-     //           let newcat: Category = { title: purchases[i].produit.categorieproduit.nom, donnees: new Array<Purchase>() };
-     //           Ticketdonnees.push(newcat);
-     //      }
-     //      mapcategorie.add(purchases[i].produit.categorieproduit.nom, [purchases[i].article.nom, purchases[i].quantite, purchases[i].prix]);
-     // }
-
 
      return (
           <View>

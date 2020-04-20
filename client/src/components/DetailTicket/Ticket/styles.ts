@@ -5,9 +5,9 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
      conteneur_ticket: {
           flex         : 1,
-          borderRadius : 5,
+          borderRadius : 20,
           flexDirection: 'column',
-          //justifyContent: 'center',
+          justifyContent: 'center',
           backgroundColor: '#fff2ccff'
      },
      nom_enseigne: {
