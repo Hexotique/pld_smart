@@ -23,6 +23,14 @@ export const init_model_client = (sequelize: Sequelize) => {
         mdp: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        nom: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        prenom: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     }, {
         sequelize
