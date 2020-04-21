@@ -1,0 +1,31 @@
+import { Sequelize, Model, DataTypes } from "sequelize";
+
+
+export class ListeCourses extends Model {
+  public id!: number;
+  public nom!: string;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+
+export const init_model_listecourses = (sequelize: Sequelize) => {
+  ListeCourses.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+      },
+      nom: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }, 
+    },
+    {
+      sequelize
+    }
+  );
+}
+
