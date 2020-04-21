@@ -1,7 +1,7 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
 
 
-export class Grouoe extends Model {
+export class Groupe extends Model {
   public id!: number;
   public nom!: string;
   
@@ -10,8 +10,8 @@ export class Grouoe extends Model {
 }
 
 
-export const init_model_commerce = (sequelize: Sequelize) => {
-  Grouoe.init(
+export const init_model_groupe = (sequelize: Sequelize) => {
+  Groupe.init(
     {
       id: {
         type: DataTypes.INTEGER.UNSIGNED,

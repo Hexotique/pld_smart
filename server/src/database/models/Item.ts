@@ -10,7 +10,7 @@ export class Item extends Model {
 }
 
 
-export const init_model_achat = (sequelize: Sequelize) => {
+export const init_model_item = (sequelize: Sequelize) => {
   Item.init(
     {
       id: {
