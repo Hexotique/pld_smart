@@ -12,7 +12,7 @@ Example: to invoke the function named creerClient: `PUT https://BASEURL/api/clie
 ### Ticket
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
 |-------------------|------|----------------------------------------|-----------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| creerTicket  | PUT  | crée un ticket dans la BD                 | api/ticket/creerticket  | idClient, idMagasin             | {message: Success, idTicket: 1} |
+| creer_ticket_put  | PUT  | crée un ticket dans la BD                 | api/ticket/creer  | idlient, idagasin             | {message: Success, idTicket: 1} |
 | supprimer_ticket_delete  | DELETE  | supprime un ticket de la BD                 | api/ticket/supprimer-ticket  | idticket    | {message: Success} |
 | recuperer_tickets_get  | GET | récupère un ticket dans la BD                 | api/ticket/recuperer-tickets  | null | {"tickets": [{idTicket: 1, montant: 10, commerce: "Auchan"}, {...}]} |
 | recuperer_detail_ticket_get  | GET | récupère un ticket dans la BD  | api/ticket/recuperer-detail-ticket  | idticket    | {"ticket": {montant: 15, commerce: "Auchan", dateAchat: "13/05/2016"}, "achats": [{nomArticle: "beurre doux", quantite: 3, prix: 2, categorie: "Produits laitiers"}, {..}]} |
