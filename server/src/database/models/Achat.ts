@@ -11,12 +11,11 @@ export const init_model_achat = (sequelize: Sequelize) => {
   Achat.init(
     {
       prix: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         allowNull: false,
       }
     },
     {
-      tableName: "achat",
       sequelize
     }
   );

@@ -1,16 +1,16 @@
 import { Sequelize, HasMany, BelongsToMany, DataTypes } from 'sequelize';
-import { init_model_client, Client } from './client';
-import { init_model_ticket, Ticket } from './ticket';
-import { init_model_achat, Achat } from './achat';
-import { init_model_article, Article } from './article';
-import { init_model_produit, Produit } from './produit';
-import { init_model_categorieproduit, CategorieProduit } from './categorieProduit';
-import { init_model_listecourses, ListeCourses } from './listeCourses';
-import { init_model_item, Item} from './item';
-import { init_model_produitcourse, ProduitCourse } from './produitcourse';
-import { init_model_gardemanger, GardeManger } from './gardeManger';
-import { init_model_commerce, Commerce } from './commerce';
-import { init_model_groupe, Groupe } from './groupe';
+import { init_model_client, Client } from './Client';
+import { init_model_ticket, Ticket } from './Ticket';
+import { init_model_achat, Achat } from './Achat';
+import { init_model_article, Article } from './Article';
+import { init_model_produit, Produit } from './Produit';
+import { init_model_categorieproduit, CategorieProduit } from './CategorieProduit';
+import { init_model_listecourses, ListeCourses } from './ListeCourses';
+import { init_model_item, Item} from './Item';
+import { init_model_produitcourse, ProduitCourse } from './Produitcourse';
+import { init_model_gardemanger, GardeManger } from './GardeManger';
+import { init_model_commerce, Commerce } from './Commerce';
+import { init_model_groupe, Groupe } from './Groupe';
 
 
 const init_models = (sequelize: Sequelize) => {
@@ -43,17 +43,21 @@ const init_models = (sequelize: Sequelize) => {
     ListeCourses.belongsToMany(Produit, { through: ProduitCourse });
     Produit.belongsToMany(ListeCourses, { through: ProduitCourse });
 
+    Client.hasMany(Ticket, { as: "recus" });
+    Client.hasMany(GardeManger, { as: "gardesmanger" });
+    Client.hasMany(ListeCourses, { as: "listescourses"});
+
     sequelize.sync();
 }
 
 export default init_models;
-export { Client } from './client';
-export { Ticket } from './ticket';
-export { Article } from './article';
-export { Produit } from './produit';
-export { CategorieProduit } from './categorieProduit';
-export { ListeCourses } from './listeCourses';
-export { GardeManger } from './gardeManger';
-export { Commerce} from './commerce';
-export { Groupe } from './groupe';
+export { Client } from './Client';
+export { Ticket } from './Ticket';
+export { Article } from './Article';
+export { Produit } from './Produit';
+export { CategorieProduit } from './CategorieProduit';
+export { ListeCourses } from './ListeCourses';
+export { GardeManger } from './GardeManger';
+export { Commerce} from './Commerce';
+export { Groupe } from './Groupe';
 

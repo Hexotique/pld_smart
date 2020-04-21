@@ -13,7 +13,7 @@ export const init_model_produit = (sequelize: Sequelize) => {
   Produit.init(
     {
       id: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
@@ -23,7 +23,6 @@ export const init_model_produit = (sequelize: Sequelize) => {
       }
     },
     {
-      tableName: "produit",
       sequelize
     }
   );

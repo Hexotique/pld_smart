@@ -12,7 +12,7 @@ export const init_model_commerce = (sequelize: Sequelize) => {
   Commerce.init(
     {
       id: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
@@ -24,7 +24,6 @@ export const init_model_commerce = (sequelize: Sequelize) => {
 
     },
     {
-      tableName: "commerce",
       sequelize
     }
   );

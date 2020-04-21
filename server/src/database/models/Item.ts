@@ -11,12 +11,11 @@ export const init_model_item = (sequelize: Sequelize) => {
   Item.init(
     {
       quantite: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         allowNull: false,
       }
     },
     {
-      tableName: "Item",
       sequelize
     }
   );

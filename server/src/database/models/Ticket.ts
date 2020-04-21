@@ -15,7 +15,7 @@ export const init_model_ticket = (sequelize: Sequelize) => {
   Ticket.init(
     {
       id: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
@@ -24,12 +24,11 @@ export const init_model_ticket = (sequelize: Sequelize) => {
         allowNull: false
       },
       montant: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         allowNull: false
       }
     },
     {
-      tableName: "ticket",
       sequelize
     }
   );

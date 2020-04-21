@@ -13,7 +13,7 @@ export const init_model_groupe = (sequelize: Sequelize) => {
   Groupe.init(
     {
       id: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
@@ -24,7 +24,6 @@ export const init_model_groupe = (sequelize: Sequelize) => {
       }
     },
     {
-      tableName: "groupe",
       sequelize
     }
   );
