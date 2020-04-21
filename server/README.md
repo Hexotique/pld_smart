@@ -6,9 +6,8 @@ Example: to invoke the function named creerClient: `PUT https://BASEURL/api/clie
 ### Client
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
 |-------------------|------|----------------------------------------|-----------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| creerClient  | PUT  | crée un client dans la BD                 | api/client/creerclient  | email, mdp, nom, prenom               | {message: Success, idClient: 1} |
-| connecterClient  | GET  | connecte un client  | api/client/connecterclient  | email, mdp | {message: Success, token: abcd} |
-| deconnecterClient| GET  | déconnecte un client  | api/client/deconnecterclient  | null | {message: Success} |
+| inscrireClient  | PUT  | crée un client dans la BD                 | api/client/inscription  | email, mdp, nom, prenom               | {idClient: 1, email: 'abu@ama.com', mdp:'!@#321', nom: 'abu', prenom: 'whut'} |
+| connecterClient  | POST  | connecte un client  | api/client/connexion  | email, mdp | {email: 'abu@ali.com',token: '@#!abcd'} |
 
 ### Ticket
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
