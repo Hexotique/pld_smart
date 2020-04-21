@@ -1,6 +1,5 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
 
-
 export class Groupe extends Model {
   public id!: number;
   public nom!: string;
@@ -29,5 +28,7 @@ export const init_model_groupe = (sequelize: Sequelize) => {
       sequelize
     }
   );
+
+
 }
 

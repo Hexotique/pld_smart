@@ -1,10 +1,8 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
-
-
 export class Commerce extends Model {
   public id!: number;
   public nom!: string;
-  
+
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -21,14 +19,15 @@ export const init_model_commerce = (sequelize: Sequelize) => {
       nom: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique:true
+        unique: true
       },
- 
+
     },
     {
       tableName: "commerce",
       sequelize
     }
   );
+
 }
 

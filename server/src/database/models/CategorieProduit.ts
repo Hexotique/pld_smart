@@ -1,6 +1,5 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
 
-
 export class CategorieProduit extends Model {
   public id!: number;
   public nom!: string;
@@ -28,5 +27,6 @@ export const init_model_categorieproduit = (sequelize: Sequelize) => {
       sequelize
     }
   );
+
 }
 
