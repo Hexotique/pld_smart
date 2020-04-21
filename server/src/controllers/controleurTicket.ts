@@ -3,12 +3,12 @@ import { Ticket } from '../database/models';
 
 
 export const creer_ticket_put = async (req: Request, res: Response, next: NextFunction) => {
-    //rjouter l'association entre client, ticket et magasin
+    // ajouter l'association entre client, ticket et magasin
     try {
         console.log(req);
         if (!req.query.idmagasin) throw ('parametre idmagasin manquant');
         const idMagasin : number =  Number(req.query.idmagasin); // à intégrer
-        await Ticket.create();
+        await Ticket.create(); // intégrer les attributs pour créer le ticket
         
         res.sendStatus(200);
         console.log('Ticket cree');
@@ -41,7 +41,8 @@ export const supprimer_ticket_delete = async (req: Request, res: Response, next:
 export const recuperer_tickets_get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // A faire : recuperer les tickets associés au client
-        await Ticket.findAll();
+        let tickets = await Ticket.findAll();
+        console.log(tickets);
 
         res.sendStatus(200);
         console.log('Tickets envoyés');
@@ -57,7 +58,8 @@ export const recuperer_detail_ticket_get = async (req: Request, res: Response, n
         if (!req.query.idticket) throw ('parametre idticket manquant');
         const idTicket : number =  Number(req.query.idticket);
 
-        await Ticket.findByPk(idTicket);
+        let ticket = await Ticket.findByPk(idTicket);
+        console.log(ticket);
 
         res.sendStatus(200);
         console.log('ticket : ' + idTicket + ' trouvé');
