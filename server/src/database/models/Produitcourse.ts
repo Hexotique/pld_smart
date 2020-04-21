@@ -1,16 +1,16 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
 
 
-export class Achat extends Model {
+export class ProduitCourse extends Model {
 
-  public prix!: number;
+  public quantite!: number;
 
 }
 
-export const init_model_achat = (sequelize: Sequelize) => {
-  Achat.init(
+export const init_model_produitcourse = (sequelize: Sequelize) => {
+  ProduitCourse.init(
     {
-      prix: {
+      quantite: {
         type: DataTypes.INTEGER,
         allowNull: false,
       }

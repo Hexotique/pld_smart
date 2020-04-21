@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 import { Client } from '../database/models';
 
-export const auth_inscription_put = async (req: Request, res: Response, next: NextFunction) => {
+export const client_inscription_put = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await Client.findOne({
             where: {
@@ -29,7 +29,7 @@ export const auth_inscription_put = async (req: Request, res: Response, next: Ne
     }
 }
 
-export const auth_connexion_post = (req: Request, res: Response, next: NextFunction) => {
+export const client_connexion_post = (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!req.body.email || !req.body.mdp) {
             return next("Champs manquants")

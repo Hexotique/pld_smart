@@ -5,8 +5,8 @@ import * as clientController from '../controllers/clientController';
 
 const router = express.Router();
 
-router.put('/inscription', clientController.auth_inscription_put);
+router.put('/inscription', clientController.client_inscription_put);
 
-router.post('/connexion', clientController.auth_connexion_post);
+router.post('/connexion', clientController.client_connexion_post);
 
 export default router;

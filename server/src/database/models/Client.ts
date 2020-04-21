@@ -33,6 +33,6 @@ export const init_model_client = (sequelize: Sequelize) => {
             allowNull: false
         }
     }, {
-        sequelize
+        sequelize 
     });
 }

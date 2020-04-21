@@ -14,17 +14,16 @@ export const init_model_gardemanger = (sequelize: Sequelize) => {
   GardeManger.init(
     {
       id: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
       quantite: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         allowNull: false
       },
     },
     {
-      tableName: "gardemanger",
       sequelize
     }
   );
