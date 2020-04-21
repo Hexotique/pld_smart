@@ -44,7 +44,7 @@ export const recuperer_tickets_get = async (req: Request, res: Response, next: N
         let tickets = await Ticket.findAll();
         console.log(tickets);
 
-        res.sendStatus(200);
+        res.sendStatus(200).json(tickets);
         console.log('Tickets envoyés');
     }
     catch (error) {
@@ -61,7 +61,7 @@ export const recuperer_detail_ticket_get = async (req: Request, res: Response, n
         let ticket = await Ticket.findByPk(idTicket);
         console.log(ticket);
 
-        res.sendStatus(200);
+        res.sendStatus(200).json(ticket);
         console.log('ticket : ' + idTicket + ' trouvé');
     }
     catch (error) {
