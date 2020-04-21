@@ -8,6 +8,6 @@ router.put('/ajouter-produit-alamano',controleurGardeManger.ajouter_produit_alam
 
 router.delete('/supprimer-produit', controleurGardeManger.supprimer_produit_delete);
 
-router.put('/recuperer-contenu', controleurGardeManger.recuperer_contenu_get);
+router.get('/recuperer-contenu', controleurGardeManger.recuperer_contenu_get);
 
 export default router;
