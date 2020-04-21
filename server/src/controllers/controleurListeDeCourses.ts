@@ -8,7 +8,8 @@ export const produit_ajouter_put = async (req: Request, res: Response, next: Nex
         if (!req.query.nomproduit) throw ('parametre nomproduit manquant');
         const nomProduit : string =  req.query.nomproduit as string; 
         await Produit.create({nom : nomProduit});
-        
+        //ajouter produit dans la liste de course
+
         res.sendStatus(200);
         console.log('produit : ' + nomProduit + ' ajouté à la BDD');
         

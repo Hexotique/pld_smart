@@ -4,10 +4,10 @@ import * as controleurGardeManger from '../controllers/controleurGardeManger';
 
 const router = express.Router();
 
-router.get('/ajouter-produit-alamano',controleurGardeManger.produit_ajouter_put);
+router.put('/ajouter-produit-alamano',controleurGardeManger.ajouter_produit_alamano_put);
 
-router.delete('/supprimer-produit', controleurGardeManger.produit_supprimer_delete);
+router.delete('/supprimer-produit', controleurGardeManger.supprimer_produit_delete);
 
-router.put('/recuperer-contenu', controleurGardeManger.produit_supprimer_delete);
+router.get('/recuperer-contenu', controleurGardeManger.recuperer_contenu_get);
 
 export default router;
