@@ -5,12 +5,11 @@ import jwt from 'jsonwebtoken';
 
 import { Client } from '../database/models';
 
-export const auth_inscription_post = async (req: Request, res: Response, next: NextFunction) => {
+export const auth_inscription_put = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const data = req.body;
         const user = await Client.findOne({
             where: {
-                username: data.username
+                email: req.body.email
             }
         });
         if (user !== null) {
@@ -19,7 +18,7 @@ export const auth_inscription_post = async (req: Request, res: Response, next: N
         else {
             return Client.create({
                 ...req.body,
-                password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8))
+                mdp: bcrypt.hashSync(req.body.mdp, bcrypt.genSaltSync(8))
             }).then((newUser: Client) => {
                 res.status(201).json(newUser.get());
             });
@@ -32,7 +31,7 @@ export const auth_inscription_post = async (req: Request, res: Response, next: N
 
 export const auth_connexion_post = (req: Request, res: Response, next: NextFunction) => {
     try {
-        if (!req.body.username || !req.body.password) {
+        if (!req.body.email || !req.body.mdp) {
             return next("Champs manquants")
         }
         passport.authenticate('local', { session: false }, (error, user, info) => {
@@ -40,15 +39,15 @@ export const auth_connexion_post = (req: Request, res: Response, next: NextFunct
                 return next(error);
             }
             if(info) {
-                return res.status(401).json(info);
+                return next(info.message);
             }
             req.login(user, (err) => {
                 if (err) {
                     return next(err);
                 }
-                const token = jwt.sign({ id: user.id, username: user.username }, process.env.SECRET_CODE as string);
+                const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_CODE as string);
                 return res.status(200).json({
-                    username: user.username,
+                    email: user.email,
                     token
                 });
             });

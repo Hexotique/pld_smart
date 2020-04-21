@@ -2,8 +2,8 @@ import { Sequelize, Model, DataTypes } from 'sequelize';
 
 export class Client extends Model {
     public id!: number;
-    public username!: string;
-    public password!: string;
+    public email!: string;
+    public mdp!: string;
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
@@ -16,11 +16,11 @@ export const init_model_client = (sequelize: Sequelize) => {
             autoIncrement: true,
             primaryKey: true
         },
-        username: {
+        email: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        password: {
+        mdp: {
             type: DataTypes.STRING,
             allowNull: false
         }
