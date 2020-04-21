@@ -30,6 +30,8 @@
     "@types/passport": "^1.0.3",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
-    "@types/validator": "^13.0.0"
+    "@types/validator": "^13.0.0",
+    "tsc-watch": "^4.2.3",
+    "typescript": "^3.8.3"
   }
 }

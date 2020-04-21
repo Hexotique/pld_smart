@@ -1,15 +1,15 @@
 import { Sequelize } from 'sequelize';
-import { init_model_client } from './client';
-import { init_model_ticket } from './ticket';
-import { init_model_achat } from './achat';
-import { init_model_article } from './article';
-import { init_model_item } from './item';
-import { init_model_produit } from './produit';
-import { init_model_categorieproduit } from './categorieProduit';
-import { init_model_listecourses } from './listeCourses';
-import { init_model_gardemanger } from './gardeManger';
-import { init_model_commerce } from './commerce';
-import { init_model_groupe } from './groupe';
+import { init_model_client } from './Client';
+import { init_model_ticket } from './Ticket';
+import { init_model_achat } from './Achat';
+import { init_model_article } from './Article';
+import { init_model_item } from './Item';
+import { init_model_produit } from './Produit';
+import { init_model_categorieproduit } from './CategorieProduit';
+import { init_model_listecourses } from './ListeCourses';
+import { init_model_gardemanger } from './GardeManger';
+import { init_model_commerce } from './Commerce';
+import { init_model_groupe } from './Groupe';
 
 
 const init_models = (sequelize: Sequelize) => {
@@ -30,15 +30,15 @@ const init_models = (sequelize: Sequelize) => {
 }
 
 export default init_models;
-export { Client } from './client';
-export { Ticket } from './ticket';
-export { Achat } from './achat';
-export { Article } from './article';
-export { Item } from './item';
-export { Produit } from './produit';
-export { CategorieProduit } from './categorieProduit';
-export { ListeCourses } from './listeCourses';
-export { GardeManger } from './gardeManger';
-export { Commerce} from './commerce';
-export { Groupe } from './groupe';
+export { Client } from './Client';
+export { Ticket } from './Ticket';
+export { Achat } from './Achat';
+export { Article } from './Article';
+export { Item } from './Item';
+export { Produit } from './Produit';
+export { CategorieProduit } from './CategorieProduit';
+export { ListeCourses } from './ListeCourses';
+export { GardeManger } from './GardeManger';
+export { Commerce} from './Commerce';
+export { Groupe } from './Groupe';
 
