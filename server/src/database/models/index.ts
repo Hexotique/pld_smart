@@ -8,7 +8,7 @@ import { init_model_produit, Produit } from './Produit';
 import { init_model_categorieproduit, CategorieProduit } from './CategorieProduit';
 import { init_model_listecourses, ListeCourses } from './ListeCourses';
 import { init_model_item, Item } from './Item';
-import { init_model_produitcourse, ProduitCourse } from './Produitcourse';
+import { init_model_produitcourse, ProduitCourse } from './ProduitCourse';
 import { init_model_gardemanger, GardeManger } from './GardeManger';
 import { init_model_commerce, Commerce } from './Commerce';
 import { init_model_groupe, Groupe } from './Groupe';
@@ -64,7 +64,7 @@ export { ListeCourses } from './ListeCourses';
 export { GardeManger } from './GardeManger';
 export { Commerce } from './Commerce';
 export { Groupe } from './Groupe';
-export { ProduitCourse } from './Produitcourse';
+export { ProduitCourse } from './ProduitCourse';
 export { Item } from './Item';
 export { Achat } from './Achat';
 

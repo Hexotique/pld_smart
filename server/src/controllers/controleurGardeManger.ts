@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Produit, GardeManger, Client } from '../database/models';
-import { Item } from '../database/models/Item';
+import { Produit, GardeManger, Client, Item } from '../database/models';
 
 
 export const ajouter_produit_alamano_put = async (req: Request, res: Response, next: NextFunction) => {
@@ -63,7 +62,15 @@ export const gardemanger_test = async (req: Request, res: Response, next: NextFu
         const item = await Item.create({ quantite: 100 });
 
         gardemanger.addItem(item);
+
         produit.addItem(item);
+
+        item.destroy();
+
+        console.log(await gardemanger.getItems());
+
+        // console.log(await item.getProduit());
+        // await Produit.findByPk{item.id}
 
         res.status(200).json(await GardeManger.findByPk(gardemanger.id));
     }

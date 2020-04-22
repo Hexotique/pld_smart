@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Ticket, Article, Client, Commerce } from '../database/models';
-import { Achat } from '../database/models/Achat';
+import { Ticket, Article, Client, Commerce, Achat } from '../database/models';
 
 // Crée un ticket
 // Nécessite : un id de Commerce
@@ -21,7 +20,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         if (req.user === null) throw ('Pas de client identifié');
         const client = req.user as Client;
 
-        const ticket = await Ticket.create({ date_achat: new Date(), montant: Math.random() });
+        const ticket = await Ticket.create({ date_achat: new Date(), montant: 20*Math.random() });
 
         // intégrer les attributs pour créer le ticket et son prix
         // ticket.addAchat()
