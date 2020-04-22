@@ -1,55 +1,82 @@
 import { Request, Response, NextFunction } from 'express';
-import { Produit, GardeManger, Client } from '../database/models';
-import { Item } from '../database/models/Item';
+import {Produit, GardeManger, Item, Client, Commerce} from '../database/models';
 
-
+// Ajoute un produit au garde manger
+// Nécessite : un nom de produit
+//             une quantité
 export const ajouter_produit_alamano_put = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log(req);
-        if (!req.query.nomproduit) throw ('parametre nomproduit manquant');
-        if (!req.query.quantite) throw ('parametre quantité manquant');
+
+        if (!req.query.nomproduit) throw ('parametre nomproduit manquant'); //check la présence du nom dans la requête
+        if (!req.query.quantite) throw ('parametre quantité manquant'); //check la présence de la quantité dans la requête
+
         const nomProduit: string = req.query.nomproduit as string;
-        const quantite: string = req.query.quantite as string;
-        await Produit.create({ nom: nomProduit });
-        //ajouter produit dans le garde manger (avec la quantité)
+        const quantite: number = Number(req.query.quantite);
 
-        res.sendStatus(200);
-        console.log('produit : ' + quantite + ' ' + nomProduit + ' ajouté à la BDD');
+        // Vérification de l'existence du produit dans la BDD et création s'il n'existe pas
+        const result = await Produit.findOrCreate({where: {nom: nomProduit},defaults: {nom: nomProduit}});
+        var produit = result[0];
 
+        // Création et ajout d'un Item
+        const item = await Item.create({ quantite: quantite});
+        const client = req.user as Client;
+        const gardemanger= await client.getGardeManger();
+        gardemanger.addItem(item);
+        produit.addItem(item);
+
+        res.status(200).json(await GardeManger.findByPk(gardemanger.id));
+        console.log('produit : ' + quantite + ' ' + nomProduit + ' ajouté au garder-manger');
     }
     catch (error) {
         next(error);
     }
 }
 
+ //A faire : Passer tableau des changements du GM et modifier la base en conséquence
+// Pour l'instant : Modifie la quantité d'un item du garde manger
+// Nécessite : un id d'Item
+//             une quantité
 export const supprimer_produit_delete = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        if (!req.query.codebarre) throw ('parametre codebarre manquant');
-        const codeBarre: number = Number(req.query.codebarre);
-        const idProduit: number = 1;
-        //chercher l'ID du produit correspondant au code barre
+        if (!req.query.idItem) throw ('parametre idItem manquant'); // check la présence de l'id dans la requête
+        const idItem: number = Number(req.query.idItem);
+        const item = await Item.findByPk(Number(req.query.idItem)) as Item;
+        const quantite: number = Number(req.query.quantite);
+        const client = req.user as Client;
+        const gardemanger= await client.getGardeManger();
 
-        await Produit.destroy({
-            where: {
-                id: idProduit,
-            }
-        });
+        if (item === null) throw ('item inexistant dans la BDD');
+
+        // Mettre à jour l'attribut quantité (ou supprimer l'item si elle est nulle)
+        if(quantite==0) {
+            gardemanger.removeItem(item);
+            await item.destroy();
+        } else {
+            item.quantite=quantite;
+            await item.save();
+        }
 
         res.sendStatus(200);
-        console.log('produit : ' + codeBarre + ' (id = ' + idProduit + ') supprimé de la BDD');
+        console.log('produit : ' + idItem + ' retiré du garde manger');
     }
     catch (error) {
         next(error);
     }
 }
 
+// Récupère le contenu du garde-manger
 export const recuperer_contenu_get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log(req);
 
-        //récupérer l'ensemble des produits du garde manger
+        //Check de la validité de l'utilisateur
+        if (req.user === null) throw ('Pas de client identifié');
+        const client = req.user as Client;
 
-        res.sendStatus(200);
+        const gardemanger= await client.getGardeManger();
+        gardemanger.getItems().then((gardemanger) => { res.status(200).json(gardemanger); });
+
     }
     catch (error) {
         next(error);
@@ -64,6 +91,7 @@ export const gardemanger_test = async (req: Request, res: Response, next: NextFu
 
         gardemanger.addItem(item);
         produit.addItem(item);
+        item.destroy();
 
         res.status(200).json(await GardeManger.findByPk(gardemanger.id));
     }

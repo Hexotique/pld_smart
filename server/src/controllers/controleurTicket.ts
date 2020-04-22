@@ -13,7 +13,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         console.log(req);
         if (!req.query.idmagasin) throw ('parametre idmagasin manquant'); // check de la présence de l'ID du magasin        
 
-        // Check existance du commerce dans la BDD
+        // Check existence du commerce dans la BDD
         const magasin = await Commerce.findByPk(Number(req.query.idmagasin));
         if (magasin === null) throw ('magasin inexistant dans la BDD');
 
@@ -28,6 +28,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
 
         await magasin.addTicket(ticket);
         await client.addTicket(ticket);
+
 
 
         // Il faut peut-être renvoyer le ticket ?
@@ -48,7 +49,7 @@ export const supprimer_ticket_delete = async (req: Request, res: Response, next:
         if (!req.query.idticket) throw ('parametre idticket manquant');
         const idTicket: number = Number(req.query.idticket);
 
-        // ils faudrait faire une suppression en cascade ici plutôt que ça mais en attendant...
+        // il faudrait faire une suppression en cascade ici plutôt que ça mais en attendant...
         await Achat.destroy({
             where: {
                 TicketId: idTicket,
@@ -71,7 +72,7 @@ export const supprimer_ticket_delete = async (req: Request, res: Response, next:
 }
 
 // Récupère tous les tickets d'un ticket
-// Nécessite : un client
+// Nécessite : un client -> Readme pas à jour
 export const recuperer_tickets_get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log(req);
@@ -98,7 +99,7 @@ export const recuperer_detail_ticket_get = async (req: Request, res: Response, n
 
         if (!req.query.idticket) throw ('parametre idticket manquant'); // check de la présence de l'ID du ticket
 
-        // Check existance du commerce dans la BDD
+        // Check existence du commerce dans la BDD
         const ticket = await Ticket.findByPk(Number(req.query.idticket));
         if (ticket === null) throw ('ticket inexistant dans la BDD');
 
