@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Produit, GardeManger } from '../database/models';
+import { Produit, GardeManger, Client } from '../database/models';
 import { Item } from '../database/models/Item';
 
 

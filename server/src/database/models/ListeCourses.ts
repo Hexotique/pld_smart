@@ -1,6 +1,5 @@
 import { Sequelize, Model, DataTypes, HasManyGetAssociationsMixin, HasManyAddAssociationMixin, HasManyRemoveAssociationMixin } from "sequelize";
-import { ProduitCourse } from "./ProduitCourse";
-
+import { ProduitCourse } from './Produitcourse';
 
 export class ListeCourses extends Model {
   public id!: number;

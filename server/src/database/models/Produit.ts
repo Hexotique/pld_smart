@@ -1,6 +1,6 @@
 import { Sequelize, Model, DataTypes, HasManyGetAssociationsMixin, HasManyAddAssociationMixin, HasManyRemoveAssociationMixin } from "sequelize";
 import { Article } from "./Article";
-import { ProduitCourse } from "./ProduitCourse";
+import { ProduitCourse } from './Produitcourse';
 import { Item } from "./Item";
 
 export class Produit extends Model {
@@ -33,7 +33,7 @@ export const init_model_produit = (sequelize: Sequelize) => {
       nom: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique : true
+        unique: true
       }
     },
     {
