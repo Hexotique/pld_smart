@@ -1,4 +1,7 @@
-import { Sequelize, Model, DataTypes } from "sequelize";
+import { Sequelize, Model, DataTypes, HasManyAddAssociationMixin, HasManyCreateAssociationMixin, HasManyAddAssociationMixinOptions, BelongsToManyAddAssociationMixin } from "sequelize";
+import { Article } from "./Article";
+import { Achat } from "./Achat";
+import { Options } from "body-parser";
 
 
 export class Ticket extends Model {
@@ -8,8 +11,11 @@ export class Ticket extends Model {
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-}
 
+  public addAchat!: HasManyAddAssociationMixin<Achat, number>;
+  public createAchat!: HasManyCreateAssociationMixin<Article>;
+
+}
 
 export const init_model_ticket = (sequelize: Sequelize) => {
   Ticket.init(
@@ -24,7 +30,7 @@ export const init_model_ticket = (sequelize: Sequelize) => {
         allowNull: false
       },
       montant: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL,
         allowNull: false
       }
     },

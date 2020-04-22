@@ -1,5 +1,5 @@
 
-import { Sequelize, HasMany, BelongsToMany, DataTypes } from 'sequelize';
+import { Sequelize, HasMany, BelongsToMany, HasOne, DataTypes } from 'sequelize';
 import { init_model_client, Client } from './Client';
 import { init_model_ticket, Ticket } from './Ticket';
 import { init_model_achat, Achat } from './Achat';
@@ -8,7 +8,7 @@ import { init_model_produit, Produit } from './Produit';
 import { init_model_categorieproduit, CategorieProduit } from './CategorieProduit';
 import { init_model_listecourses, ListeCourses } from './ListeCourses';
 import { init_model_item, Item } from './Item';
-import { init_model_produitcourse, ProduitCourse } from './Produitcourse';
+import { init_model_produitcourse, ProduitCourse } from './ProduitCourse';
 import { init_model_gardemanger, GardeManger } from './GardeManger';
 import { init_model_commerce, Commerce } from './Commerce';
 import { init_model_groupe, Groupe } from './Groupe';
@@ -28,24 +28,28 @@ const init_models = (sequelize: Sequelize) => {
     init_model_commerce(sequelize);
     init_model_groupe(sequelize);
 
-    Groupe.hasMany(Commerce, { as: "magasins" });
-    Commerce.hasMany(Ticket, { as: "recus" });
+    Groupe.hasMany(Commerce, { as: "commerces" });
+
+    Commerce.hasMany(Ticket, { as: "tickets" });
 
     CategorieProduit.hasMany(Produit, { as: 'produits' });
+
     Produit.hasMany(Article, { as: 'articles' });
 
-    Ticket.belongsToMany(Article, { through: Achat });
-    Article.belongsToMany(Ticket, { through: Achat });
+    Ticket.hasMany(Achat, { as: 'achats' });
+    Article.hasMany(Achat, { as: 'achats' });
 
-    GardeManger.belongsToMany(Produit, { through: Item });
-    Produit.belongsToMany(GardeManger, { through: Item });
+    GardeManger.hasMany(Item, { as: 'items' });
+    Produit.hasMany(Item, { as: 'items' });
 
-    ListeCourses.belongsToMany(Produit, { through: ProduitCourse });
-    Produit.belongsToMany(ListeCourses, { through: ProduitCourse });
+    ListeCourses.hasMany(ProduitCourse, { as: 'produitCourses' });
+    Produit.hasMany(ProduitCourse, { as: 'produitCourses' });
 
-    Client.hasMany(Ticket, { as: "recus" });
-    Client.hasMany(GardeManger, { as: "gardesmanger" });
-    Client.hasMany(ListeCourses, { as: "listescourses" });
+    Client.hasMany(Ticket, { as: "tickets" });
+
+    Client.hasOne(GardeManger);
+
+    Client.hasOne(ListeCourses);
 
     sequelize.sync();
 }
@@ -60,4 +64,7 @@ export { ListeCourses } from './ListeCourses';
 export { GardeManger } from './GardeManger';
 export { Commerce } from './Commerce';
 export { Groupe } from './Groupe';
+export { ProduitCourse } from './ProduitCourse';
+export { Item } from './Item';
+export { Achat } from './Achat';
 

@@ -1,4 +1,5 @@
-import { Sequelize, Model, DataTypes } from "sequelize";
+import { Sequelize, Model, DataTypes, HasManyGetAssociationsMixin, HasManyCreateAssociationMixin, HasManyAddAssociationMixin } from "sequelize";
+import { Commerce } from "./Commerce";
 
 export class Groupe extends Model {
   public id!: number;
@@ -6,6 +7,10 @@ export class Groupe extends Model {
   
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  public getCommerces!: HasManyGetAssociationsMixin<Commerce>;
+  public createCommerce!: HasManyCreateAssociationMixin<Commerce>;
+  public addCommerce!: HasManyAddAssociationMixin<Commerce, number>;
 }
 
 

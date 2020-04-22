@@ -1,14 +1,18 @@
-import { Sequelize, Model, DataTypes } from "sequelize";
+import { Sequelize, Model, DataTypes, HasManyGetAssociationsMixin, HasManyAddAssociationMixin, HasManyRemoveAssociationMixin } from "sequelize";
+import { ProduitCourse } from "./ProduitCourse";
 
 
 export class ListeCourses extends Model {
   public id!: number;
-  public nom!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-}
 
+  public getProduitCourses!: HasManyGetAssociationsMixin<ProduitCourse>;
+  public addProduitCourse!: HasManyAddAssociationMixin<ProduitCourse, number>;
+  public removeProduitCourse!: HasManyRemoveAssociationMixin<ProduitCourse, number>;
+
+}
 
 export const init_model_listecourses = (sequelize: Sequelize) => {
   ListeCourses.init(
@@ -17,11 +21,7 @@ export const init_model_listecourses = (sequelize: Sequelize) => {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
-      },
-      nom: {
-        type: DataTypes.STRING,
-        allowNull: false
-      }, 
+      }
     },
     {
       sequelize
