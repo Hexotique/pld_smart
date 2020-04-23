@@ -40,32 +40,19 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         const donnees: TicketJson = req.body;
 
 
-
-        if (!donnees.donneesMagasin.idCommerce) throw ('parametre idmagasin manquant'); // check de la présence de l'ID du magasin        
-
-        // Check existence du commerce dans la BDD
-        const magasin = await Commerce.findByPk(Number(donnees.donneesMagasin.idCommerce));
-        if (magasin === null) throw ('magasin inexistant dans la BDD');
-
-        //Check de la validité de l'utilisateur
-        if (!donnees.donneesClient.idClient) throw ('Pas de client attribué');
-        const idclient = donnees.donneesClient.idClient;
-
-        const client = await Client.findByPk<Client>(idclient)
-        if (client === null) {
-            throw ('Client non existant');
-            // res.status(404).json({ erreur: ['Client pas trouvé'] });
-            // return;
-        }
-        //.catch((err: Error) => res.status(500).json(err));
-
-        if (!donnees.donneesTicket) {
-            throw ('Pas de données de ticket');
-        }
-
-        // Check si les données contiennent bien des achats
+        // Check de la présence des données nécessaires dans le corps de la requete
+        if (!donnees.donneesMagasin.idCommerce) throw ('parametre idmagasin manquant');         
+        if (!donnees.donneesClient.idClient) throw ('parametre idclient manquant');
+        if (!donnees.donneesTicket) throw ('Pas de données de ticket');
         if (!donnees.donneesTicket.achats || donnees.donneesTicket.achats.length === 0) throw ('Pas d\'achats dans le ticket');
         const donneesAchats: Array<DonneesAchat> = donnees.donneesTicket.achats;
+
+        // Check de l'existence du commerce et du client dans la BDD
+        const magasin = await Commerce.findByPk(Number(donnees.donneesMagasin.idCommerce));
+        if (magasin === null) throw ('magasin inexistant dans la BDD');
+        
+        const client = await Client.findByPk<Client>(donnees.donneesClient.idClient)
+        if (client === null) throw ('client inexistant dans la BDD');
 
         // Tableau qui permettra de vérifier si l'article est déjà créé ou non en base
         const articlePromises$: Array<Promise<Article>> = new Array<Promise<Article>>();
@@ -76,9 +63,11 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         // Montant total du ticket à calculer durant l'ajout des achats
         let montant: number = 0;
 
+        // Création des achats et récupération des articles associés dans la base
         donneesAchats.forEach((donneesAchat: DonneesAchat) => {
             montant += donneesAchat.quantite * donneesAchat.prix;
-            // On tente de récupérer l'article associé à l'achat en base pour check s'il existe ou non
+
+            // On tente de récupérer l'article associé à l'achat dans la base pour check s'il existe ou non
             const article$ = Article.findOne({
                 where: { codebar: donneesAchat.codeBarre }
             });
@@ -102,8 +91,11 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         // Création du ticket
         const ticket = await Ticket.create({ date_achat: new Date(), montant: montant });
 
+        // Tableaux qui vont check que les relations ticket/achat/article sont bien réalisées en base
         const achatsAjoutesDansArticle$: Array<Promise<void>> = new Array<Promise<void>>();
         const achatsAjoutesDansTicket$: Array<Promise<void>> = new Array<Promise<void>>();
+
+        // Ajout des relations
         achats.forEach((achat, index) => {
             achatsAjoutesDansArticle$.push(articles[index].addAchat(achat));
             achatsAjoutesDansTicket$.push(ticket.addAchat(achat));
@@ -112,8 +104,6 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         await Promise.all(achatsAjoutesDansTicket$);
         await magasin.addTicket(ticket);
         await client.addTicket(ticket);
-
-
 
         // Il faut peut-être renvoyer le ticket ?
         res.json(ticket).sendStatus(200);
@@ -251,8 +241,8 @@ const creerArticle = async (code: string) => {
 export const test_creation_article = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const article = await (Article.create({
-            codebar: '1236',
-            nom: 'machin3'
+            codebar: '1239',
+            nom: 'machin6'
         }));
         //res.setHeader('Content-Type', 'application/json');
         res.json(article).status(200);
@@ -265,7 +255,7 @@ export const test_creation_article = async (req: Request, res: Response, next: N
 export const test_creation_commerce = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const article = await (Commerce.create({
-            nom: "Auchan"
+            nom: "Carrefour"
         }));
         //res.setHeader('Content-Type', 'application/json');
         res.json(article).status(200);
