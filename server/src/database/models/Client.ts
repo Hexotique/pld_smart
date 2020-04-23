@@ -24,6 +24,7 @@ export class Client extends Model {
     public createGardeManger!: HasOneCreateAssociationMixin<GardeManger>;
 
     public createListe!: HasOneCreateAssociationMixin<Liste>;
+    public setListe!: HasOneSetAssociationMixin<Liste, number>;
     public getListe!: HasOneGetAssociationMixin<Liste>;
 
 }
