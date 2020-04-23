@@ -1,32 +1,26 @@
 {
     "donneesMagasin": {
-        "idCommerce": "021250"
+        "idCommerce": "1"
     },
     "donneesClient": {
-        "idClient": "225408"
+        "idClient": "1"
     },
     "donneesTicket": {
-        "montant": "250.36",
         "achats": [
             {
-                "codeBarre": "00215012",
+                "codeBarre": "1234",
                 "quantite": "2",
                 "prix": "12.5"
             },
             {
-                "codeBarre": "09852220",
+                "codeBarre": "1235",
                 "quantite": "12",
                 "prix": "2.02"
             },
             {
-                "codeBarre": "08579812",
+                "codeBarre": "1236",
                 "quantite": "6",
                 "prix": "4.99"
-            },
-            {
-                "codeBarre": "05012569",
-                "quantite": "1",
-                "prix": "0.6"
             }
         ]
     }
