@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 
-import * as clientController from '../controllers/clientController';
+import * as clientController from '../controllers/controleurClient';
 
 const router = express.Router();
 
