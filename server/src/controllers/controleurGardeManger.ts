@@ -49,16 +49,17 @@ export const ajouter_produit_alamano_put = async (req: Request, res: Response, n
 const effectuerModification = async (ajout: Ajout, gardemanger: GardeManger) => {
     if (!ajout.nomProduit) throw ('parametre nomproduit manquant'); //check la présence du nom dans la requête
     if (!ajout.quantite) throw ('parametre quantité manquant'); //check la présence de la quantité dans la requête
-
     const nomProduit: string = ajout.nomProduit as string;
     const quantite: number = ajout.quantite as number;
 
     // Vérification de l'existence du produit dans la BDD et création s'il n'existe pas
     const resultat = await Produit.findOrCreate({ where: { nom: nomProduit }, defaults: { nom: nomProduit } });
+    console.log(resultat);
     const produit = resultat[0];
     const item = await Item.create({ quantite: quantite });
-    gardemanger.addItem(item);
-    produit.addItem(item);
+    console.log(item);
+    await gardemanger.addItem(item);
+    await produit.addItem(item);
     console.log('produit : ' + nomProduit + 'ajouté au garder-manger (quantite : ' + quantite + ')');
 }
 
@@ -69,6 +70,7 @@ const effectuerModification = async (ajout: Ajout, gardemanger: GardeManger) => 
 export const modifier_quantite_post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!req.query.idItem) throw ('parametre idItem manquant'); // check la présence de l'id dans la requête
+        if (Number(req.query.quantite) < 0) throw ('une quantité doit être positive');
         const idItem: number = Number(req.query.idItem);
         const item = await Item.findByPk(Number(req.query.idItem)) as Item;
         const quantite: number = Number(req.query.quantite);
@@ -112,18 +114,26 @@ export const recuperer_contenu_get = async (req: Request, res: Response, next: N
     }
 }
 
+// TESTS
+
 export const gardemanger_test = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const gardemanger = await GardeManger.create({});
-        const produit = await Produit.create({ nom: "Pates" });
-        const item = await Item.create({ quantite: 100 });
+        const user = await Client.findOne({
+            where: {
+                id: "1"
+            }
+        });
+        if (user) user.setGardeManger(gardemanger);
+        // const produit = await Produit.create({ nom: "Pates" });
+        // const item = await Item.create({ quantite: 100 });
 
-        gardemanger.addItem(item);
+        // gardemanger.addItem(item);
 
-        produit.addItem(item);
-        item.destroy();
+        // produit.addItem(item);
+        // item.destroy();
 
-        item.destroy();
+        // item.destroy();
 
         console.log(await gardemanger.getItems());
 
