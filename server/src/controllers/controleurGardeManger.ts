@@ -1,36 +1,65 @@
 import { Request, Response, NextFunction } from 'express';
 import { Produit, GardeManger, Item, Client, Commerce } from '../database/models';
 
+interface Ajout {
+    nomProduit: string;
+    quantite: number;
+}
+
+interface AjoutJson {
+    ajouts: Array<Ajout>;
+}
+
+interface Modification {
+    idItem: number;
+    quantite: number;
+}
+
+interface ModificationJson {
+    modifications: Array<Modification>;
+}
+
 // Ajoute un produit au garde manger
 // Nécessite : un nom de produit
 //             une quantité
 export const ajouter_produit_alamano_put = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log(req);
+        const reqAjouts: AjoutJson = req.body;
 
-        if (!req.query.nomproduit) throw ('parametre nomproduit manquant'); //check la présence du nom dans la requête
-        if (!req.query.quantite) throw ('parametre quantité manquant'); //check la présence de la quantité dans la requête
+        if (!reqAjouts.ajouts || reqAjouts.ajouts.length === 0) throw ('Pas de données à ajouter');
 
-        const nomProduit: string = req.query.nomproduit as string;
-        const quantite: number = Number(req.query.quantite);
+        let gardeManger: GardeManger = await (req.user as Client).getGardeManger();
 
-        // Vérification de l'existence du produit dans la BDD et création s'il n'existe pas
-        const result = await Produit.findOrCreate({ where: { nom: nomProduit }, defaults: { nom: nomProduit } });
-        var produit = result[0];
+        // On effectue séquentiellement toutes le modifications
+        for (const ajout of reqAjouts.ajouts) {
+            await effectuerModification(ajout, gardeManger);
+        }
 
-        // Création et ajout d'un Item
-        const item = await Item.create({ quantite: quantite });
-        const client = req.user as Client;
-        const gardemanger = await client.getGardeManger();
-        gardemanger.addItem(item);
-        produit.addItem(item);
-
-        res.status(200).json(await GardeManger.findByPk(gardemanger.id));
-        console.log('produit : ' + quantite + ' ' + nomProduit + ' ajouté au garder-manger');
+        res.status(200).json(await GardeManger.findByPk(gardeManger.id));
     }
     catch (error) {
         next(error);
     }
+}
+
+// Fonction permettant de faire toutes les ajouts d'items de manière asynchrone
+// Prend en paramètre : un garde manger à modifier
+//                      une modification a effectuer
+const effectuerModification = async (ajout: Ajout, gardemanger: GardeManger) => {
+    if (!ajout.nomProduit) throw ('parametre nomproduit manquant'); //check la présence du nom dans la requête
+    if (!ajout.quantite) throw ('parametre quantité manquant'); //check la présence de la quantité dans la requête
+
+    const nomProduit: string = ajout.nomProduit as string;
+    const quantite: number = ajout.quantite as number;
+
+    // Vérification de l'existence du produit dans la BDD et création s'il n'existe pas
+    const resultat = await Produit.findOrCreate({ where: { nom: nomProduit }, defaults: { nom: nomProduit } });
+    const produit = resultat[0];
+    const item = await Item.create({ quantite: quantite });
+    gardemanger.addItem(item);
+    produit.addItem(item);
+    console.log('produit : ' + nomProduit + 'ajouté au garder-manger (quantite : ' + quantite + ')');
 }
 
 //A faire : Passer tableau des changements du GM et modifier la base en conséquence

@@ -5,7 +5,7 @@ import * as controleurGardeManger from '../controllers/controleurGardeManger';
 
 const router = express.Router();
 
-router.put('/ajouter-produit-alamano', /*passport.authenticate('jwt', { session: false }),*/ controleurGardeManger.ajouter_produit_alamano_put);
+router.put('/ajouter-produit-alamano', passport.authenticate('jwt', { session: false }), controleurGardeManger.ajouter_produit_alamano_put);
 
 router.post('/supprimer-produit', passport.authenticate('jwt', { session: false }), controleurGardeManger.modifier_quantite_post);
 
