@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import {Client, Produit, ListeCourses, Item} from '../database/models';
+import { Client, Produit, ListeCourses, Item } from '../database/models';
 
 
 // Ajoute un produit à la liste de course
@@ -53,10 +53,10 @@ export const produit_test = async (req: Request, res: Response, next: NextFuncti
         const listeCourse = await ListeCourses.findByPk(1);
         const produit = await Produit.findByPk(1);
 
-        if(listeCourse === null || produit === null) throw ("is null")
+        if (listeCourse === null || produit === null) throw ("is null")
 
         // listeCourse.addProduit(produit);
-       
+
         console.log("Espace -----------------------");
         console.log(await produit.getListeCourses());
         console.log("Espace -----------------------");

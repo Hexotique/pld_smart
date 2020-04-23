@@ -16,14 +16,14 @@ export const inscription_client_put = async (req: Request, res: Response, next: 
             next("Utilisateur existant");
         }
         else {
-            return Client.create({
+            const nouvelUtilisateur = await Client.create({
                 ...req.body,
                 mdp: bcrypt.hashSync(req.body.mdp, bcrypt.genSaltSync(8))
-            }).then((nouvelUtilisateur: Client) => {
-                nouvelUtilisateur.createGardeManger();
-                nouvelUtilisateur.createListeCourses();
-                res.status(201).json(nouvelUtilisateur.get());
             });
+            await nouvelUtilisateur.createGardeManger();
+            // await nouvelUtilisateur.createListeCourses();
+            res.status(201).json(nouvelUtilisateur.get());
+            return nouvelUtilisateur;
         }
     }
     catch (error) {

@@ -41,8 +41,8 @@ const init_models = (sequelize: Sequelize) => {
     GardeManger.hasMany(Item, { as: 'items' });
     Produit.hasMany(Item, { as: 'items' });
 
-    ListeCourses.belongsToMany(Produit, {through: 'ProduitCourse'});
-    Produit.belongsToMany(ListeCourses, {through: 'ProduitCourse'});
+    ListeCourses.belongsToMany(Produit, { through: 'ProduitCourse' });
+    Produit.belongsToMany(ListeCourses, { through: 'ProduitCourse' });
 
     Client.hasMany(Ticket, { as: "tickets" });
 
