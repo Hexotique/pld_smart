@@ -48,7 +48,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         if (magasin === null) throw ('magasin inexistant dans la BDD');
 
         //Check de la validité de l'utilisateur
-        if (donnees.donneesClient.idClient) throw ('Pas de client attribué');
+        if (!donnees.donneesClient.idClient) throw ('Pas de client attribué');
         const idclient = donnees.donneesClient.idClient;
 
         const client = await Client.findByPk<Client>(idclient)
@@ -116,7 +116,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
 
 
         // Il faut peut-être renvoyer le ticket ?
-        res.sendStatus(200);
+        res.json(ticket).sendStatus(200);
         console.log('Ticket cree');
     }
     catch (error) {
@@ -245,5 +245,32 @@ const creerArticle = async (code: string) => {
     } catch (error) {
         console.error(error);
         return null;
+    }
+}
+
+export const test_creation_article = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const article = await (Article.create({
+            codebar: '1236',
+            nom: 'machin3'
+        }));
+        //res.setHeader('Content-Type', 'application/json');
+        res.json(article).status(200);
+    }
+    catch (error) {
+        next(error);
+    }
+}
+
+export const test_creation_commerce = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const article = await (Commerce.create({
+            nom: "Auchan"
+        }));
+        //res.setHeader('Content-Type', 'application/json');
+        res.json(article).status(200);
+    }
+    catch (error) {
+        next(error);
     }
 }
