@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Client, Produit, ProduitCourse, ListeCourses } from '../database/models';
+import { Client, Produit, ListeCourses } from '../database/models';
 
 
 export const produit_ajouter_put = async (req: Request, res: Response, next: NextFunction) => {
@@ -41,12 +41,17 @@ export const produit_supprimer_delete = async (req: Request, res: Response, next
 
 export const produit_test = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const listeCourse = await ListeCourses.create({});
-        const produit = await Produit.create({ nom: "Moules" });
-        const produitCourse = await ProduitCourse.create({ quantite: 100 });
+        const listeCourse = await ListeCourses.findByPk(1);
+        const produit = await Produit.findByPk(1);
 
-        listeCourse.addProduitCourse(produitCourse);
-        produit.addProduitCourse(produitCourse);
+        if(listeCourse === null || produit === null) throw ("is null")
+
+        // listeCourse.addProduit(produit);
+       
+        console.log("Espace -----------------------");
+        console.log(await produit.getListeCourses());
+        console.log("Espace -----------------------");
+        console.log(await listeCourse.getProduits());
 
         res.status(200).json(await ListeCourses.findByPk(listeCourse.id));
     }

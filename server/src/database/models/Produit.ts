@@ -1,7 +1,7 @@
-import { Sequelize, Model, DataTypes, HasManyGetAssociationsMixin, HasManyAddAssociationMixin, HasManyRemoveAssociationMixin } from "sequelize";
+import { Sequelize, Model, DataTypes, HasManyGetAssociationsMixin, HasManyAddAssociationMixin, HasManyRemoveAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyAddAssociationMixin, BelongsToManyRemoveAssociationMixin } from "sequelize";
 import { Article } from "./Article";
-import { ProduitCourse } from './ProduitCourse';
 import { Item } from "./Item";
+import { ListeCourses } from "./ListeCourses";
 
 export class Produit extends Model {
   public id!: number;
@@ -13,9 +13,10 @@ export class Produit extends Model {
   public getArticles!: HasManyGetAssociationsMixin<Article>;
   public addArticle!: HasManyAddAssociationMixin<Article, number>;
 
-  public getProduitCourses!: HasManyGetAssociationsMixin<ProduitCourse>;
-  public addProduitCourse!: HasManyAddAssociationMixin<ProduitCourse, number>;
-  public removeProduitCourse!: HasManyRemoveAssociationMixin<ProduitCourse, number>;
+  public getListeCourses!: BelongsToManyGetAssociationsMixin<ListeCourses>;
+  // public addListeCourse!: BelongsToManyAddAssociationMixin<ListeCourses, number>;
+  // public removeListeCourse!: BelongsToManyRemoveAssociationMixin<ListeCourses, number>;
+
 
   public getItems!: HasManyGetAssociationsMixin<Item>;
   public addItem!: HasManyAddAssociationMixin<Item, number>;

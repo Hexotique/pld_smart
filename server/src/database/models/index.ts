@@ -8,7 +8,6 @@ import { init_model_produit, Produit } from './Produit';
 import { init_model_categorieproduit, CategorieProduit } from './CategorieProduit';
 import { init_model_listecourses, ListeCourses } from './ListeCourses';
 import { init_model_item, Item } from './Item';
-import { init_model_produitcourse, ProduitCourse } from './ProduitCourse';
 import { init_model_gardemanger, GardeManger } from './GardeManger';
 import { init_model_commerce, Commerce } from './Commerce';
 import { init_model_groupe, Groupe } from './Groupe';
@@ -22,7 +21,7 @@ const init_models = (sequelize: Sequelize) => {
     init_model_produit(sequelize);
     init_model_categorieproduit(sequelize);
     init_model_listecourses(sequelize);
-    init_model_produitcourse(sequelize);
+    // init_model_produitcourse(sequelize);
     init_model_item(sequelize);
     init_model_gardemanger(sequelize);
     init_model_commerce(sequelize);
@@ -42,8 +41,8 @@ const init_models = (sequelize: Sequelize) => {
     GardeManger.hasMany(Item, { as: 'items' });
     Produit.hasMany(Item, { as: 'items' });
 
-    ListeCourses.hasMany(ProduitCourse, { as: 'produitCourses' });
-    Produit.hasMany(ProduitCourse, { as: 'produitCourses' });
+    ListeCourses.belongsToMany(Produit, {through: 'ProduitCourse'});
+    Produit.belongsToMany(ListeCourses, {through: 'ProduitCourse'});
 
     Client.hasMany(Ticket, { as: "tickets" });
 
@@ -64,7 +63,6 @@ export { ListeCourses } from './ListeCourses';
 export { GardeManger } from './GardeManger';
 export { Commerce } from './Commerce';
 export { Groupe } from './Groupe';
-export { ProduitCourse } from './ProduitCourse';
 export { Item } from './Item';
 export { Achat } from './Achat';
 
