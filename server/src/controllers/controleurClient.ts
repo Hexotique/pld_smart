@@ -5,24 +5,25 @@ import jwt from 'jsonwebtoken';
 
 import { Client, Ticket } from '../database/models';
 
-export const client_inscription_put = async (req: Request, res: Response, next: NextFunction) => {
+export const inscription_client_put = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await Client.findOne({
+        const utilisateur = await Client.findOne({
             where: {
                 email: req.body.email
             }
         });
-        user?.getTickets();
-        if (user !== null) {
+        if (utilisateur !== null) {
             next("Utilisateur existant");
         }
         else {
-            return Client.create({
+            const nouvelUtilisateur = await Client.create({
                 ...req.body,
                 mdp: bcrypt.hashSync(req.body.mdp, bcrypt.genSaltSync(8))
-            }).then((newUser: Client) => {
-                res.status(201).json(newUser.get());
             });
+            await nouvelUtilisateur.createGardeManger();
+            await nouvelUtilisateur.createListe();
+            res.status(201).json(nouvelUtilisateur.get());
+            return nouvelUtilisateur;
         }
     }
     catch (error) {
@@ -30,25 +31,25 @@ export const client_inscription_put = async (req: Request, res: Response, next: 
     }
 }
 
-export const client_connexion_post = (req: Request, res: Response, next: NextFunction) => {
+export const connexion_client_post = (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!req.body.email || !req.body.mdp) {
             return next("Champs manquants")
         }
-        passport.authenticate('local', { session: false }, (error, user, info) => {
+        passport.authenticate('local', { session: false }, (error, utilisateur, info) => {
             if (error) {
                 return next(error);
             }
             if (info) {
                 return next(info.message);
             }
-            req.login(user, (err) => {
+            req.login(utilisateur, (err) => {
                 if (err) {
                     return next(err);
                 }
-                const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_CODE as string);
+                const token = jwt.sign({ id: utilisateur.id, email: utilisateur.email }, process.env.SECRET_CODE as string);
                 return res.status(200).json({
-                    email: user.email,
+                    email: utilisateur.email,
                     token
                 });
             });
@@ -60,7 +61,7 @@ export const client_connexion_post = (req: Request, res: Response, next: NextFun
 
 export const test_client_ticket = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await (Client.create({
+        const utilisateur = await (Client.create({
             email: 'test@gmail.com',
             mdp: 'machin',
             nom: 'Chanèle',
@@ -70,11 +71,11 @@ export const test_client_ticket = async (req: Request, res: Response, next: Next
             date_achat: new Date(),
             montant: 200
         }));
-        await user.createTicket({ date_achat: new Date(), montant: 15 }); // créé le ticket et l'ajoute 
-        await user.addTicket(ticket1); //ajoute un ticket existant comme association
-        
-        let tickets = await user?.getTickets();
-        console.log(await user?.getTickets());
+        await utilisateur.createTicket({ date_achat: new Date(), montant: 15 }); // créé le ticket et l'ajoute 
+        await utilisateur.addTicket(ticket1); //ajoute un ticket existant comme association
+
+        let tickets = await utilisateur?.getTickets();
+        console.log(await utilisateur?.getTickets());
         //res.setHeader('Content-Type', 'application/json');
         res.json(tickets).status(200);
     }
