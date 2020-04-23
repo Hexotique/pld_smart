@@ -48,7 +48,7 @@ export const modifier_quantite_post = async (req: Request, res: Response, next: 
 
         if (item === null) throw ('item inexistant dans la BDD');
 
-        // Mettre à jour l'attribut quantité (ou supprimer l'item si elle est nulle)
+        // Met à jour l'attribut quantité (ou supprimer l'item si elle est nulle)
         if (quantite == 0) {
             gardemanger.removeItem(item);
             await item.destroy();
