@@ -52,8 +52,8 @@ export const init = async (req: Request, res: Response, next: NextFunction) => {
         produit1.addArticle(article2);
         produit1.addArticle(article3);
 
-        produit1.addArticle(article4);
-        produit1.addArticle(article5);
+        produit2.addArticle(article4);
+        produit2.addArticle(article5);
         produit2.addArticle(article6);
 
         //init ticket client1
@@ -64,6 +64,8 @@ export const init = async (req: Request, res: Response, next: NextFunction) => {
         article4.addAchat(achat12);
         tick1.addAchat(achat11);
         tick1.addAchat(achat12);
+        client1.addTicket(tick1);
+        com1.addTicket(tick1);
 
         //init ticket client1
         const tick2 = await Ticket.create({ date_achat: new Date(), montant: 105 });
@@ -71,8 +73,10 @@ export const init = async (req: Request, res: Response, next: NextFunction) => {
         const achat22 = await Achat.create({ quantite: 10, prix: 8 });
         article2.addAchat(achat21);
         article5.addAchat(achat22);
-        tick1.addAchat(achat21);
-        tick1.addAchat(achat22);
+        tick2.addAchat(achat21);
+        tick2.addAchat(achat22);
+        client2.addTicket(tick2);
+        com1.addTicket(tick2);
 
         //remplir gardemanger client 1
         const item11 = await Item.create({ quantite: 2 });
