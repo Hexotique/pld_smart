@@ -21,7 +21,6 @@ const init_models = (sequelize: Sequelize) => {
     init_model_produit(sequelize);
     init_model_categorieproduit(sequelize);
     init_model_listecourses(sequelize);
-    // init_model_produitcourse(sequelize);
     init_model_item(sequelize);
     init_model_gardemanger(sequelize);
     init_model_commerce(sequelize);
