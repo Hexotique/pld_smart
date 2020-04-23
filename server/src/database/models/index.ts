@@ -6,11 +6,11 @@ import { init_model_achat, Achat } from './Achat';
 import { init_model_article, Article } from './Article';
 import { init_model_produit, Produit } from './Produit';
 import { init_model_categorieproduit, CategorieProduit } from './CategorieProduit';
-import { init_model_listecourses, ListeCourses } from './ListeCourses';
 import { init_model_item, Item } from './Item';
 import { init_model_gardemanger, GardeManger } from './GardeManger';
 import { init_model_commerce, Commerce } from './Commerce';
 import { init_model_groupe, Groupe } from './Groupe';
+import { init_model_liste, Liste } from './Liste';
 
 const init_models = (sequelize: Sequelize) => {
 
@@ -20,12 +20,12 @@ const init_models = (sequelize: Sequelize) => {
     init_model_article(sequelize);
     init_model_produit(sequelize);
     init_model_categorieproduit(sequelize);
-    init_model_listecourses(sequelize);
     // init_model_produitcourse(sequelize);
     init_model_item(sequelize);
     init_model_gardemanger(sequelize);
     init_model_commerce(sequelize);
     init_model_groupe(sequelize);
+    init_model_liste(sequelize);
 
     Groupe.hasMany(Commerce, { as: "commerces" });
 
@@ -41,14 +41,14 @@ const init_models = (sequelize: Sequelize) => {
     GardeManger.hasMany(Item, { as: 'items' });
     Produit.hasMany(Item, { as: 'items' });
 
-    ListeCourses.belongsToMany(Produit, { through: 'ProduitCourse' });
-    Produit.belongsToMany(ListeCourses, { through: 'ProduitCourse' });
+    Liste.belongsToMany(Produit, { through: 'Course' });
+    Produit.belongsToMany(Liste, { through: 'Course' });
 
     Client.hasMany(Ticket, { as: "tickets" });
 
-    Client.hasOne(GardeManger);
+    Client.hasOne(Liste);
 
-    Client.hasOne(ListeCourses);
+    Client.hasOne(GardeManger);
 
     sequelize.sync();
 }
@@ -59,10 +59,10 @@ export { Ticket } from './Ticket';
 export { Article } from './Article';
 export { Produit } from './Produit';
 export { CategorieProduit } from './CategorieProduit';
-export { ListeCourses } from './ListeCourses';
 export { GardeManger } from './GardeManger';
 export { Commerce } from './Commerce';
 export { Groupe } from './Groupe';
 export { Item } from './Item';
 export { Achat } from './Achat';
+export { Liste } from './Liste';
 

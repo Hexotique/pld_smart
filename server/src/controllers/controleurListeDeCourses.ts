@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Client, Produit, ListeCourses, Item } from '../database/models';
+import { Client, Produit, Liste } from '../database/models';
 
 
 // Ajoute un produit à la liste de course
@@ -16,8 +16,8 @@ export const produit_ajouter_put = async (req: Request, res: Response, next: Nex
 
         // Ajout du produit
         const client = req.user as Client;
-        const listecourses = await client.getListeCourses();
-        listecourses.addProduit(produit);
+        const liste = await client.getListe();
+        liste.addProduit(produit);
         res.sendStatus(200);
         console.log('produit : ' + nomProduit + ' ajouté à la liste de course');
 
@@ -36,9 +36,9 @@ export const produit_supprimer_delete = async (req: Request, res: Response, next
 
         //Supprime le produit de la liste
         const client = req.user as Client;
-        const listecourses = await client.getListeCourses();
+        const liste = await client.getListe();
         const produit = await Produit.findByPk(idProduit) as Produit;
-        await listecourses.removeProduit(produit);
+        await liste.removeProduit(produit);
 
         res.sendStatus(200);
         console.log('produit : ' + idProduit + ' supprimé de la BDD');
@@ -50,7 +50,7 @@ export const produit_supprimer_delete = async (req: Request, res: Response, next
 
 export const produit_test = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const listeCourse = await ListeCourses.findByPk(1);
+        const listeCourse = await Liste.findByPk(1);
         const produit = await Produit.findByPk(1);
 
         if (listeCourse === null || produit === null) throw ("is null")
@@ -58,11 +58,11 @@ export const produit_test = async (req: Request, res: Response, next: NextFuncti
         // listeCourse.addProduit(produit);
 
         console.log("Espace -----------------------");
-        console.log(await produit.getListeCourses());
+        console.log(await produit.getListe());
         console.log("Espace -----------------------");
         console.log(await listeCourse.getProduits());
 
-        res.status(200).json(await ListeCourses.findByPk(listeCourse.id));
+        res.status(200).json(await Liste.findByPk(listeCourse.id));
     }
     catch (error) {
         next(error);

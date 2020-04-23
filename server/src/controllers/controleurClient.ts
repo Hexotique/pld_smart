@@ -21,7 +21,7 @@ export const inscription_client_put = async (req: Request, res: Response, next: 
                 mdp: bcrypt.hashSync(req.body.mdp, bcrypt.genSaltSync(8))
             });
             await nouvelUtilisateur.createGardeManger();
-            // await nouvelUtilisateur.createListeCourses();
+            await nouvelUtilisateur.createListe();
             res.status(201).json(nouvelUtilisateur.get());
             return nouvelUtilisateur;
         }
