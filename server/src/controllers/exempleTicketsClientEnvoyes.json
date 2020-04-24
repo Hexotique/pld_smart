@@ -1,0 +1,22 @@
+{
+    "Tickets": [
+        {
+            "nomGroupe": "Auchan",
+            "idTicket": "021552",
+            "montant": "11.25",
+            "date": "23/03/2109"
+        },
+        {
+            "nomGroupe": "Carrefour",
+            "idTicket": "021562",
+            "montant": "1256.22",
+            "date": "23/03/2252"
+        },
+        {
+            "nomGroupe": "Auchan",
+            "idTicket": "0215",
+            "montant": "1.2",
+            "date": "23/03/2102"
+        }
+    ]
+}
