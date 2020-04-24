@@ -19,6 +19,20 @@ interface ModificationJson {
     modifications: Array<Modification>;
 }
 
+interface itemGardeMangerJson {
+    idItem: string,
+    quantite: number,
+    produit: {
+        idProduit: string,
+        nom: string
+    }
+}
+interface GardeMangerJson {
+    idGardeManger: string,
+    idClient: string,
+    items: Array<itemGardeMangerJson>
+}
+
 // Ajoute un produit au garde manger
 // Nécessite : un nom de produit
 //             une quantité
@@ -36,7 +50,7 @@ export const ajouter_produit_alamano_put = async (req: Request, res: Response, n
             await ajouter(ajout, gardeManger);
         }
 
-        res.status(200).json(await GardeManger.findByPk(gardeManger.id));
+        res.status(200).json({message: 'Success'});
     }
     catch (error) {
         next(error);
@@ -62,7 +76,7 @@ export const modifier_quantite_post = async (req: Request, res: Response, next: 
             await modifier(modification, gardeManger);
         }
 
-        res.status(200).json(await GardeManger.findByPk(gardeManger.id));
+        res.status(200).json({message: 'Success'});
     }
     catch (error) {
         next(error);
@@ -73,11 +87,35 @@ export const modifier_quantite_post = async (req: Request, res: Response, next: 
 export const recuperer_contenu_get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log(req);
-
+        let reponse: GardeMangerJson = {
+            idGardeManger: '',
+            idClient: '',
+            items: []
+        };
         const client = req.user as Client;
-
         const gardemanger = await client.getGardeManger();
-        gardemanger.getItems().then((gardemanger) => { res.status(200).json(gardemanger); });
+        reponse.idGardeManger = gardemanger.id.toString();
+        reponse.idClient=client.id.toString();
+        const items: Item[] = await gardemanger.getItems();
+        for (const item of items) {
+            let itemJson: itemGardeMangerJson = {
+                idItem: '',
+                quantite: 0,
+                produit: {
+                    idProduit: '',
+                    nom: ''
+                }
+            }
+            const produitId: number = Number(item.get('ProduitId'));
+            const produit = await Produit.findByPk(produitId) as Produit;
+            const nom = produit.nom;
+            itemJson.idItem= item.id.toString();
+            itemJson.quantite=item.quantite;
+            itemJson.produit.idProduit=produitId.toString();
+            itemJson.produit.nom=nom;
+            reponse.items.push(itemJson);
+        }
+        res.status(200).json(reponse);
 
     }
     catch (error) {

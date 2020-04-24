@@ -49,7 +49,12 @@ export const connexion_client_post = (req: Request, res: Response, next: NextFun
                 }
                 const token = jwt.sign({ id: utilisateur.id, email: utilisateur.email }, process.env.SECRET_CODE as string);
                 return res.status(200).json({
-                    email: utilisateur.email,
+                    utilisateur: {
+                        id: utilisateur.id,
+                        email: utilisateur.email,
+                        nom: utilisateur.nom,
+                        prenom: utilisateur.prenom
+                    },
                     token
                 });
             });
