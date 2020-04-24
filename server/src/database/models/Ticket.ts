@@ -1,4 +1,4 @@
-import { Sequelize, Model, DataTypes, HasManyAddAssociationMixin, HasManyCreateAssociationMixin, HasManyAddAssociationMixinOptions, BelongsToManyAddAssociationMixin } from "sequelize";
+import { Sequelize, Model, DataTypes, HasManyAddAssociationMixin, HasManyCreateAssociationMixin, HasManyAddAssociationMixinOptions,HasManyGetAssociationsMixin, BelongsToManyAddAssociationMixin } from "sequelize";
 import { Article } from "./Article";
 import { Achat } from "./Achat";
 import { Options } from "body-parser";
@@ -13,7 +13,8 @@ export class Ticket extends Model {
   public readonly updatedAt!: Date;
 
   public addAchat!: HasManyAddAssociationMixin<Achat, number>;
-  public createAchat!: HasManyCreateAssociationMixin<Article>;
+  public createAchat!: HasManyCreateAssociationMixin<Achat>;
+  public getAchats!: HasManyGetAssociationsMixin<Achat>;
 
 }
 
