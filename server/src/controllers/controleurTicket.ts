@@ -3,6 +3,8 @@ import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategoriePro
 import { json } from 'body-parser';
 import { Json } from 'sequelize/types/lib/utils';
 
+const fetch = require("node-fetch");
+
 interface DonneesMagasin {
     idCommerce: number;
 }
@@ -43,7 +45,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
 
 
         // Check de la présence des données nécessaires dans le corps de la requete
-        if (!donnees.donneesMagasin.idCommerce) throw ('parametre idmagasin manquant');         
+        if (!donnees.donneesMagasin.idCommerce) throw ('parametre idmagasin manquant');
         if (!donnees.donneesClient.idClient) throw ('parametre idclient manquant');
         if (!donnees.donneesTicket) throw ('Pas de données de ticket');
         if (!donnees.donneesTicket.achats || donnees.donneesTicket.achats.length === 0) throw ('Pas d\'achats dans le ticket');
@@ -52,7 +54,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         // Check de l'existence du commerce et du client dans la BDD
         const magasin = await Commerce.findByPk(Number(donnees.donneesMagasin.idCommerce));
         if (magasin === null) throw ('magasin inexistant dans la BDD');
-        
+
         const client = await Client.findByPk<Client>(donnees.donneesClient.idClient)
         if (client === null) throw ('client inexistant dans la BDD');
 
@@ -86,7 +88,17 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         // Si un des articles n'existe pas en base on le crée grâce à OpenFoodFact
         for (const index in articles) {
             if (!articles[index]) {
-                articles[index] = await creerArticle(donneesAchats[index].codeBarre); // Si l'article est pas créé c'est la merde ! A voir plus tard comment on gère ça avec un try catch ?
+                let art = await creerArticle(donneesAchats[index].codeBarre); 
+                if(art){
+                    articles[index] = art;
+                }
+                else{
+                    montant-= achats[index].quantite*achats[index].prix;
+                    let achat_tmp = achats[index];
+                    articles.splice(Number(index), 1);
+                    achats.splice(Number(index), 1);
+                    Achat.destroy({ where: {id : achat_tmp.id}});
+                }
             }
         }
 
@@ -253,11 +265,12 @@ export const test_ticket = async (req: Request, res: Response, next: NextFunctio
 }
 
 
-const creerArticle = async (code: string) => {
+export const creerArticle = async (code : string) => {
 
     const url = `https://world.openfoodfacts.org/api/v0/product/${code}.json`;
 
-    try {
+    try {       
+
         const response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -266,11 +279,35 @@ const creerArticle = async (code: string) => {
                 UserAgent: 'Pot d\'Yaourt - ReactNative - Version 1.0'
             }
         });
-        const product = await response.json();
-        if (product.status === 0) {
+        
+        const produit = await response.json();
+
+        if (produit.status === 0 || produit.status_verbose === "product not found" || !produit.product.product_name ) { //si article pas trouvé ou incomplet
             return null;
         }
-        return product;
+
+        let nom_produit: string = produit.product.product_name_fr ? produit.product.product_name_fr : produit.product.product_name;
+        let marque: string = produit.product.brands_tags[0] ? produit.product.brands_tags[0] : "";
+        let poids: string = produit.product.quantity ? produit.product.quantity : "";
+        let nom_article: string;
+
+        if (poids && marque === "") {
+            nom_article = nom_produit;
+        }
+        else if (poids === "") {
+            nom_article = nom_produit + '-' + marque;
+        }
+        else if (marque === "") {
+            nom_article = nom_produit + '-' + poids;
+        }
+        else {
+            nom_article = nom_produit + '-' + marque + '-' + poids;
+        }
+
+        const art = await Article.create({ nom: nom_article, codebar: code });
+        console.log(art);
+        return art;
+
     } catch (error) {
         console.error(error);
         return null;
@@ -283,7 +320,6 @@ export const test_creation_article = async (req: Request, res: Response, next: N
             codebar: '1239',
             nom: 'machin6'
         }));
-        //res.setHeader('Content-Type', 'application/json');
         res.json(article).status(200);
     }
     catch (error) {
@@ -296,7 +332,6 @@ export const test_creation_commerce = async (req: Request, res: Response, next: 
         const article = await (Commerce.create({
             nom: "Carrefour"
         }));
-        //res.setHeader('Content-Type', 'application/json');
         res.json(article).status(200);
     }
     catch (error) {
