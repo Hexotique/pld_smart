@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategorieProduit } from '../database/models';
 import { json } from 'body-parser';
 import { Json } from 'sequelize/types/lib/utils';
+import sequelize, { Sequelize } from 'sequelize';
+
 
 const fetch = require("node-fetch");
 
@@ -20,7 +22,6 @@ interface DonneesAchat {
 }
 
 interface DonneesTicket {
-    montant: number;
     achats: Array<DonneesAchat>;
 }
 
@@ -265,11 +266,12 @@ export const test_ticket = async (req: Request, res: Response, next: NextFunctio
 }
 
 
-export const creerArticle = async (code : string) => {
+export const creerArticle = async (code: string) => {
 
-    const url = `https://world.openfoodfacts.org/api/v0/product/${code}.json`;
 
-    try {       
+    const url = `https://fr.openfoodfacts.org/api/v0/product/${code}.json`;
+
+    try {
 
         const response = await fetch(url, {
             method: 'GET',
@@ -279,10 +281,10 @@ export const creerArticle = async (code : string) => {
                 UserAgent: 'Pot d\'Yaourt - ReactNative - Version 1.0'
             }
         });
-        
+
         const produit = await response.json();
 
-        if (produit.status === 0 || produit.status_verbose === "product not found" || !produit.product.product_name ) { //si article pas trouvé ou incomplet
+        if (produit.status === 0 || produit.status_verbose === "product not found" || !produit.product.product_name) { //si article pas trouvé ou incomplet
             return null;
         }
 
@@ -305,7 +307,57 @@ export const creerArticle = async (code : string) => {
         }
 
         const art = await Article.create({ nom: nom_article, codebar: code });
-        console.log(art);
+
+        //Trouver la bonne catégorie -------------------------------------------------
+        let categorie: string = "Autres";
+        let nom_prod = nom_produit; // par défaut, le nom de l'article
+        const categories: string = produit.product.categories;
+
+        if (categories) {
+            let cats = categories.split(",");
+            let index: number = 0;
+            cats.reverse();
+
+            for (let cat of cats) {
+
+                cat = await cat.trim();
+                console.log(cat);
+
+                let resultat = await CategorieProduit.findOne({ where: sequelize.where(sequelize.fn('lower', sequelize.col('nom')), sequelize.fn('lower', cat)) });
+
+                if (resultat) {
+                    console.log(resultat);
+                    categorie = cat;
+                    break;
+                }
+                index++;
+            };
+
+            //Trouver ou créer le produit ----------------------------------------------
+            index--;
+            for (let i = index; i >= 0; i--) { //on parcours le tableau en reverse
+
+                if (i === 0) {
+                    nom_prod = cats[0].trim();
+                }
+                else {
+                    let tmp = await cats[i].trim();
+                    let resultat = await Produit.findOne({ where: { nom: tmp } });
+                    if (resultat) {
+                        console.log(resultat);
+                        nom_prod = tmp;
+                        break;
+                    }
+                }
+            }
+        }
+
+        const prod = (await Produit.findOrCreate({ where: { nom: nom_prod } }))[0];
+        const cate = await CategorieProduit.findOne({ where: { nom: categorie } });
+
+        cate?.addProduit(prod);
+        prod.addArticle(art);
+
         return art;
 
     } catch (error) {

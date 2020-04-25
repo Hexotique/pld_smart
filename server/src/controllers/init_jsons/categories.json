@@ -22,22 +22,19 @@
             "nom": "Plats préparés"
         },
         {
-            "nom": "Biscuit et gâteaux"
+            "nom": "Biscuits et gâteaux"
         },
         {
             "nom": "Aliments à base de fruits et de légumes"
         },
         {
-            "nom": "Céreals et pommes de terre"
-        },
-        {
-            "nom": "Petit-déjeuners"
+            "nom": "Céréales et pommes de terre"
         },
         {
             "nom": "Desserts"
         },
         {
-            "nom": "Produits à tatiner"
+            "nom": "Produits à tartiner"
         },
         {
             "nom": "Produits de la mer"
@@ -55,7 +52,7 @@
             "nom": "Chocolats"
         },
         {
-            "nom": "Boisson alcoolisés"
+            "nom": "Boissons alcoolisés"
         },
         {
             "nom": "Pains"
@@ -83,6 +80,9 @@
         },
         {
             "nom": "Aliments pour bébé"
+        },
+        {
+            "nom": "Epicerie"
         },
         {
             "nom": "Autres"

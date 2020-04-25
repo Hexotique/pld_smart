@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import { Sequelize, Model, DataTypes, HasManyAddAssociationMixin, HasManyCreateAssociationMixin, HasManyAddAssociationMixinOptions,HasManyGetAssociationsMixin, BelongsToManyAddAssociationMixin } from "sequelize";
-import { Article } from "./Article";
-=======
-import { Sequelize, Model, DataTypes, HasManyAddAssociationMixin, HasManyCreateAssociationMixin, HasManyAddAssociationMixinOptions, BelongsToManyAddAssociationMixin, HasManyGetAssociationsMixin } from "sequelize";
->>>>>>> 88681cd8379472a353468ee3311d5f574f562875
+import { Sequelize, Model, DataTypes, HasManyAddAssociationMixin, HasManyCreateAssociationMixin, HasManyGetAssociationsMixin } from "sequelize";
 import { Achat } from "./Achat";
 
 

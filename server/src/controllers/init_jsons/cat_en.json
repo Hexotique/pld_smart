@@ -1,0 +1,46 @@
+{
+    "cats": [
+        {
+            "category": "breakfast_cereals"
+        }, 
+        {
+            "category": "chocolate_candies"
+        }, 
+        {
+            "category": "meats"
+        }, 
+        {
+            "category": "prepared_meals"
+        }, 
+        {
+            "category": "groceries"
+        }, 
+        {
+            "category": "dairies"
+        }, 
+        {
+            "category": "beverages"
+        }, 
+        {
+            "category": "sweet_snacks"
+        }, 
+        {
+            "category": "spreads"
+        }, 
+        {
+            "category": "frozen_foods"
+        },
+        {
+            "category": "canned_foods"
+        }, 
+        {
+            "category": "sweeteners"
+        }, 
+        {
+            "category": "alcoholic_beverages"
+        },
+        {
+            "category": "salty_snacks"
+        }
+    ]
+}

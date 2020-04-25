@@ -1,15 +1,56 @@
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import { Ticket, Article, Client, Commerce, Achat, GardeManger, Liste, Groupe, CategorieProduit, Produit, Item } from '../database/models';
+import sequelize, { Sequelize } from 'sequelize';
 
 const fetch = require("node-fetch");
 
+interface code_article {
+    code: string;
+}
 
-export const creerArticle = async (code : string) => {
+interface cat_en {
+    category: string;
+}
 
-    // const code = "7622210713780";
-    // const code:string =String (req.params.codebar);
-    const url = `https://world.openfoodfacts.org/api/v0/product/${code}.json`;
+
+export const init_cat = async (req: Request, res: Response, next: NextFunction) => {
+
+    let cats = Array<CategorieProduit>();
+    cats = req.body.categories;
+    try {
+        for (const cat of cats) {
+            CategorieProduit.create(cat);
+        }
+        res.sendStatus(200);
+    }
+    catch (error) {
+        next(error);
+    }
+}
+
+
+export const init_articles = async (req: Request, res: Response, next: NextFunction) => {
+
+    let arts = Array<code_article>();
+    arts = req.body.articles;
+    console.log(arts);
+
+    try {
+        for (const art of arts) {
+            await creerArticle(art.code);
+        }
+        res.sendStatus(200);
+    }
+    catch (error) {
+        next(error);
+    }
+}
+
+export const creerArticle = async (code: string) => {
+
+
+    const url = `https://fr.openfoodfacts.org/api/v0/product/${code}.json`;
 
     try {
 
@@ -58,9 +99,12 @@ export const creerArticle = async (code : string) => {
             let index: number = 0;
             cats.reverse();
 
-            for (const cat of cats) {
-                cat.trim();
-                let resultat = await CategorieProduit.findOne({ where: { nom: cat } });
+            for (let cat of cats) {
+
+                cat = await cat.trim();
+                console.log(cat);
+
+                let resultat = await CategorieProduit.findOne({ where: sequelize.where(sequelize.fn('lower', sequelize.col('nom')), sequelize.fn('lower', cat)) });
 
                 if (resultat) {
                     console.log(resultat);
@@ -75,23 +119,19 @@ export const creerArticle = async (code : string) => {
             for (let i = index; i >= 0; i--) { //on parcours le tableau en reverse
 
                 if (i === 0) {
-                    nom_prod = cats[0];
+                    nom_prod = cats[0].trim();
                 }
                 else {
-                    cats[i].trim();
-                    let resultat = await Produit.findOne({ where: { nom: cats[i] } });
+                    let tmp = await cats[i].trim();
+                    let resultat = await Produit.findOne({ where: { nom: tmp } });
                     if (resultat) {
                         console.log(resultat);
-                        nom_prod = cats[i];
+                        nom_prod = tmp;
                         break;
                     }
                 }
             }
         }
-        
-        // console.log("---------------------------------------------");
-        // console.log(categorie); 
-        // console.log(nom_prod);
 
         const prod = (await Produit.findOrCreate({ where: { nom: nom_prod } }))[0];
         const cate = await CategorieProduit.findOne({ where: { nom: categorie } });
@@ -99,29 +139,11 @@ export const creerArticle = async (code : string) => {
         cate?.addProduit(prod);
         prod.addArticle(art);
 
-        // res.sendStatus(200);
         return art;
 
     } catch (error) {
-        // res.sendStatus(500);
         console.error(error);
         return null;
-    }
-}
-
-
-export const init_cat = async (req: Request, res: Response, next: NextFunction) => {
-
-    let cats = Array<CategorieProduit>();
-    cats = req.body.categories;
-    try {
-        for (const cat of cats) {
-            CategorieProduit.create(cat);
-        }
-        res.sendStatus(200);
-    }
-    catch (error) {
-        next(error);
     }
 }
 
@@ -232,4 +254,43 @@ export const init = async (req: Request, res: Response, next: NextFunction) => {
     catch (error) {
         next(error);
     }
+}
+
+
+export const get_codebar = async (req: Request, res: Response, next: NextFunction) => {
+
+    let cats_en = Array<cat_en>();
+    let codes = Array<code_article>();
+    cats_en = req.body.cats;
+    console.log(cats_en);
+
+    for (const cat of cats_en) {
+        let url = `https://fr.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=${cat.category}&tagtype_2=countries&tag_contains_2=contains&tag_2=france&json=true&page_size=50`;
+
+        try {
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    UserAgent: 'Pot d\'Yaourt - ReactNative - Version 1.0'
+                }
+            });
+
+            const produits = await response.json();
+            for (const produit of produits.products){
+                if (produit.categories_lc == "fr") codes.push({code: produit._id });
+            }
+
+        }
+        catch(error){
+            console.log(error);
+            await res.json(error).status(500);
+            return;
+        }
+    }
+    res.json(codes).status(200); 
+    return;
+    
 }
