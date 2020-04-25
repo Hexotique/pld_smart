@@ -48,13 +48,13 @@ export const init = async (req: Request, res: Response, next: NextFunction) => {
         const article5 = await Article.create({ codebar: "3038352910200 ", nom: "Le Cannelloni (100 % pur Bœuf) - Panzani - 800 g" });
         const article6 = await Article.create({ codebar: "3038350335005", nom: "Les 3 Minutes Spaghetti - Panzani - 500 g" });
 
-        produit1.addArticle(article1);
-        produit1.addArticle(article2);
-        produit1.addArticle(article3);
+        produit2.addArticle(article1);
+        produit2.addArticle(article2);
+        produit2.addArticle(article3);
 
-        produit2.addArticle(article4);
-        produit2.addArticle(article5);
-        produit2.addArticle(article6);
+        produit1.addArticle(article4);
+        produit1.addArticle(article5);
+        produit1.addArticle(article6);
 
         //init ticket client1
         const tick1 = await Ticket.create({ date_achat: new Date(), montant: 22 });
