@@ -3,7 +3,7 @@ import * as controleurTest from '../controllers/controleurTest';
 
 const router = express.Router();
 
-router.get('/init', controleurTest.init);
+router.put('/init', controleurTest.init);
 
 
 export default router;
