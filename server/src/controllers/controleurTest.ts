@@ -180,27 +180,23 @@ export const init = async (req: Request, res: Response, next: NextFunction) => {
         const boisson = (await CategorieProduit.findOrCreate({ where: { nom: "Boissons" } }))[0];
 
         //init produit
-        const produit1 = await Produit.create({ nom: 'Serpentini' });
-        const produit2 = await Produit.create({ nom: 'Soda' });
+        const produit1 = (await Produit.findOrCreate({ where : {nom: 'Ravioli en conserve'} }))[0];
+        const produit2 = (await Produit.findOrCreate({ where : {nom: 'Sodas au cola light' }}))[0];
         feculents.addProduit(produit1);
         boisson.addProduit(produit2);
 
         //init article
-        const article1 = await Article.create({ codebar: "5000112629002", nom: "Dr Pepper" });
-        const article2 = await Article.create({ codebar: "5449000000996", nom: "Coca Cola" });
-        const article3 = await Article.create({ codebar: "54491069", nom: "Sprite" });
+        const article1 = (await Article.findOrCreate({ where : {codebar: "3502110009357", nom: "Pepsi max zero-pepsi-1.5 L" }}))[0];
+        const article2 = (await Article.findOrCreate({ where : {codebar: "5000112611878", nom: "Coca Cola® zéro sucres-coca-cola-1,75 L e" }}))[0];
 
-        const article4 = await Article.create({ codebar: "3038350250803", nom: "Serpentini - Panzani - 500 g" });
-        const article5 = await Article.create({ codebar: "3038352910200 ", nom: "Le Cannelloni (100 % pur Bœuf) - Panzani - 800 g" });
-        const article6 = await Article.create({ codebar: "3038350335005", nom: "Les 3 Minutes Spaghetti - Panzani - 500 g" });
+        const article4 = (await Article.findOrCreate({ where : {codebar: "3038352880305", nom: "Le Ravioli, Pur Bœuf-panzani-800 g" }}))[0];
+        const article5 = (await Article.findOrCreate({ where : {codebar: "3038352880206 ", nom: "Le Ravioli (Pur Bœuf, Farce au Bœuf)-panzani-400 g" }}))[0];
 
         produit2.addArticle(article1);
         produit2.addArticle(article2);
-        produit2.addArticle(article3);
 
         produit1.addArticle(article4);
         produit1.addArticle(article5);
-        produit1.addArticle(article6);
 
         //init ticket client1
         const tick1 = await Ticket.create({ date_achat: new Date(), montant: 22 });
