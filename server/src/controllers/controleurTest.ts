@@ -2,6 +2,130 @@ import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import { Ticket, Article, Client, Commerce, Achat, GardeManger, Liste, Groupe, CategorieProduit, Produit, Item } from '../database/models';
 
+const fetch = require("node-fetch");
+
+
+export const creerArticle = async (code : string) => {
+
+    // const code = "7622210713780";
+    // const code:string =String (req.params.codebar);
+    const url = `https://world.openfoodfacts.org/api/v0/product/${code}.json`;
+
+    try {
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                UserAgent: 'Pot d\'Yaourt - ReactNative - Version 1.0'
+            }
+        });
+
+        const produit = await response.json();
+
+        if (produit.status === 0 || produit.status_verbose === "product not found" || !produit.product.product_name) { //si article pas trouvé ou incomplet
+            return null;
+        }
+
+        let nom_produit: string = produit.product.product_name_fr ? produit.product.product_name_fr : produit.product.product_name;
+        let marque: string = produit.product.brands_tags[0] ? produit.product.brands_tags[0] : "";
+        let poids: string = produit.product.quantity ? produit.product.quantity : "";
+        let nom_article: string;
+
+        if (poids && marque === "") {
+            nom_article = nom_produit;
+        }
+        else if (poids === "") {
+            nom_article = nom_produit + '-' + marque;
+        }
+        else if (marque === "") {
+            nom_article = nom_produit + '-' + poids;
+        }
+        else {
+            nom_article = nom_produit + '-' + marque + '-' + poids;
+        }
+
+        const art = await Article.create({ nom: nom_article, codebar: code });
+
+        //Trouver la bonne catégorie -------------------------------------------------
+        let categorie: string = "Autres";
+        let nom_prod = nom_produit; // par défaut, le nom de l'article
+        const categories: string = produit.product.categories;
+
+        if (categories) {
+            let cats = categories.split(",");
+            let index: number = 0;
+            cats.reverse();
+
+            for (const cat of cats) {
+                cat.trim();
+                let resultat = await CategorieProduit.findOne({ where: { nom: cat } });
+
+                if (resultat) {
+                    console.log(resultat);
+                    categorie = cat;
+                    break;
+                }
+                index++;
+            };
+
+            //Trouver ou créer le produit ----------------------------------------------
+            index--;
+            for (let i = index; i >= 0; i--) { //on parcours le tableau en reverse
+
+                if (i === 0) {
+                    nom_prod = cats[0];
+                }
+                else {
+                    cats[i].trim();
+                    let resultat = await Produit.findOne({ where: { nom: cats[i] } });
+                    if (resultat) {
+                        console.log(resultat);
+                        nom_prod = cats[i];
+                        break;
+                    }
+                }
+            }
+        }
+        
+        // console.log("---------------------------------------------");
+        // console.log(categorie); 
+        // console.log(nom_prod);
+
+        const prod = (await Produit.findOrCreate({ where: { nom: nom_prod } }))[0];
+        const cate = await CategorieProduit.findOne({ where: { nom: categorie } });
+
+        cate?.addProduit(prod);
+        prod.addArticle(art);
+
+        // res.sendStatus(200);
+        return art;
+
+    } catch (error) {
+        // res.sendStatus(500);
+        console.error(error);
+        return null;
+    }
+}
+
+
+export const init_cat = async (req: Request, res: Response, next: NextFunction) => {
+
+    let cats = Array<CategorieProduit>();
+    cats = req.body.categories;
+    try {
+        for (const cat of cats) {
+            CategorieProduit.create(cat);
+        }
+        res.sendStatus(200);
+    }
+    catch (error) {
+        next(error);
+    }
+}
+
+
 export const init = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
@@ -30,11 +154,11 @@ export const init = async (req: Request, res: Response, next: NextFunction) => {
         groupe1.addCommerce(com1);
 
         //init categorie produit
-        const feculents = await CategorieProduit.create({ nom: "Feculents" });
-        const boisson = await CategorieProduit.create({ nom: "Boisson" });
+        const feculents = (await CategorieProduit.findOrCreate({ where: { nom: "Pâtes alimentaires" } }))[0];
+        const boisson = (await CategorieProduit.findOrCreate({ where: { nom: "Boissons" } }))[0];
 
         //init produit
-        const produit1 = await Produit.create({ nom: 'Pates' });
+        const produit1 = await Produit.create({ nom: 'Serpentini' });
         const produit2 = await Produit.create({ nom: 'Soda' });
         feculents.addProduit(produit1);
         boisson.addProduit(produit2);
