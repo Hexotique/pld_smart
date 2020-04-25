@@ -169,7 +169,33 @@ export const recuperer_tickets_get = async (req: Request, res: Response, next: N
         if (req.user === null) throw ('Pas de client identifié');
         const client = req.user as Client;
 
-        client.getTickets().then((tickets) => { res.status(200).json(tickets); });
+        //client.getTickets().then((tickets) => { res.status(200).json(tickets); });
+
+        let message : any ; 
+        Json: message = {
+            "Tickets" : [
+
+            ]
+
+        };
+
+        let tickets  = await  client.getTickets()
+
+        for (const ticket of tickets) {
+            const commerce = await Commerce.findByPk(Number(ticket.get("CommerceId")));
+            const groupe = await Groupe.findByPk(Number(commerce?.get("GroupeId")));    
+
+            let element = {
+                "nomGroupe": groupe?.nom,
+                "idTicket": ticket.id,
+                "montant": ticket.montant,
+                "date": ticket.date_achat
+            }
+
+            message["Tickets"].push(element);
+        }
+
+        res.status(200).json(message);
 
         console.log('Tickets envoyés');
     }
