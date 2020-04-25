@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { Ticket, Article, Client, Commerce, Achat } from '../database/models';
+import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategorieProduit } from '../database/models';
+import { json } from 'body-parser';
+import { Json } from 'sequelize/types/lib/utils';
 
 const fetch = require("node-fetch");
 
@@ -189,7 +191,44 @@ export const recuperer_detail_ticket_get = async (req: Request, res: Response, n
         const ticket = await Ticket.findByPk(Number(req.params.idticket));
         if (ticket === null) throw ('ticket inexistant dans la BDD');
 
-        res.status(200).json(ticket);
+        // Check if the user is the owner of the ticket
+        const client = await Client.findByPk(Number(ticket.get("ClientId")));
+        if (!(ticket.get("ClientId") === (req.user as Client).id)) throw ("L'utilisateur connecté n'est pas le propriétaire du ticket");
+
+        const commerce = await Commerce.findByPk(Number(ticket.get("CommerceId")));
+        const groupe = await Groupe.findByPk(Number(commerce?.get("GroupeId")));    
+
+        let message : any ; 
+        Json: message = {
+            "groupe" : { "nom" : groupe?.nom},
+            "commerce" : { "nom" : commerce?.nom},
+            "donneesTicket" : {
+                "idTicket" : ticket.id,
+                "montant" : ticket.montant,
+                "date" : ticket.date_achat,
+                "achats" : [
+                ]
+            }
+        };
+
+        let achats  = await  ticket.getAchats();
+
+        for (const achat of achats) {
+            let article = await Article.findByPk(Number(achat.get("ArticleId")));
+            let produit = await Produit.findByPk(Number(article?.get("ProduitId")));
+            let categorieProduit = await CategorieProduit.findByPk(Number(produit?.get("CategorieProduitId")));
+
+            let element = {
+                "nomArticle": article?.nom,
+                "nomCategorieProduit": categorieProduit?.nom,
+                "quantite": achat.quantite,
+                "prix": achat.prix
+            }
+
+            message["donneesTicket"]["achats"].push(element);
+        }
+
+        res.status(200).json(message);
         console.log('ticket : ' + req.params.idticket + ' trouvé');
     }
     catch (error) {

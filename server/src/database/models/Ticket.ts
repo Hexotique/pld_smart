@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+import { Sequelize, Model, DataTypes, HasManyAddAssociationMixin, HasManyCreateAssociationMixin, HasManyAddAssociationMixinOptions,HasManyGetAssociationsMixin, BelongsToManyAddAssociationMixin } from "sequelize";
+import { Article } from "./Article";
+=======
 import { Sequelize, Model, DataTypes, HasManyAddAssociationMixin, HasManyCreateAssociationMixin, HasManyAddAssociationMixinOptions, BelongsToManyAddAssociationMixin, HasManyGetAssociationsMixin } from "sequelize";
+>>>>>>> 88681cd8379472a353468ee3311d5f574f562875
 import { Achat } from "./Achat";
 
 
@@ -12,7 +17,7 @@ export class Ticket extends Model {
 
   public addAchat!: HasManyAddAssociationMixin<Achat, number>;
   public createAchat!: HasManyCreateAssociationMixin<Achat>;
-  public getAchat!: HasManyGetAssociationsMixin<Achat>;
+  public getAchats!: HasManyGetAssociationsMixin<Achat>;
 
 }
 
