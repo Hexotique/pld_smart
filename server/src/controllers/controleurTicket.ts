@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategorieProduit } from '../database/models';
+import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategorieProduit, Item, GardeManger } from '../database/models';
 import { json } from 'body-parser';
 import { Json } from 'sequelize/types/lib/utils';
-import sequelize, { Sequelize } from 'sequelize';
+import sequelize, {  Op  } from 'sequelize';
 
 
 const fetch = require("node-fetch");
@@ -44,7 +44,6 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         if (req.body.constructor === Object && Object.keys(req.body).length === 0) throw ('Aucun article à ajouter au ticket');
         const donnees: TicketJson = req.body;
 
-
         // Check de la présence des données nécessaires dans le corps de la requete
         if (!donnees.donneesMagasin.idCommerce) throw ('parametre idmagasin manquant');
         if (!donnees.donneesClient.idClient) throw ('parametre idclient manquant');
@@ -52,10 +51,11 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         if (!donnees.donneesTicket.achats || donnees.donneesTicket.achats.length === 0) throw ('Pas d\'achats dans le ticket');
         const donneesAchats: Array<DonneesAchat> = donnees.donneesTicket.achats;
 
-        // Check de l'existence du commerce et du client dans la BDD
+        // Check de l'existence du commerce dans la BDD
         const magasin = await Commerce.findByPk(Number(donnees.donneesMagasin.idCommerce));
         if (magasin === null) throw ('magasin inexistant dans la BDD');
 
+        // Check de l'existence du client dans la BDD
         const client = await Client.findByPk<Client>(donnees.donneesClient.idClient)
         if (client === null) throw ('client inexistant dans la BDD');
 
@@ -85,43 +85,85 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
 
         const articles: Array<Article> = await Promise.all(articlePromises$);
         const achats: Array<Achat> = await Promise.all(achatsPromises$);
+        const quantites: Array<number> = new Array<number>();
 
         // Si un des articles n'existe pas en base on le crée grâce à OpenFoodFact
         for (const index in articles) {
+            let existe: boolean = true;
             if (!articles[index]) {
-                let art = await creerArticle(donneesAchats[index].codeBarre); 
-                if(art){
+                let art = await creerArticle(donneesAchats[index].codeBarre);
+                if (art) {
                     articles[index] = art;
+                    quantites.push(achats[index].quantite);
                 }
-                else{
-                    montant-= achats[index].quantite*achats[index].prix;
-                    let achat_tmp = achats[index];
-                    articles.splice(Number(index), 1);
-                    achats.splice(Number(index), 1);
-                    Achat.destroy({ where: {id : achat_tmp.id}});
+                //Si l'article n'est pas trouvé sur OFF on l'enlève du ticket
+                else {
+                    existe = false;
+                    montant -= achats[index].quantite * achats[index].prix;
+                    const achat_tmp = achats[index];
+                    await articles.splice(Number(index), 1);
+                    await achats.splice(Number(index), 1);
+                    await achat_tmp.destroy();
                 }
             }
+            if (existe) quantites[index] = achats[index].quantite;
         }
 
+        // récupération des produits associés à chaque article
+        const produitsPromises$: Array<Promise<Produit>> = new Array<Promise<Produit>>();
+        for (const article of articles) {
+            const produitId: number = await (article.get('ProduitId') as number);
+            produitsPromises$.push(Produit.findByPk(article.get('ProduitId') as number));
+        }
+        const produits: Array<Produit> = await Promise.all(produitsPromises$);
+
         // Création du ticket
-        const ticket = await Ticket.create({ date_achat: new Date(), montant: montant });
+        const ticket: Ticket = await Ticket.create({ date_achat: new Date(), montant: montant });
+
 
         // Tableaux qui vont check que les relations ticket/achat/article sont bien réalisées en base
         const achatsAjoutesDansArticle$: Array<Promise<void>> = new Array<Promise<void>>();
         const achatsAjoutesDansTicket$: Array<Promise<void>> = new Array<Promise<void>>();
 
         // Ajout des relations
-        achats.forEach((achat, index) => {
-            achatsAjoutesDansArticle$.push(articles[index].addAchat(achat));
-            achatsAjoutesDansTicket$.push(ticket.addAchat(achat));
+        articles.forEach((article, index) => {
+            achatsAjoutesDansArticle$.push(article.addAchat(achats[index]));
+            achatsAjoutesDansTicket$.push(ticket.addAchat(achats[index]));
         });
         await Promise.all(achatsAjoutesDansArticle$);
         await Promise.all(achatsAjoutesDansTicket$);
         await magasin.addTicket(ticket);
         await client.addTicket(ticket);
 
-        // Il faut peut-être renvoyer le ticket ?
-        res.json(ticket).sendStatus(200);
+
+
+        //Récupération du garde manger du client
+        const gardeManger: GardeManger = await client.getGardeManger();
+        for (const index in produits) {
+            const resultat = await Item.findOrCreate({
+                where: {
+                    [Op.and]: [
+                        { GardeMangerId: gardeManger.id },
+                        { ProduitId: produits[index].id }
+                    ]
+                },
+                defaults: {
+                    quantite: quantites[index]
+                }
+            });
+            console.log(resultat);
+            const item: Item = resultat[0];
+            if (resultat[1]) {
+                await gardeManger.addItem(item);
+                await produits[index].addItem(item);
+            } else {
+                item.quantite = Number(item.quantite) + Number(quantites[index]);
+                await item.save();
+            }
+        }
+
+        // On renvoie le ticket
+        res.status(200).json(ticket);
         console.log('Ticket cree');
     }
     catch (error) {
@@ -170,7 +212,33 @@ export const recuperer_tickets_get = async (req: Request, res: Response, next: N
         if (req.user === null) throw ('Pas de client identifié');
         const client = req.user as Client;
 
-        client.getTickets().then((tickets) => { res.status(200).json(tickets); });
+        //client.getTickets().then((tickets) => { res.status(200).json(tickets); });
+
+        let message: any;
+        Json: message = {
+            "Tickets": [
+
+            ]
+
+        };
+
+        let tickets = await client.getTickets()
+
+        for (const ticket of tickets) {
+            const commerce = await Commerce.findByPk(Number(ticket.get("CommerceId")));
+            const groupe = await Groupe.findByPk(Number(commerce?.get("GroupeId")));
+
+            let element = {
+                "nomGroupe": groupe?.nom,
+                "idTicket": ticket.id,
+                "montant": ticket.montant,
+                "date": ticket.date_achat
+            }
+
+            message["Tickets"].push(element);
+        }
+
+        res.status(200).json(message);
 
         console.log('Tickets envoyés');
     }
@@ -197,22 +265,22 @@ export const recuperer_detail_ticket_get = async (req: Request, res: Response, n
         if (!(ticket.get("ClientId") === (req.user as Client).id)) throw ("L'utilisateur connecté n'est pas le propriétaire du ticket");
 
         const commerce = await Commerce.findByPk(Number(ticket.get("CommerceId")));
-        const groupe = await Groupe.findByPk(Number(commerce?.get("GroupeId")));    
+        const groupe = await Groupe.findByPk(Number(commerce?.get("GroupeId")));
 
-        let message : any ; 
+        let message: any;
         Json: message = {
-            "groupe" : { "nom" : groupe?.nom},
-            "commerce" : { "nom" : commerce?.nom},
-            "donneesTicket" : {
-                "idTicket" : ticket.id,
-                "montant" : ticket.montant,
-                "date" : ticket.date_achat,
-                "achats" : [
+            "groupe": { "nom": groupe?.nom },
+            "commerce": { "nom": commerce?.nom },
+            "donneesTicket": {
+                "idTicket": ticket.id,
+                "montant": ticket.montant,
+                "date": ticket.date_achat,
+                "achats": [
                 ]
             }
         };
 
-        let achats  = await  ticket.getAchats();
+        let achats = await ticket.getAchats();
 
         for (const achat of achats) {
             let article = await Article.findByPk(Number(achat.get("ArticleId")));
@@ -267,7 +335,6 @@ export const test_ticket = async (req: Request, res: Response, next: NextFunctio
 
 
 export const creerArticle = async (code: string) => {
-
 
     const url = `https://fr.openfoodfacts.org/api/v0/product/${code}.json`;
 
