@@ -133,13 +133,16 @@ export const creerArticle = async (code: string) => {
             }
         }
 
-        const prod = (await Produit.findOrCreate({ where: { nom: nom_prod } }))[0];
+        const prod = await Produit.findOrCreate({ where: { nom: nom_prod } });
         const cate = await CategorieProduit.findOne({ where: { nom: categorie } });
 
-        cate?.addProduit(prod);
-        prod.addArticle(art);
+        if (prod[1]){
+            (await cate?.addProduit(prod[0]));
+        }
 
-        return art;
+        await (prod[0].addArticle(art));
+        const tmp_art = (await art.reload());
+        return tmp_art;
 
     } catch (error) {
         console.error(error);
@@ -252,7 +255,8 @@ export const init = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-
+//Méthode pour récupérer un ensemble de codes barres de produits à partir de catégories définies dans le body de la requette 
+//voir init_jsons> cat_en pour les catégories à utliser pour cette methode
 export const get_codebar = async (req: Request, res: Response, next: NextFunction) => {
 
     let cats_en = Array<cat_en>();

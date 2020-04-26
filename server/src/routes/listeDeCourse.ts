@@ -12,6 +12,6 @@ router.delete('/supprimer-produits', passport.authenticate('jwt', { session: fal
 router.get('/recuperer', passport.authenticate('jwt', { session: false }), controleurListeDeCourses.recuperer_get);
 
 // route de test
-router.get('/test', controleurListeDeCourses.produit_test);
+// router.get('/test', controleurListeDeCourses.produit_test);
 
 export default router;
