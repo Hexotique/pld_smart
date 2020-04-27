@@ -1,0 +1,17 @@
+{
+    "Couleurs" : {
+        "Fraise" : "#d91f1fff",
+        "Banane" : "#fbbd4cff",
+        "Peche" : "#ec7552ff"
+    },
+    "Polices" : {
+        "NomApp" : "",
+        "TitrePage" :""
+    },
+    "Titres" : {
+        "NomApp" : "Pot d'Yaourt",
+        "Vue_Tickets" : "Mes Tickets de Caisse",
+        "Vue_Garde-Manger" : "Mon Garde Manger",
+        "Vue_Liste-Courses" : "Ma Liste de Courses"
+    }
+}
