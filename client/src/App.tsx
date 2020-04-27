@@ -16,7 +16,7 @@ import styles, { navOptions } from "./styles";
 export default function App() {
     return (
         <NavigationContainer>
-            <Header />
+            <Header indexe={1}/>
             <Stack.Navigator initialRouteName = "Accueil">
             <Stack.Screen    options          = {navOptions} name = "Accueil" component      = {Accueil} />
             <Stack.Screen    options          = {navOptions} name = "GardeManger" component  = {GardeManger} />
