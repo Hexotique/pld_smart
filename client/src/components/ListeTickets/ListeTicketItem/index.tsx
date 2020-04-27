@@ -3,6 +3,8 @@ import {TouchableOpacity, Text, View, Image} from 'react-native';
 import styles from './styles';
 import ModalTicket from '../../ModalTicket/index';
 import Ticket from '../../DetailTicket/Ticket';
+//import Dialog from 'react-native';
+//import DialogContent from 'react-native';
 
  function Item({prix, commerce, date}:any) {
 
@@ -31,20 +33,7 @@ import Ticket from '../../DetailTicket/Ticket';
 export default Item;
 
 
-
-{/* <TouchableOpacity onPress={() => { }}>
-            <View style={styles.ticket}>
-                <View style={styles.colonne1}>
-                    <View style={styles.ligneCommerce}>
-                        <Text style={styles.commerce} >{commerce}</Text>
-                        <Text style={styles.prix}>{prix} €</Text>
-                    </View>
-                    <View style={styles.ligne2}>
-                        <Text style={styles.date}>{date}</Text>
-                    </View>
-                </View>
-                <View style={styles.colonne2}>
-                    <Image style={styles.image} source={require('../../../assets/fleche.png')} />
-                </View>
-            </View>
-            </TouchableOpacity> */}
+/* 
+<Dialog onTouchOutside={() => setMontrerModal(false)}></Dialog>
+            
+*/

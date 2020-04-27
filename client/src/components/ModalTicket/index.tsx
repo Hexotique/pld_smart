@@ -15,7 +15,7 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
 
             <Modal 
                 animationType="fade"
-                transparent={false}
+                transparent={true}
                 visible={props.show}
                 onRequestClose={
                     props.close
