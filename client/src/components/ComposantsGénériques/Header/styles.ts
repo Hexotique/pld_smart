@@ -4,15 +4,18 @@ const styles = StyleSheet.create({
     header_container: {
         //flex: 1,
         flexDirection: 'row',
-        backgroundColor: 'brown',
         paddingLeft: 20,
         alignItems: 'center',
         height: 60
     },
+    header_app_image: {
+        height: 40,
+        width: 40
+    },
     header_title: {
         flex: 6,
         fontWeight: "bold",
-        color: "white",
+        color: "red",
         fontSize: 30,
         fontFamily: "Impact"
     },
