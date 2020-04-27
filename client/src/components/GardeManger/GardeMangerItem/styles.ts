@@ -1,24 +1,38 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
+        height: 45,
+        marginLeft: -120,
+        justifyContent: 'center',
+        backgroundColor: 'red',
+        borderTopWidth: 1,
+        borderTopColor: '#b3b3b3'
+    },
+    vueItem: {
+        width: Dimensions.get('window').width,
+        marginLeft: 120,
+        height: 45,
         flexDirection  : "row",
-        height         : 35,
-        marginLeft     : 15,
-        marginRight    : 15,
-        marginTop      : 3,
         paddingLeft    : 10,
-        borderRadius   : 4,
         justifyContent : 'flex-start',
         alignItems     : 'center',
-        backgroundColor: '#e6b8af'
+        backgroundColor: 'white',
+
+    },
+    nomItemConteneur: {
+        flexDirection: "row",
+        flex: 10,
+        justifyContent: "center"
     },
     nomItem: {
-        flex      : 6,
-        fontFamily: "Comfortaa"
+        fontFamily: "Comfortaa",
+        color: '#434343',
+        fontWeight: "bold"
     },
+
     quantiteItem: {
-        flex      : 2,
+        flex      : 1,
         fontFamily: "Comfortaa"
     },
     changerQuantite: {
@@ -28,6 +42,22 @@ const styles = StyleSheet.create({
         height: 20,
         width : 20
     },
+    vueSwipe: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 120 + Dimensions.get('window').width,
+        width: 120,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        paddingRight: 5,
+        alignItems: 'center'
+    },
+    vueSwipeTexte: {
+        fontFamily: "Impact",
+        fontSize: 18,
+        fontWeight: "bold"
+    }
 });
 
 export default styles;

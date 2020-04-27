@@ -15,10 +15,10 @@ function TitrePage({titre, imageSrc}: any) {
     }
     return (
         <View style={styles.container}>
-            <Text style={styles.titre}>{titre}</Text>
-            <View style={styles.imageContainer}>
-                {imageComponent}
+            <View style={styles.conteneurTitre}>
+                <Text style={styles.titre}>{titre}</Text>
             </View>
+            
         </View>
     );
 }

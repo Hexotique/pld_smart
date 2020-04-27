@@ -4,25 +4,24 @@ const styles = StyleSheet.create({
     container: {
         marginTop:20,
         marginBottom: 20,
+        height: 50,
         flexDirection: 'row',
-        paddingLeft: 30,
+        justifyContent: "flex-end"
         // justifyContent: 'space-evenly',
     },
+
+    conteneurTitre: {
+        flexDirection: "row",
+        alignContent: "center",
+        backgroundColor: "#ec7552"
+    },
+
     titre: {
-        flex : 6,
         fontWeight: "500",
         color: "black",
         fontSize: 25,
         fontFamily: "Impact",
         textAlign: "center",
-    },
-    imageContainer: {
-        flex: 2,
-    },
-    image: {
-        height: 30,
-        width: 30,
-        marginBottom: 3,
     },
 });
 
