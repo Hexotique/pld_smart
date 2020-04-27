@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
         height: 45,
         marginLeft: -120,
         justifyContent: 'center',
-        backgroundColor: 'red',
+        backgroundColor: '#ec7552',
         borderTopWidth: 1,
         borderTopColor: '#b3b3b3'
     },
@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
     vueSwipeTexte: {
         fontFamily: "Impact",
         fontSize: 18,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        color: "white"
     }
 });
 

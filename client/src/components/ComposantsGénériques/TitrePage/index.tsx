@@ -5,18 +5,13 @@ import styles from "./styles";
 // Rendre le composant générique pour toutes les pages
 
                 //'../../assets/iconTicket.png'
-function TitrePage({titre, imageSrc}: any) {
-    console.log(imageSrc);
-    let imageComponent;
-    switch (imageSrc) {
-        case 'GardeManger':
-            imageComponent = <Image style={styles.image} source={require('../../../assets/GardeMangerIcon.jpg')} />;
-            break;
-    }
+function TitrePage({titre, couleur}: any) {
     return (
         <View style={styles.container}>
-            <View style={styles.conteneurTitre}>
+            <View style={[styles.conteneurTitre, {backgroundColor: couleur}]}>
                 <Text style={styles.titre}>{titre}</Text>
+                <View style={styles.bande}></View>
+                <View style={styles.bande}></View>
             </View>
             
         </View>

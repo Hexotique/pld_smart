@@ -6,23 +6,34 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         height: 50,
         flexDirection: 'row',
-        justifyContent: "flex-end"
-        // justifyContent: 'space-evenly',
+        justifyContent: "flex-end",
+        alignContent: "center"
     },
 
     conteneurTitre: {
         flexDirection: "row",
+        justifyContent: "flex-end",
+        width: 350,
         alignContent: "center",
-        backgroundColor: "#ec7552"
+        borderTopLeftRadius: 20,
+        borderBottomLeftRadius: 20,
     },
 
     titre: {
-        fontWeight: "500",
-        color: "black",
+        marginTop: 7,
+        fontWeight: "700",
+        marginRight: 30,
+        color: "white",
         fontSize: 25,
-        fontFamily: "Impact",
         textAlign: "center",
     },
+
+    bande: {
+        backgroundColor: "white",
+        height: 50,
+        width: 8,
+        marginRight: 10
+    }
 });
 
 export default styles;

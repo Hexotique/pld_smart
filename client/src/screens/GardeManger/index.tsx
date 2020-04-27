@@ -8,7 +8,7 @@ function Home() {
     return (
         <View style={{flex: 1}}>
             <View style={{flex: 8}}>
-                <TitrePage titre='Mon garde-manger' imageSrc='GardeManger'></TitrePage>
+                <TitrePage titre='Mon garde-manger' couleur="#ec7552"></TitrePage>
                 <GardeMangerListe></GardeMangerListe>
             </View> 
         </View>
