@@ -31,6 +31,20 @@ interface TicketJson {
     donneesTicket: DonneesTicket;
 }
 
+//Méthode pour enlever les articles qui ne sont pas dans OFF (null) et leurs achats associés de manière async
+const retirer_AchatArticle_null = async (achats: Array<Achat>, articles: Array<Article>) => {
+
+    for (let index = 0; index < achats.length; index++) {
+        if (!articles[index]) {
+            const achat_tmp = achats[index];
+            await articles.splice(Number(index), 1);
+            await achats.splice(Number(index), 1);
+            await achat_tmp.destroy();
+        }
+    }
+  
+}
+
 // Crée un ticket
 // Nécessite : un id de Commerce
 //             un client
@@ -87,13 +101,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         const achats: Array<Achat> = await Promise.all(achatsPromises$);
         const quantites: Array<number> = new Array<number>();
 
-        // Si un des articles n'existe pas en base on le crée grâce à OpenFoodFact
-        for (let index in  articles){
-                index = String(Number(index) - 1);
-        }
-      
-
-        for (const index in articles){
+        for (const index in articles) {
             if (!articles[index]) {
 
                 let art = await creerArticle(donneesAchats[index].codeBarre);
@@ -102,25 +110,19 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
                     quantites.push(achats[index].quantite);
                 }
 
-                //Si l'article n'est pas trouvé sur OFF on l'enlève du ticket
-                //TODO :  /!\ Ne marche pas /!\
-                else { 
-
+                //Si l'article n'est pas trouvé sur OFF on l'enlève le montant du ticket
+                else {
                     montant -= achats[index].quantite * achats[index].prix;
-                    const achat_tmp = achats[index];
-                    await articles.splice(Number(index), 1);
-                    await achats.splice(Number(index), 1);
-                    await achat_tmp.destroy();
-                    // index--;
                 }
             }
-            else{
-                console.log(achats[index]);
+            else {
                 quantites.push(achats[index].quantite);
             }
         }
-        console.log(quantites);
-
+        
+        //On enlève tous les achats qui sont null et leur articles associés
+        await retirer_AchatArticle_null(achats, articles);
+       
         // récupération des produits associés à chaque article
         const produitsPromises$: Array<Promise<Produit>> = new Array<Promise<Produit>>();
         for (const article of articles) {
