@@ -2,7 +2,7 @@ import React from 'react';
 import {TouchableHighlight, Text} from 'react-native';
 import styles from './styles';
 
-export interface TriangleProps {
+interface TriangleProps {
     couleur : string,
     rotation : string,
     fonction : any

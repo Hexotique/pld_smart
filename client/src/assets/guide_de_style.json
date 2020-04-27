@@ -11,7 +11,7 @@
     "Titres" : {
         "NomApp" : "Pot d'Yaourt",
         "Vue_Tickets" : "Mes Tickets de Caisse",
-        "Vue_Garde-Manger" : "Mon Garde Manger",
-        "Vue_Liste-Courses" : "Ma Liste de Courses"
+        "Vue_Garde_Manger" : "Mon Garde Manger",
+        "Vue_Liste_Courses" : "Ma Liste de Courses"
     }
 }

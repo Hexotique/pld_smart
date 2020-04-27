@@ -4,26 +4,36 @@ const styles = StyleSheet.create({
     container: {
         marginTop:20,
         marginBottom: 20,
+        height: 50,
         flexDirection: 'row',
-        paddingLeft: 30,
-        // justifyContent: 'space-evenly',
+        justifyContent: "flex-end",
+        alignContent: "center"
     },
+
+    conteneurTitre: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        width: 350,
+        alignContent: "center",
+        borderTopLeftRadius: 20,
+        borderBottomLeftRadius: 20,
+    },
+
     titre: {
-        flex : 6,
-        fontWeight: "500",
-        color: "black",
+        marginTop: 7,
+        fontWeight: "700",
+        marginRight: 30,
+        color: "white",
         fontSize: 25,
-        fontFamily: "Impact",
         textAlign: "center",
     },
-    imageContainer: {
-        flex: 2,
-    },
-    image: {
-        height: 30,
-        width: 30,
-        marginBottom: 3,
-    },
+
+    bande: {
+        backgroundColor: "white",
+        height: 50,
+        width: 8,
+        marginRight: 10
+    }
 });
 
 export default styles;

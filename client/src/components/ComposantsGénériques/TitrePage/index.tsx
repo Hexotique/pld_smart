@@ -2,23 +2,19 @@ import React from 'react';
 import {FlatList, Image, Text, View} from 'react-native';
 import styles from "./styles";
 
-// Rendre le composant générique pour toutes les pages
+interface Proprietes {
+    couleur : string,
+    titre : string
+}
 
-                //'../../assets/iconTicket.png'
-function TitrePage({titre, imageSrc}: any) {
-    console.log(imageSrc);
-    let imageComponent;
-    switch (imageSrc) {
-        case 'GardeManger':
-            imageComponent = <Image style={styles.image} source={require('../../../assets/GardeMangerIcon.jpg')} />;
-            break;
-    }
+function TitrePage(props: Proprietes) {
     return (
         <View style={styles.container}>
-            <Text style={styles.titre}>{titre}</Text>
-            <View style={styles.imageContainer}>
-                {imageComponent}
-            </View>
+            <View style={[styles.conteneurTitre, {backgroundColor: props.couleur}]}>
+                <Text style={styles.titre}>{props.titre}</Text>
+                <View style={styles.bande}></View>
+                <View style={styles.bande}></View>
+            </View>     
         </View>
     );
 }
