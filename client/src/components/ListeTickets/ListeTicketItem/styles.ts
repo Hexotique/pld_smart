@@ -1,69 +1,61 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+const { width, height } = Dimensions.get('window');
+const numColumns = 3;
+const marginItem = 10;
+const marginGlobale = 20; 
 
 const styles = StyleSheet.create({
     ticket :{
         flex: 1,
-        flexDirection:"row",
-        //align:"center",
-        marginTop : 5,
-        marginLeft : 20,
-        marginRight:20,
-        backgroundColor: "#ffdd8a",
-        borderRadius : 15,
+        height:180,
+        width: ((width - (2*marginGlobale) )/(numColumns)) - (marginItem*2),
+        marginTop : 10,
+        marginBottom : 10,
+        marginLeft : 10,
+        marginRight : 10,
+        backgroundColor: "#f3f3f37a",
+        borderRadius : 20,
+        alignItems : 'center',
+        borderColor:"#b7b7b7",
+        borderWidth:2
     },
-    ligne1 :{
-        flex: 1,
-        flexDirection:"row",
-        marginLeft: 6,
+
+    overlay:{
+        position: "absolute",
+        backgroundColor: "gray",
+        opacity: 0.9,
     },
-    ligne2 :{
-        flex: 1,
-        flexDirection:"row",
-        marginLeft: 6,
-    },
-    colonne1:{
-        flex :5,
-    },
-    colonne2:{
-        flex :2,
-    },
+    
     commerce: {
+        flex: 1,
+        marginTop : 30,
+        marginLeft : 5,
+        marginRight : 5,
         fontWeight: "bold",
-        fontSize: 13,
+        fontSize: 18,
         fontFamily: "Arial",
-        textAlign:"left",
-        flex:4,
-        marginTop: 5,
-    },
-    prix: {
-        fontWeight: "bold",
-        fontSize: 13,
-        fontFamily: "Arial",
-        textAlign:"right",
-        marginTop: 5,
-        flex:2,
-    },
-    image: {
-        flex:3,
-        marginLeft: 20,
-        height: 10,
-        width: 20,
-        marginBottom: 13,
-        marginTop: 13,
     },
     date: {
+        flex: 1,
+        marginTop : 10,
+        marginLeft : 5,
+        marginRight : 5,
         fontWeight: "100",
-        fontSize: 12,
+        fontSize: 10,
         fontFamily: "Arial",
-        //float:"right",
-        flex:2,
-        marginBottom: 5,
-        marginTop: 4,
-        marginLeft:15,
         fontStyle:"italic",
     },
-
-
+    prix: {
+        flex: 1,
+        marginTop : 10,
+        marginBottom : 10,
+        marginLeft : 5,
+        marginRight : 5,
+        fontSize: 18,
+        fontFamily: "Arial",
+        fontWeight: "bold",
+    },
+   
 });
 
 export default styles;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Modal, Button } from 'react-native';
+import { View, Button, Modal } from 'react-native';
 import styles from './styles';
 
 
@@ -9,12 +9,13 @@ export interface ModalTicketProps {
 }
 
 function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
+    
     return (
         props.show ?
 
-            <Modal
+            <Modal 
                 animationType="fade"
-                transparent={true}
+                transparent={false}
                 visible={props.show}
                 onRequestClose={
                     props.close
@@ -23,8 +24,8 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
                 <View style={styles.vueCentre}>
 
                     <View style={styles.modalConteneur}>
-                        {/* make  a better button for closig
-                        <Button title="close button" onPress={props.close} ></Button>  */} 
+                        {
+                        <Button title="close button" onPress={props.close} ></Button>  } 
                         {props.children}
                     </View>
                 </View>

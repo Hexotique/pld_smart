@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { ListeTicketScreenProp } from '../../navigator'
+import { ListeTicketProp } from '../../navigator'
 import Header from "../../components/ComposantsGénériques/Header";
 import TicketListe from "../../components/ListeTickets/ListeTicket";
 import ListeTicketTitre from "../../components/ListeTickets/ListeTicketTitre";
@@ -26,10 +26,10 @@ const dataTicket = [
     }
 ]
 
-function ListeTicket({ route, navigation }: ListeTicketScreenProp) {
+function ListeTicket({ route, navigation }: ListeTicketProp) {
     return (
-        <View>
-            <ListeTicketTitre></ListeTicketTitre>
+        <View style={{backgroundColor : 'white'}}>
+            {/* <ListeTicketTitre></ListeTicketTitre> */}
             <TicketListe></TicketListe>
         </View>
     );
