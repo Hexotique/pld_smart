@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     },
     nomItem: {
         flex: 1,
-        fontFamily: "Comfortaa",
+        //fontFamily: "Comfortaa",
         color: "white",
         fontWeight: "bold",
         fontSize: 20

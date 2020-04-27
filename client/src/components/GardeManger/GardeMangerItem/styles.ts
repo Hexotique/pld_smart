@@ -15,11 +15,11 @@ const styles = StyleSheet.create({
     },
     nomItem: {
         flex      : 6,
-        fontFamily: "Comfortaa"
+        //fontFamily: "Comfortaa"
     },
     quantiteItem: {
         flex      : 2,
-        fontFamily: "Comfortaa"
+        //fontFamily: "Comfortaa"
     },
     changerQuantite: {
         flex: 1,

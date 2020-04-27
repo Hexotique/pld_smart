@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import Item from "../../components/ListeTicketItem";
+import Item from "../ListeTicketItem";
 
 const dataTicket = [
     {

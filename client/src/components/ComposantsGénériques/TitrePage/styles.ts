@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         color: "black",
         fontSize: 25,
-        fontFamily: "Impact",
+        // fontFamily: "Impact",
         textAlign: "center",
     },
     imageContainer: {

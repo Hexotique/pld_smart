@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "white",
         fontSize: 30,
-        fontFamily: "Impact"
+        //fontFamily: "Impact"
     },
     profile_image: {
         height: 40,

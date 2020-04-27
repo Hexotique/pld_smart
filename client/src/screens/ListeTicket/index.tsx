@@ -2,8 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { ListeTicketScreenProp } from '../../navigator'
 import Header from "../../components/ComposantsGénériques/Header";
-import TicketListe from "../../components/ListeTicket";
-import ListeTicketTitre from "../../components/ListeTicketTitre";
+import TicketListe from "../../components/ListeTickets/ListeTicket";
+import ListeTicketTitre from "../../components/ListeTickets/ListeTicketTitre";
 
 const dataTicket = [
     {
