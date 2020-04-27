@@ -1,10 +1,13 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const entireScreenWidth: number = Dimensions.get('window').width;
+const rem: number = entireScreenWidth / 380;
 
 const styles = StyleSheet.create({
     container: {
-        marginTop:20,
-        marginBottom: 20,
-        height: 50,
+        marginTop: 5 * rem,
+        marginBottom: 5 * rem,
+        height: 30 * rem,
         flexDirection: 'row',
         justifyContent: "flex-end",
         alignContent: "center"
@@ -13,26 +16,25 @@ const styles = StyleSheet.create({
     conteneurTitre: {
         flexDirection: "row",
         justifyContent: "flex-end",
-        width: 350,
+        width: 290 * rem,
         alignContent: "center",
-        borderTopLeftRadius: 20,
-        borderBottomLeftRadius: 20,
+        borderTopLeftRadius: 13 * rem,
+        borderBottomLeftRadius: 13 * rem,
     },
 
     titre: {
-        marginTop: 7,
         fontWeight: "700",
         marginRight: 30,
         color: "white",
-        fontSize: 25,
+        fontSize: 18 * rem,
         textAlign: "center",
+        justifyContent: "center"
     },
 
     bande: {
         backgroundColor: "white",
-        height: 50,
-        width: 8,
-        marginRight: 10
+        width: 8 * rem,
+        marginRight: 9*rem
     }
 });
 

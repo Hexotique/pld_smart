@@ -12,7 +12,7 @@ function BoutonTriangle(props: TriangleProps) {
     return (
         <TouchableHighlight  underlayColor = {'transparent'}  style = {[  
             styles.triangle, 
-            {borderBottomColor : props.couleur} 
+            {borderTopColor : props.couleur} 
         ]}
         onPress = {props.fonction}>
             <Text> ceci est un test</Text>

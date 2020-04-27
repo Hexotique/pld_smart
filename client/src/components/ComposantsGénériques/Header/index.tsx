@@ -38,7 +38,7 @@ function Header(indexe? : number) {
         <View style={styles.conteneur_entete}>
             <View style = {styles.ligne1}>
                 <View style = {styles.conteneur_infos_app}>
-                    <Logo couleur={couleur} style={styles.logo}/>
+                    <Logo couleur={couleur}/>
                     <Text style={[styles.nom_app, {color:couleur}]}>{nomApp}</Text>
                 </View> 
                 <View style = {styles.conteneur_boutton_triangle}>

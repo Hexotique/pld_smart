@@ -5,19 +5,18 @@ import styles from './styles';
 
 const image = require('../../../assets/logo.png');
 
-export interface PropsLogo{
-    couleur : string
-    style : any
+export interface PropsLogo {
+    couleur: string
 }
 
-function Logo(propsLogo : PropsLogo) {
+function Logo(propsLogo: PropsLogo) {
     return (
-         <View style = {propsLogo.style}>
-            <Image 
-                style={[styles.profile_image, { tintColor : propsLogo.couleur}] }
+        // <View style = {styles.conteneur_image}>
+            <Image
+                style={[styles.profile_image, { tintColor: propsLogo.couleur }]}
                 source={image}
             />
-        </View>
+        //</View>
     );
 }
 

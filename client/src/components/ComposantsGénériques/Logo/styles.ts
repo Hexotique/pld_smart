@@ -1,10 +1,18 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const entireScreenWidth: number = Dimensions.get('window').width;
+const rem: number = entireScreenWidth / 380;
 
 const styles = StyleSheet.create({
+
+    conteneur_image: {
+        flex: 1,
+    },
+
     profile_image: {
-        height: 40,
-        width: 40,
-        marginRight: 10
+        height: 27 * rem,
+        width: 27 * rem,
+        marginRight: 2 * rem
     },
 });
 
