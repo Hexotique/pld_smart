@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Produit, GardeManger, Item, Client, Commerce } from '../database/models';
+import { Produit, GardeManger, Item, Client, Commerce, CategorieProduit } from '../database/models';
 
 interface Ajout {
     nomProduit: string;
@@ -24,7 +24,11 @@ interface itemGardeMangerJson {
     quantite: number,
     produit: {
         idProduit: string,
-        nom: string
+        nom: string,
+        categorie : {
+            idCategorie : string,
+            nomCategorie : string
+        }
     }
 }
 interface GardeMangerJson {
@@ -103,16 +107,23 @@ export const recuperer_contenu_get = async (req: Request, res: Response, next: N
                 quantite: 0,
                 produit: {
                     idProduit: '',
-                    nom: ''
+                    nom: '',
+                    categorie : {
+                        idCategorie : '',
+                        nomCategorie : ''
+                    }
                 }
             }
             const produitId: number = Number(item.get('ProduitId'));
             const produit = await Produit.findByPk(produitId) as Produit;
+            const categorieProduit = await CategorieProduit.findByPk(Number(produit.get("CategorieProduitId")))
             const nom = produit.nom;
             itemJson.idItem= item.id.toString();
             itemJson.quantite=item.quantite;
             itemJson.produit.idProduit=produitId.toString();
             itemJson.produit.nom=nom;
+            itemJson.produit.categorie.idCategorie = String(categorieProduit?.id);
+            itemJson.produit.categorie.nomCategorie = String(categorieProduit?.nom);
             reponse.items.push(itemJson);
         }
         res.status(200).json(reponse);
