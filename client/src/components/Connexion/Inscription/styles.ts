@@ -8,21 +8,33 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     titre:{
-        fontSize:30,
+        fontSize:25,
         fontWeight:'bold',
         color:'white',
-        marginBottom:30,
+        marginBottom:10,
         marginTop:30,
     },
+
     bouton:{
-        backgroundColor: "#ffffff79",
-        borderRadius : 10,
+        backgroundColor: "#fbbd4cff",
         width: width*0.4,
-        height:35,
+        height:40,
+        borderRadius : 10,
+        alignItems:'center',
+        shadowColor: 'black', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 2, //IOS
+        elevation: 2, // Android
+    },
+
+    texteBouton:{
         textAlign:'center',
+        justifyContent:'center',
         fontWeight:'bold',
         fontSize:18,
-        color:'#666666',
+        color:'#d91f1fff',
+        paddingVertical: '5%',
     }
 
 });

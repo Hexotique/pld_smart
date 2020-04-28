@@ -9,9 +9,13 @@ const styles = StyleSheet.create({
     titre:{
         fontSize:50,
         fontWeight:'bold',
+        fontStyle:'italic',
         color:'white',
         marginBottom:10,
         marginTop:10,
+        textShadowColor: 'red', // IOS
+        textShadowOffset: { height: 2, width: 2 }, // IOS
+        textShadowRadius: 6, //IOS
     }
 
 });

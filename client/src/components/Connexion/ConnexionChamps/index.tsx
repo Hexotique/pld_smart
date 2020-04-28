@@ -13,7 +13,7 @@ function ConnexionChamps() {
                 style={styles.champ}
                 keyboardType='email-address'
                 placeholder="Identifiant"
-                placeholderTextColor="#666666"
+                placeholderTextColor="#3b3b3bad"
 
                 onChangeText={text => identifiant(text)}
                 value={valeurIdentifiant}
@@ -22,14 +22,14 @@ function ConnexionChamps() {
                 style={styles.champ}
                 keyboardType='default'
                 placeholder="Mot de passe"
-                placeholderTextColor="#666666"
+                placeholderTextColor="#3b3b3bad"
                 secureTextEntry={true}
                 onChangeText={text => mdp(text)}
                 value={valeurMdp}
             />
             
-             <TouchableOpacity onPress={() => {}}>
-                 <Text style={styles.bouton}>CONNEXION</Text>
+             <TouchableOpacity style={styles.bouton} onPress={() => {}}>
+                 <Text style={styles.texteBouton}>CONNEXION</Text>
              </TouchableOpacity>
              
         </View>

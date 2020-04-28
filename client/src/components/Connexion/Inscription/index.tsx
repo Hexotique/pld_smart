@@ -7,11 +7,11 @@ import styles from './styles';
 function Inscription() {
     return (
         <View style={styles.composant}>
-             <Text style={styles.titre}>Pas de compte ?</Text>
-             <TouchableOpacity onPress={() => {}}>
-                 <Text style={styles.bouton}>INSCRIPTION</Text>
-             </TouchableOpacity>
-           
+            <Text style={styles.titre}>Pas de compte ?</Text>
+            <TouchableOpacity style={styles.bouton} onPress={() => { }}>
+                <Text style={styles.texteBouton}>INSCRIPTION</Text>
+            </TouchableOpacity>
+
         </View>
     );
 }

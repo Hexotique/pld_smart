@@ -7,24 +7,36 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff79",
         borderRadius : 20,
         width: width*0.7,
-        marginBottom:10,
-        marginTop:10,
+        marginVertical:5,
         textAlign:'right',
         fontSize:20,
-        fontWeight:'bold',
-        color:'#666666',
+        fontWeight:'600',
         padding : 20,
     },
+
     bouton:{
-        backgroundColor: "#ffffff79",
-        borderRadius : 10,
+        backgroundColor: "#fbbd4cff", //#ffa500d4
         width: width*0.4,
-        height:30,
+        height:40,
+        borderRadius : 10,
+        alignItems:'center',
+        marginVertical:8,
+        shadowColor: 'black', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 2, //IOS
+        elevation: 2, // Android
+    },
+
+    texteBouton:{
         textAlign:'center',
+        justifyContent:'center',
         fontWeight:'bold',
         fontSize:18,
-        color:'#666666',
+        color:'#d91f1fff',
+        paddingVertical: '5%',
     },
+
     composant:{
         flex:1,
         alignItems:'center'
