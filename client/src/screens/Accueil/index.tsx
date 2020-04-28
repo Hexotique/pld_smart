@@ -15,6 +15,10 @@ function Accueil({ route, navigation }: AccueilProp) {
                     onPress={() => navigation.navigate('Connexion')}
                 />
                 <Button
+                    title="Inscription"
+                    onPress={() => navigation.navigate('Inscription')}
+                />
+                <Button
                     title="Liste de Courses"
                     onPress={() => navigation.navigate('ListeCourse')}
                 />

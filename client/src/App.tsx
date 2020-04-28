@@ -11,6 +11,7 @@ import ListeCourse from "./screens/ListeCourse";
 import ListeTicket from "./screens/ListeTicket";
 import TicketDetail from "./screens/TicketDetail";
 import Connexion from "./screens/Connexion";
+import Inscription from "./screens/Inscription";
 
 import styles, { navOptions } from "./styles";
 
@@ -20,6 +21,7 @@ export default function App() {
             <Stack.Navigator initialRouteName = "Accueil" screenOptions={{headerShown: false}}>
             <Stack.Screen    options          = {navOptions} name = "Accueil" component      = {Accueil} />
             <Stack.Screen    options          = {navOptions} name = "Connexion" component    = {Connexion} />
+            <Stack.Screen    options          = {navOptions} name = "Inscription" component      = {Inscription} />
             <Stack.Screen    options          = {navOptions} name = "GardeManger" component  = {GardeManger} />
             <Stack.Screen    options          = {navOptions} name = "ListeCourse" component  = {ListeCourse} />
             <Stack.Screen    options          = {navOptions} name = "ListeTicket" component  = {ListeTicket} />
