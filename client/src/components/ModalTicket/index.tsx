@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, Button, Modal } from 'react-native';
+import { View, Button} from 'react-native';
 import styles from './styles';
+import Modal from 'react-native-modal';
+import { Icon } from 'react-native-elements'
+
 
 
 export interface ModalTicketProps {
@@ -14,18 +17,22 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
         props.show ?
 
             <Modal 
-                animationType="fade"
-                transparent={true}
-                visible={props.show}
-                onRequestClose={
+                //animationType="fade"
+                //transparent={true}
+                backdropColor='grey'
+                isVisible={props.show}
+
+                /*onRequestClose={
                     props.close
-                }
+                }*/
             >
                 <View style={styles.vueCentre}>
 
                     <View style={styles.modalConteneur}>
                         {
-                        <Button title="close button" onPress={props.close} ></Button>  } 
+                        <Button title="close button" onPress={props.close} ></Button>
+                          }
+                        {/* <Icon name='cancel' color='red' /> */}
                         {props.children}
                     </View>
                 </View>
