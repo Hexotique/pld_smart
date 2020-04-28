@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, FlatList } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import Item from '../GardeMangerItem'
@@ -9,8 +9,8 @@ function GardeMangerListe() {
     const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
     const [itemMapState, setItemMapState] = useState(new Map<String, Array<itemGardeMangerJson>>());
     const [enableScroll, setEnableScroll] = useState(true);
-
-      recupererContenuGardeMangerGet()
+    useEffect(() => {
+        recupererContenuGardeMangerGet()
         .then((data: GardeMangerJson) => {
             const itemMap: Map<String, Array<itemGardeMangerJson>> = new Map<String, Array<itemGardeMangerJson>>();
             data.items.forEach((item: itemGardeMangerJson) => {
@@ -33,6 +33,8 @@ function GardeMangerListe() {
         }).catch((error) => {
             console.error(error);
         });
+    }, []);
+      
 
     return (
         <View>
