@@ -6,15 +6,19 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
 
     fondImage: {
-        flex:1,
+        flex: 1,
         width: width,
         height: height,
-   },
+    },
 
-   fondTransparent:{
-        
-   },
-     
+    fondTransparent: {
+        flex: 1,
+        position: 'absolute',
+        width: width,
+        height: height,
+        backgroundColor:'#f629006a',
+    },
+
 });
 
 export default styles;

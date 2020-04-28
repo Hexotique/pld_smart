@@ -10,7 +10,6 @@ function Connexion({ route, navigation }: ConnexionProp) {
             <ImageBackground source={require('../../assets/fond-connexion.png')} style={styles.fondImage} >
             </ImageBackground>
             <View style={styles.fondTransparent}>
-                
             </View>
         
         </View>
