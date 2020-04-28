@@ -3,6 +3,8 @@ import { View } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import TicketListe from "../../components/ListeTicket";
 import ListeTicketTitre from "../../components/ListeTicketTitre";
+import { ListeTicketProp } from "../../navigator";
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 const dataTicket = [
     {
@@ -25,13 +27,18 @@ const dataTicket = [
     }
 ]
 
-function ListeTicket() {
+function ListeTicket({ route, navigation }: ListeTicketProp) {
     return (
-        <View style={{ flex: 1 }}>
-            <Header indexe={3} />
-            <ListeTicketTitre></ListeTicketTitre>
-            <TicketListe></TicketListe>
-        </View>
+        <GestureRecognizer
+            style={{ flex: 1 }}
+            onSwipeRight={() => { navigation.navigate('ListeCourse') }}
+            onSwipeLeft={() => { navigation.navigate('GardeManger') }}>
+            <View style={{ flex: 1 }}>
+                <Header indexe={3} />
+                <ListeTicketTitre></ListeTicketTitre>
+                <TicketListe></TicketListe>
+            </View>
+        </GestureRecognizer >
     );
 }
 
