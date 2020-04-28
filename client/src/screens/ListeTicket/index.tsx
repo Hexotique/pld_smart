@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { ListeTicketScreenProp } from '../../navigator'
-import Header from "../../components/ComposantsGénériques/Header";
+import Header from '../../components/ComposantsGénériques/Header';
 import TicketListe from "../../components/ListeTicket";
 import ListeTicketTitre from "../../components/ListeTicketTitre";
 
@@ -26,9 +25,10 @@ const dataTicket = [
     }
 ]
 
-function ListeTicket({ route, navigation }: ListeTicketScreenProp) {
+function ListeTicket() {
     return (
-        <View>
+        <View style={{ flex: 1 }}>
+            <Header indexe={3} />
             <ListeTicketTitre></ListeTicketTitre>
             <TicketListe></TicketListe>
         </View>
