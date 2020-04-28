@@ -21,6 +21,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
 
     },
+    
+
     nomItemConteneur: {
         flexDirection: "row",
         flex: 10,

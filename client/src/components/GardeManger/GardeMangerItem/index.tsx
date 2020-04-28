@@ -68,7 +68,7 @@ function GardeMangerItem({ item, toggleScroll }: any) {
                     </View>
                     <Text style = {styles.quantiteItem}>{quantiteState}</Text>
                     <View style = {styles.changerQuantite} >
-                        <TouchableOpacity style={styles.boutonQuantite} onPress = { () => _increaseItemQuantity(quantiteState, setQuantiteState)}>
+                        <TouchableOpacity style={styles.boutonQuantite} onPress = {() => _increaseItemQuantity(quantiteState, setQuantiteState)}>
                             <Image style = {styles.icon} source = {require('../../../assets/plus-icon.png')} />
                         </TouchableOpacity>
                     </View>

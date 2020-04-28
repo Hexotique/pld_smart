@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import Item from '../GardeMangerItem'
 import Categorie from '../../ComposantsGénériques/CategorieListeRetractable';
 import {recupererContenuGardeMangerGet, GardeMangerJson, itemGardeMangerJson} from '../../../api'
+import { TextInput } from 'react-native-gesture-handler';
+import styles from './styles';
 
 function GardeMangerListe() {
     const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
@@ -38,6 +40,9 @@ function GardeMangerListe() {
 
     return (
         <View>
+            <View style={styles.ajoutProduit}>
+                <TextInput placeholder="Ajoutez un item" style={styles.ajoutProduitTexte}></TextInput>
+            </View>
             <FlatList
                 data         = {keyArrayState}
                 keyExtractor = {(itemKey) => itemKey.toString()}
