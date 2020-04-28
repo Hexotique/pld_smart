@@ -4,6 +4,7 @@ import { StackNavigationProp, createStackNavigator } from '@react-navigation/sta
 
 type RootStackParamList = {
     Accueil: undefined;
+    Connexion: undefined;
     GardeManger: undefined;
     ListeCourse: undefined;
     ListeTicket: undefined;
@@ -16,6 +17,14 @@ type AccueilNavigationProp = StackNavigationProp<RootStackParamList, 'Accueil'>;
 export type AccueilProp = {
     route: AccueilRouteProp;
     navigation: AccueilNavigationProp;
+}
+
+type ConnexionRouteProp = RouteProp<RootStackParamList, 'Connexion'>;
+type ConnexionNavigationProp = StackNavigationProp<RootStackParamList, 'Connexion'>;
+
+export type ConnexionProp = {
+    route: ConnexionRouteProp;
+    navigation: ConnexionNavigationProp;
 }
 
 type GardeMangerRouteProp = RouteProp<RootStackParamList, 'GardeManger'>;
