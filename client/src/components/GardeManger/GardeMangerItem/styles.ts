@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
         height: 45,
         flexDirection  : "row",
         paddingLeft    : 10,
+        paddingRight: 10,
         justifyContent : 'flex-start',
         alignItems     : 'center',
         backgroundColor: 'white',
@@ -33,11 +34,21 @@ const styles = StyleSheet.create({
 
     quantiteItem: {
         flex      : 1,
-        fontFamily: "Comfortaa"
+        fontFamily: "Comfortaa",
+        textAlign: "center"
     },
     changerQuantite: {
         flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
     },
+
+    boutonQuantite: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+
     icon: {
         height: 20,
         width : 20

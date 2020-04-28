@@ -3,9 +3,16 @@ import { Text, View, Image, Animated, PanResponder } from 'react-native';
 import styles from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+function _decreaseItemQuantity(quantiteState: any, setQuantiteState: any) {
+    if (quantiteState > 0) setQuantiteState(quantiteState - 1);
+}
 
+function _increaseItemQuantity(quantiteState: any, setQuantiteState: any) {
+    setQuantiteState(quantiteState + 1);
+}
 
 function GardeMangerItem({ item, toggleScroll }: any) {
+    const [quantiteState, setQuantiteState] = useState(item.quantite);
     const position = useRef(new Animated.ValueXY()).current;
     const limite = -120;
     let modeSuppression: boolean = false;
@@ -54,15 +61,15 @@ function GardeMangerItem({ item, toggleScroll }: any) {
                         <Text style   = {styles.nomItem}>{item.produit.nom}</Text>
                     </View>
                     
-                    <View             style   = {styles.changerQuantite} >
-                        <TouchableOpacity onPress = {() => { }}>
-                            <Image            style   = {styles.icon} source = {require('../../../assets/moins-icon.png')} />
+                    <View style = {styles.changerQuantite}>
+                        <TouchableOpacity style={styles.boutonQuantite} onPress = {() => _decreaseItemQuantity(quantiteState, setQuantiteState)}>
+                            <Image style = {styles.icon} source = {require('../../../assets/moins-icon.png')} />
                         </TouchableOpacity>
                     </View>
-                    <Text             style   = {styles.quantiteItem}>{item.quantite}</Text>
-                    <View             style   = {styles.changerQuantite} >
-                        <TouchableOpacity onPress = {() => { }}>
-                            <Image            style   = {styles.icon} source = {require('../../../assets/plus-icon.png')} />
+                    <Text style = {styles.quantiteItem}>{quantiteState}</Text>
+                    <View style = {styles.changerQuantite} >
+                        <TouchableOpacity style={styles.boutonQuantite} onPress = { () => _increaseItemQuantity(quantiteState, setQuantiteState)}>
+                            <Image style = {styles.icon} source = {require('../../../assets/plus-icon.png')} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -76,9 +83,5 @@ function GardeMangerItem({ item, toggleScroll }: any) {
     );
 }
 
-function useForceUpdate() {
-    const [value, setValue] = useState(0);  // integer state
-    return () => setValue(value => ++value);  // update the state to force render
-}
 
 export default GardeMangerItem;
