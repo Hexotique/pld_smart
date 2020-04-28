@@ -5,6 +5,7 @@ import TicketListe from "../../components/ListeTicket";
 import ListeTicketTitre from "../../components/ListeTicketTitre";
 import { ListeTicketProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
+import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
 
 const dataTicket = [
     {
@@ -31,15 +32,25 @@ function ListeTicket({ route, navigation }: ListeTicketProp) {
     return (
         <GestureRecognizer
             style={{ flex: 1 }}
-            onSwipeRight={() => { navigation.navigate('ListeCourse') }}
-            onSwipeLeft={() => { navigation.navigate('GardeManger') }}>
-            <View style={{ flex: 1 }}>
+            onSwipeRight={() => navGauche(navigation)}
+            onSwipeLeft={() => navDroite(navigation)}>
+            <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <Header indexe={3} />
                 <ListeTicketTitre></ListeTicketTitre>
                 <TicketListe></TicketListe>
             </View>
+
+            <BarreNavigation indexe={3} navGauche={()=>navGauche(navigation)} navDroite={()=>navDroite(navigation)}/>
+
         </GestureRecognizer >
     );
+}
+
+const navGauche = (nav: any) => {
+    nav.navigate('ListeCourse');
+}
+const navDroite = (nav: any) => {
+    nav.navigate('GardeManger')
 }
 
 export default ListeTicket;

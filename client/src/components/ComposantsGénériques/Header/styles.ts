@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: 'white',
         paddingLeft: '2%',
-        height: '9%'
+        height: '9%',
+        marginBottom: 10 * rem,
     },
     ligne1: {
         marginTop: 1 * rem,
