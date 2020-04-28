@@ -16,8 +16,18 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: width,
         height: height,
-        backgroundColor:'#f629006a',
+        backgroundColor:'#f629009d',
     },
+    titre: {
+        flex :2,
+    },
+    connexion: {
+        flex :2,
+    },
+    inscription: {
+        flex :2,
+    },
+    
 
 });
 
