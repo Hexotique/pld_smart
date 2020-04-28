@@ -20,7 +20,6 @@ function GardeMangerListe() {
         }
     });
     const keyArray: Array<String> = Array.from(itemMap.keys());
-    console.log(itemMap);
     const [enableScroll, setEnableScroll] = useState(true);
     return (
         <View>

@@ -2,9 +2,13 @@ import React from 'react';
 import { Button, Text, View } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import GardeMangerListe from '../../components/GardeManger/GardeMangerListe';
-import TitrePage from '../../components/ComposantsGénériques/TitrePage'
+import TitrePage from '../../components/ComposantsGénériques/TitrePage';
+import {recupererContenuGardeMangerGet} from '../../api'
 
-function Home() {
+function GardeManger() {
+    recupererContenuGardeMangerGet().then((data) => {
+        console.log(`Les données reçues par http sont ${data} -----------fin de requêtes`);
+    }).catch((error) => console.error(error));
     return (
         <View style={{flex: 1}}>
             <View style={{flex: 8}}>
@@ -15,4 +19,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default GardeManger;
