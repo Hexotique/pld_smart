@@ -1,4 +1,4 @@
-interface itemGardeMangerJson {
+export interface itemGardeMangerJson {
     idItem: string,
     quantite: number,
     produit: {
@@ -10,7 +10,7 @@ interface itemGardeMangerJson {
         }
     }
 }
-interface GardeMangerJson {
+export interface GardeMangerJson {
     idGardeManger: string,
     idClient: string,
     items: Array<itemGardeMangerJson>
@@ -18,7 +18,7 @@ interface GardeMangerJson {
 
 
 
-let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJndWlsaGVtLmhlcm1ldEBoZXhvdGlxdWUuY29tIiwiaWF0IjoxNTg3OTc3MzEwfQ.dcfRX6cE93LQoV4y4WvkbLXQzmc-OUU5v1eeUBTcyuQ';
+let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJndWlsaGVtLmhlcm1ldEBoZXhvdGlxdWUuY29tIiwiaWF0IjoxNTg4MDc0MDA5fQ.PM3dAxFviLwFV2SKZODd1kYto-Hhrvmclpsc7eaAktE';
 const APIBaseURL = '192.168.0.25:3000/api';
 
 function _setHTTPMethod(url: RequestInfo, httpMethod: string, body?: any): Promise<Response> {
@@ -37,10 +37,9 @@ function _setHTTPMethod(url: RequestInfo, httpMethod: string, body?: any): Promi
 }
 
 export function recupererContenuGardeMangerGet(): Promise<GardeMangerJson> {
-    const url: RequestInfo = `${APIBaseURL}/garde-manger/recuperer-contenu`;
+    const url: RequestInfo = `http://${APIBaseURL}/garde-manger/recuperer-contenu`;
     return _setHTTPMethod(url, 'GET')
     .then((response) => {
-        console.log("coucou");
         return response.json();})
     .catch((error) => {
         console.log(error);
