@@ -2,7 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategorieProduit, Item, GardeManger } from '../database/models';
 import { json } from 'body-parser';
 import { Json } from 'sequelize/types/lib/utils';
-import { Op } from 'sequelize';
+import sequelize, { Op } from 'sequelize';
+
 
 const fetch = require("node-fetch");
 
@@ -28,6 +29,20 @@ interface TicketJson {
     donneesMagasin: DonneesMagasin;
     donneesClient: DonneesClient;
     donneesTicket: DonneesTicket;
+}
+
+//Méthode pour enlever les articles qui ne sont pas dans OFF (null) et leurs achats associés de manière async
+const retirer_AchatArticle_null = async (achats: Array<Achat>, articles: Array<Article>) => {
+
+    for (let index = 0; index < achats.length; index++) {
+        if (!articles[index]) {
+            const achat_tmp = achats[index];
+            await articles.splice(Number(index), 1);
+            await achats.splice(Number(index), 1);
+            await achat_tmp.destroy();
+        }
+    }
+  
 }
 
 // Crée un ticket
@@ -86,28 +101,28 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         const achats: Array<Achat> = await Promise.all(achatsPromises$);
         const quantites: Array<number> = new Array<number>();
 
-        // Si un des articles n'existe pas en base on le crée grâce à OpenFoodFact
         for (const index in articles) {
-            let existe: boolean = true;
             if (!articles[index]) {
+
                 let art = await creerArticle(donneesAchats[index].codeBarre);
                 if (art) {
                     articles[index] = art;
                     quantites.push(achats[index].quantite);
                 }
-                //Si l'article n'est pas trouvé sur OFF on l'enlève du ticket
+
+                //Si l'article n'est pas trouvé sur OFF on l'enlève le montant du ticket
                 else {
-                    existe = false;
                     montant -= achats[index].quantite * achats[index].prix;
-                    const achat_tmp = achats[index];
-                    await articles.splice(Number(index), 1);
-                    await achats.splice(Number(index), 1);
-                    await achat_tmp.destroy();
                 }
             }
-            if (existe) quantites[index] = achats[index].quantite;
+            else {
+                quantites.push(achats[index].quantite);
+            }
         }
-
+        
+        //On enlève tous les achats qui sont null et leur articles associés
+        await retirer_AchatArticle_null(achats, articles);
+       
         // récupération des produits associés à chaque article
         const produitsPromises$: Array<Promise<Produit>> = new Array<Promise<Produit>>();
         for (const article of articles) {
@@ -139,6 +154,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         //Récupération du garde manger du client
         const gardeManger: GardeManger = await client.getGardeManger();
         for (const index in produits) {
+
             const resultat = await Item.findOrCreate({
                 where: {
                     [Op.and]: [
@@ -312,20 +328,6 @@ export const test_ticket = async (req: Request, res: Response, next: NextFunctio
 
         res.status(200).json(ticket);
 
-
-        // const tick = await Ticket.create({ date_achat: new Date(), montant: 200.6 });
-        // console.log('ticket créé');
-        // const art = await Article.create({ codebar: "01010101", nom: "Confit de Canard 250g" });
-        // console.log('article créé');
-        // const achat = await Achat.create({ prix: 20.2, quantite: 2 });
-        // console.log('achat créé');
-
-        // art.addAchat(achat);
-        // console.log('achat ajouté à l\'article');
-        // tick.addAchat(achat);
-        // console.log('achat ajouté àu ticket');
-
-        // res.status(200).json(await Ticket.findByPk(tick.id));
     }
     catch (error) {
         next(error);
@@ -335,7 +337,7 @@ export const test_ticket = async (req: Request, res: Response, next: NextFunctio
 
 export const creerArticle = async (code: string) => {
 
-    const url = `https://world.openfoodfacts.org/api/v0/product/${code}.json`;
+    const url = `https://fr.openfoodfacts.org/api/v0/product/${code}.json`;
 
     try {
 
@@ -373,8 +375,60 @@ export const creerArticle = async (code: string) => {
         }
 
         const art = await Article.create({ nom: nom_article, codebar: code });
-        console.log(art);
-        return art;
+
+        //Trouver la bonne catégorie -------------------------------------------------
+        let categorie: string = "Autres";
+        let nom_prod = nom_produit; // par défaut, le nom de l'article
+        const categories: string = produit.product.categories;
+
+        if (categories) {
+            let cats = categories.split(",");
+            let index: number = 0;
+            cats.reverse();
+
+            for (let cat of cats) {
+
+                cat = await cat.trim();
+
+                let resultat = await CategorieProduit.findOne({ where: sequelize.where(sequelize.fn('lower', sequelize.col('nom')), sequelize.fn('lower', cat)) });
+
+                if (resultat) {
+                    console.log(resultat);
+                    categorie = cat;
+                    break;
+                }
+                index++;
+            };
+
+            //Trouver ou créer le produit ----------------------------------------------
+            index--;
+            for (let i = index; i >= 0; i--) { //on parcours le tableau en reverse
+
+                if (i === 0) {
+                    nom_prod = cats[0].trim();
+                }
+                else {
+                    let tmp = await cats[i].trim();
+                    let resultat = await Produit.findOne({ where: { nom: tmp } });
+                    if (resultat) {
+                        console.log(resultat);
+                        nom_prod = tmp;
+                        break;
+                    }
+                }
+            }
+        }
+
+        const prod = await Produit.findOrCreate({ where: { nom: nom_prod } });
+        const cate = await CategorieProduit.findOne({ where: { nom: categorie } });
+
+        if (prod[1]) {
+            (await cate?.addProduit(prod[0]));
+        }
+
+        await (prod[0].addArticle(art));
+        const tmp_art = (await art.reload());
+        return tmp_art;
 
     } catch (error) {
         console.error(error);

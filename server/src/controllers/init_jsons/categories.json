@@ -1,0 +1,92 @@
+{
+    "categories": [
+        {
+            "nom": "Snacks salés"
+        },
+        {
+            "nom": "Snacks sucrés"
+        },
+        {
+            "nom": "Produits laitiers"
+        },
+        {
+            "nom": "Viandes"
+        },
+        {
+            "nom": "Boissons"
+        },
+        {
+            "nom": "Boissons alcoolisées"
+        },
+        {
+            "nom": "Plats préparés"
+        },
+        {
+            "nom": "Biscuits et gâteaux"
+        },
+        {
+            "nom": "Aliments à base de fruits et de légumes"
+        },
+        {
+            "nom": "Céréales et pommes de terre"
+        },
+        {
+            "nom": "Desserts"
+        },
+        {
+            "nom": "Produits à tartiner"
+        },
+        {
+            "nom": "Produits de la mer"
+        },
+        {
+            "nom": "Surgelés"
+        },
+        {
+            "nom": "Conserves"
+        },
+        {
+            "nom": "Confiseries"
+        },
+        {
+            "nom": "Chocolats"
+        },
+        {
+            "nom": "Boissons alcoolisés"
+        },
+        {
+            "nom": "Pains"
+        },
+        {
+            "nom": "Matières grasses"
+        },
+        {
+            "nom": "Confitures et marmelades"
+        },
+        {
+            "nom": "Édulcorants"
+        },
+        {
+            "nom": "Fruits à coques et dérivés"
+        },
+        {
+            "nom": "Léguminueuses et dérivés"
+        },
+        {
+            "nom": "Oeufs"
+        },
+        {
+            "nom": "Pâtes alimentaires"
+        },
+        {
+            "nom": "Aliments pour bébé"
+        },
+        {
+            "nom": "Epicerie"
+        },
+        {
+            "nom": "Autres"
+        }
+
+    ]
+}

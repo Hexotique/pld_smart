@@ -8,10 +8,10 @@ import TitrePage from '../TitrePage';
 const guide_de_style = require('../../../assets/guide_de_style.json');
 
 interface Propriete {
-    indexe : number,
+    indexe: number,
 }
 
-function Header(prop : Propriete) {
+function Header(prop: Propriete) {
 
     let couleur: string;
     let titrePage: string;
@@ -52,6 +52,7 @@ function Header(prop : Propriete) {
             <View style={styles.ligne2}>
                 <TitrePage couleur={couleur} titre={titrePage} />
             </View>
+
         </View>
     );
 }

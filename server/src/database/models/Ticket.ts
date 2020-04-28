@@ -1,5 +1,4 @@
-import { Sequelize, Model, DataTypes, HasManyAddAssociationMixin, HasManyCreateAssociationMixin, HasManyAddAssociationMixinOptions, HasManyGetAssociationsMixin, BelongsToManyAddAssociationMixin } from "sequelize";
-import { Article } from "./Article";
+import { Sequelize, Model, DataTypes, HasManyAddAssociationMixin, HasManyCreateAssociationMixin, HasManyGetAssociationsMixin } from "sequelize";
 import { Achat } from "./Achat";
 
 
