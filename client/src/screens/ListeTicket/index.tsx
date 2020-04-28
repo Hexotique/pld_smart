@@ -1,8 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
-import TicketListe from "../../components/ListeTicket";
-import ListeTicketTitre from "../../components/ListeTicketTitre";
+import TicketListe from "../../components/ListeTickets/ListeTicket";
 import { ListeTicketProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
@@ -36,11 +35,10 @@ function ListeTicket({ route, navigation }: ListeTicketProp) {
             onSwipeLeft={() => navDroite(navigation)}>
             <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <Header indexe={3} />
-                <ListeTicketTitre></ListeTicketTitre>
                 <TicketListe></TicketListe>
             </View>
 
-            <BarreNavigation indexe={3} navGauche={()=>navGauche(navigation)} navDroite={()=>navDroite(navigation)}/>
+            <BarreNavigation indexe={3} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} />
 
         </GestureRecognizer >
     );

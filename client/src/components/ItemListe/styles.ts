@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     absoluteCellText: {
-        fontFamily: "Impact",
+        //fontFamily: "Impact",
         fontSize: 20,
         fontWeight: "bold"
     },

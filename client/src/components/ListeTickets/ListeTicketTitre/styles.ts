@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         color: "black",
         fontSize: 15,
-        fontFamily: "Impact",
+        //fontFamily: "Impact",
         textAlign: "center",
     },
     imageContainer: {

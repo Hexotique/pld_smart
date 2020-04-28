@@ -5,10 +5,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 type RootTabParamList = {
     Accueil: undefined;
+    Connexion: undefined;
+    Inscription: undefined;
     GardeManger: undefined;
     ListeCourse: undefined;
     ListeTicket: undefined;
-    TicketDetail: undefined;     
+    TicketDetail: undefined;
 }
 
 type AccueilRouteProp = RouteProp<RootTabParamList, 'Accueil'>;
@@ -17,6 +19,22 @@ type AccueilNavigationProp = StackNavigationProp<RootTabParamList, 'Accueil'>;
 export type AccueilProp = {
     route: AccueilRouteProp;
     navigation: AccueilNavigationProp;
+}
+
+type ConnexionRouteProp = RouteProp<RootTabParamList, 'Connexion'>;
+type ConnexionNavigationProp = StackNavigationProp<RootTabParamList, 'Connexion'>;
+
+export type ConnexionProp = {
+    route: ConnexionRouteProp;
+    navigation: ConnexionNavigationProp;
+}
+
+type InscriptionRouteProp = RouteProp<RootTabParamList, 'Inscription'>;
+type InscriptionNavigationProp = StackNavigationProp<RootTabParamList, 'Inscription'>;
+
+export type InscriptionProp = {
+    route: InscriptionRouteProp;
+    navigation: InscriptionNavigationProp;
 }
 
 type GardeMangerRouteProp = RouteProp<RootTabParamList, 'GardeManger'>;
