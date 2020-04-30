@@ -19,7 +19,7 @@ interface ModificationJson {
     modifications: Array<Modification>;
 }
 
-interface itemGardeMangerJson {
+interface ItemGardeMangerJson {
     idItem: string,
     quantite: number,
     produit: {
@@ -34,7 +34,7 @@ interface itemGardeMangerJson {
 interface GardeMangerJson {
     idGardeManger: string,
     idClient: string,
-    items: Array<itemGardeMangerJson>
+    items: Array<ItemGardeMangerJson>
 }
 
 // Ajoute un produit au garde manger
@@ -102,7 +102,7 @@ export const recuperer_contenu_get = async (req: Request, res: Response, next: N
         reponse.idClient=client.id.toString();
         const items: Item[] = await gardemanger.getItems();
         for (const item of items) {
-            let itemJson: itemGardeMangerJson = {
+            let itemJson: ItemGardeMangerJson = {
                 idItem: '',
                 quantite: 0,
                 produit: {
@@ -143,15 +143,15 @@ const ajouter = async (ajout: Ajout, gardemanger: GardeManger) => {
     if (!ajout.quantite) throw ('parametre quantité manquant'); //check la présence de la quantité dans la requête
 
     const nomProduit: string = ajout.nomProduit as string;
-    const quantite: number = ajout.quantite as number;
+    const quantiteProd: number = ajout.quantite as number;
 
     // Vérification de l'existence du produit dans la BDD et création s'il n'existe pas
     const resultat = await Produit.findOrCreate({ where: { nom: nomProduit }, defaults: { nom: nomProduit } });
     const produit = resultat[0];
-    const item = await Item.create({ quantite: quantite });
+    const item = await Item.create({ quantite: quantiteProd });
     await gardemanger.addItem(item);
     await produit.addItem(item);
-    console.log('produit : ' + nomProduit + 'ajouté au garder-manger (quantite : ' + quantite + ')');
+    console.log('produit : ' + nomProduit + 'ajouté au garder-manger (quantite : ' + quantiteProd + ')');
 }
 
 // Fonction permettant de faire une modification d'item

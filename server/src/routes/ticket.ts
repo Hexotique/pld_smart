@@ -18,6 +18,6 @@ router.get('/recuperer-detail-ticket/:idticket', passport.authenticate('jwt', { 
 
 // router.put('/testarticle', controleurTicket.test_creation_article);
 
-// router.put('/testcommerce', controleurTicket.test_creation_commerce);
+ router.put('/testcommerce', controleurTicket.test_creation_commerce);
 
 export default router;
