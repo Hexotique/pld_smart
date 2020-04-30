@@ -149,8 +149,8 @@ const ajouter = async (ajout: Ajout, gardemanger: GardeManger) => {
     const resultat = await Produit.findOrCreate({ where: { nom: nomProduit }, defaults: { nom: nomProduit } });
     const produit = resultat[0];
     const item = await Item.create({ quantite: quantite });
-    gardemanger.addItem(item);
-    produit.addItem(item);
+    await gardemanger.addItem(item);
+    await produit.addItem(item);
     console.log('produit : ' + nomProduit + 'ajouté au garder-manger (quantite : ' + quantite + ')');
 }
 

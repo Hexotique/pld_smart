@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { View } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
@@ -7,10 +8,11 @@ import { GardeMangerProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
 
-function Home({ route, navigation }: GardeMangerProp) {
+function GardeManger({ route, navigation }: GardeMangerProp) {
     recupererContenuGardeMangerGet().then((data) => {
         console.log(`Les données reçues par http sont ${data} -----------fin de requêtes`);
     }).catch((error) => console.error(error));
+
     return (
         <GestureRecognizer
             onSwipeRight={() => navGauche(navigation)}
@@ -36,5 +38,5 @@ const navDroite = (nav: any) => {
 
 
 
-export default Home;
+export default GardeManger;
 
