@@ -50,7 +50,7 @@ function GardeMangerListe() {
                     <View>
                         <Collapse>
                             <CollapseHeader>
-                                <Categorie item = {item}></Categorie>
+                                <Categorie item = {item} couleur="#f3a993"></Categorie>
                             </CollapseHeader>
                             <CollapseBody>
                                 <FlatList

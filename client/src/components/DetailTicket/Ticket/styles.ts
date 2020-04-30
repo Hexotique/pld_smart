@@ -8,8 +8,22 @@ const styles = StyleSheet.create({
           borderRadius : 20,
           flexDirection: 'column',
           justifyContent: 'center',
-          backgroundColor: '#fff2ccff'
+
      },
+     entete: {
+          flex: 1,
+          paddingTop: -10,
+          paddingBottom: 20
+     },
+
+     liste: {
+          flex: 6,
+     },
+
+     total: {
+          flex: 1,
+     },
+
      nom_enseigne: {
           color     : 'black',
           fontSize  : 32,
@@ -28,6 +42,8 @@ const styles = StyleSheet.create({
           paddingRight: '5%'
      },
      prix:{
+          fontWeight: "bold",
+          fontSize: 16,
           textAlign   : 'right',
           paddingRight: '5%'
      }

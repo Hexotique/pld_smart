@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
 
     nomItemConteneur: {
         flexDirection: "row",
-        flex: 10,
-        justifyContent: "center"
+        flex: 6,
+        justifyContent: "center",
     },
     nomItem: {
         fontFamily: "Comfortaa",

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     nomItemConteneur: {
         flexDirection: "row",
         flex: 3,
-        justifyContent: "center"
+        justifyContent: "flex-start"
     },
     nomItem: {
         fontFamily: "Comfortaa",

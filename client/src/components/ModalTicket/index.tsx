@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button} from 'react-native';
+import { View, Button, TouchableOpacity, Image, TouchableWithoutFeedback} from 'react-native';
 import styles from './styles';
 import Modal from 'react-native-modal';
 import { Icon } from 'react-native-elements'
@@ -17,26 +17,26 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
         props.show ?
 
             <Modal 
-                //animationType="fade"
-                //transparent={true}
                 backdropColor='grey'
                 isVisible={props.show}
-
-                /*onRequestClose={
-                    props.close
-                }*/
             >
-                <View style={styles.vueCentre}>
-
-                    <View style={styles.modalConteneur}>
-                        {
-                        <Button title="close button" onPress={props.close} ></Button>
-                          }
-                        {/* <Icon name='cancel' color='red' /> */}
-                        {props.children}
-                    </View>
-                </View>
+                <TouchableOpacity onPressOut={props.close}
+                                activeOpacity={1} style={styles.container} > 
+                        <View style={styles.vueCentre}> 
+                            <TouchableWithoutFeedback>
+                                <View style={styles.modalConteneur}>
+                                    <View style={styles.fermerModal}>
+                                        <TouchableOpacity  onPress={props.close}>
+                                            <Image style={styles.iconeCroix} source={require("../../assets/close.png")}/>
+                                        </TouchableOpacity>
+                                    </View> 
+                                    {props.children}
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </View>  
+                </TouchableOpacity>
             </Modal>
+
 
             : null
     );
