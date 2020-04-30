@@ -1,7 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+    container: {
+        marginBottom: 160,
+    },
     ajoutProduit: {
+        height: 45,
         backgroundColor: "#fff2ee",
         flexDirection: "row",
         alignItems: "center",

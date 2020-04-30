@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#f3a993'
     },
     nomItem: {
-        flex: 1,
         //fontFamily: "Comfortaa",
         color: "white",
         fontWeight: "bold",

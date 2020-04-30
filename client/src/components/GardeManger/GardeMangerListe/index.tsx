@@ -39,7 +39,7 @@ function GardeMangerListe() {
       
 
     return (
-        <View>
+        <View style={styles.container}>
             <View style={styles.ajoutProduit}>
                 <TextInput placeholder="Ajoutez un item" style={styles.ajoutProduitTexte}></TextInput>
             </View>
