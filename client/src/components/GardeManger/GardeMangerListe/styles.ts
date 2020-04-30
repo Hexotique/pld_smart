@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 160,
         flex: 90,
     },
     ajoutProduit: {
