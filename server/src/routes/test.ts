@@ -11,5 +11,7 @@ router.post('/init-article', controleurTest.init_articles);
 
 router.get('/codes', controleurTest.get_codebar);
 
+router.put('test-client', controleurTest.test_client_ticket);
+
 
 export default router;

@@ -64,27 +64,3 @@ export const connexion_client_post = (req: Request, res: Response, next: NextFun
     }
 }
 
-export const test_client_ticket = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const utilisateur = await (Client.create({
-            email: 'test@gmail.com',
-            mdp: 'machin',
-            nom: 'Chanèle',
-            prenom: 'JOURDAN',
-        }));
-        const ticket1 = await (Ticket.create({
-            date_achat: new Date(),
-            montant: 200
-        }));
-        await utilisateur.createTicket({ date_achat: new Date(), montant: 15 }); // créé le ticket et l'ajoute 
-        await utilisateur.addTicket(ticket1); //ajoute un ticket existant comme association
-
-        let tickets = await utilisateur?.getTickets();
-        console.log(await utilisateur?.getTickets());
-        //res.setHeader('Content-Type', 'application/json');
-        res.json(tickets).status(200);
-    }
-    catch (error) {
-        next(error);
-    }
-}

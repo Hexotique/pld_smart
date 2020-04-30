@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { Ticket, Article, Client, Commerce, Achat, GardeManger, Liste, Groupe, CategorieProduit, Produit, Item } from '../database/models';
 import sequelize, { Sequelize } from 'sequelize';
 
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch");
 
 interface code_article {
     code: string;
@@ -290,7 +290,32 @@ export const get_codebar = async (req: Request, res: Response, next: NextFunctio
             return;
         }
     }
-    res.json(codes).status(200); 
+    res.status(200).json(codes); 
     return;
     
+}
+
+export const test_client_ticket = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const utilisateur = await (Client.create({
+            email: 'test@gmail.com',
+            mdp: 'machin',
+            nom: 'Chanèle',
+            prenom: 'JOURDAN',
+        }));
+        const ticket1 = await (Ticket.create({
+            date_achat: new Date(),
+            montant: 200
+        }));
+        await utilisateur.createTicket({ date_achat: new Date(), montant: 15 }); // créé le ticket et l'ajoute 
+        await utilisateur.addTicket(ticket1); //ajoute un ticket existant comme association
+
+        let tickets = await utilisateur?.getTickets();
+        console.log(await utilisateur?.getTickets());
+        //res.setHeader('Content-Type', 'application/json');
+        res.status(200).json(tickets);
+    }
+    catch (error) {
+        next(error);
+    }
 }

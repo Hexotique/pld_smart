@@ -9,7 +9,6 @@ router.put('/inscription', clientController.inscription_client_put);
 
 router.post('/connexion', clientController.connexion_client_post);
 
-// route de test
-// router.get('/test', clientController.test_client_ticket);
+
 
 export default router;

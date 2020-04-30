@@ -3,9 +3,8 @@ import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategoriePro
 import { json } from 'body-parser';
 import { Json } from 'sequelize/types/lib/utils';
 import sequelize, { Op } from 'sequelize';
+// 
 
-
-const fetch = require("node-fetch");
 
 interface DonneesMagasin {
     idCommerce: number;
@@ -37,9 +36,9 @@ const retirer_AchatArticle_null = async (achats: Array<Achat>, articles: Array<A
     for (let index = 0; index < achats.length; index++) {
         if (!articles[index]) {
             const achat_tmp = achats[index];
-            await articles.splice(Number(index), 1);
-            await achats.splice(Number(index), 1);
-            await achat_tmp.destroy();
+            articles.splice(Number(index), 1);
+            achats.splice(Number(index), 1);
+            achat_tmp.destroy();
         }
     }
   
@@ -74,10 +73,10 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         if (client === null) throw ('client inexistant dans la BDD');
 
         // Tableau qui permettra de vérifier si l'article est déjà créé ou non en base
-        const articlePromises$: Array<Promise<Article>> = new Array<Promise<Article>>();
+        const articlePromises: Array<Promise<Article>> = new Array<Promise<Article>>();
 
         // Tableau qui permettra de récupérer l'ensemble des achats créés en base
-        const achatsPromises$: Array<Promise<Achat>> = new Array<Promise<Achat>>();
+        const achatsPromises: Array<Promise<Achat>> = new Array<Promise<Achat>>();
 
         // Montant total du ticket à calculer durant l'ajout des achats
         let montant: number = 0;
@@ -87,18 +86,18 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
             montant += donneesAchat.quantite * donneesAchat.prix;
 
             // On tente de récupérer l'article associé à l'achat dans la base pour check s'il existe ou non
-            const article$ = Article.findOne({
+            const article = Article.findOne({
                 where: { codebar: donneesAchat.codeBarre }
             });
-            articlePromises$.push(article$);
+            articlePromises.push(article);
 
             // On crée l'achat
-            const achat$: Promise<Achat> = Achat.create({ quantite: donneesAchat.quantite, prix: donneesAchat.prix });
-            achatsPromises$.push(achat$);
+            const achat: Promise<Achat> = Achat.create({ quantite: donneesAchat.quantite, prix: donneesAchat.prix });
+            achatsPromises.push(achat);
         });
 
-        const articles: Array<Article> = await Promise.all(articlePromises$);
-        const achats: Array<Achat> = await Promise.all(achatsPromises$);
+        const articles: Array<Article> = await Promise.all(articlePromises);
+        const achats: Array<Achat> = await Promise.all(achatsPromises);
         const quantites: Array<number> = new Array<number>();
 
         for (const index in articles) {
@@ -124,28 +123,28 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         await retirer_AchatArticle_null(achats, articles);
        
         // récupération des produits associés à chaque article
-        const produitsPromises$: Array<Promise<Produit>> = new Array<Promise<Produit>>();
+        const produitsPromises: Array<Promise<Produit>> = new Array<Promise<Produit>>();
         for (const article of articles) {
             const produitId: number = await (article.get('ProduitId') as number);
-            produitsPromises$.push(Produit.findByPk(article.get('ProduitId') as number));
+            produitsPromises.push(Produit.findByPk(article.get('ProduitId') as number));
         }
-        const produits: Array<Produit> = await Promise.all(produitsPromises$);
+        const produits: Array<Produit> = await Promise.all(produitsPromises);
 
         // Création du ticket
         const ticket: Ticket = await Ticket.create({ date_achat: new Date(), montant: montant });
 
 
         // Tableaux qui vont check que les relations ticket/achat/article sont bien réalisées en base
-        const achatsAjoutesDansArticle$: Array<Promise<void>> = new Array<Promise<void>>();
-        const achatsAjoutesDansTicket$: Array<Promise<void>> = new Array<Promise<void>>();
+        const achatsAjoutesDansArticle: Array<Promise<void>> = new Array<Promise<void>>();
+        const achatsAjoutesDansTicket: Array<Promise<void>> = new Array<Promise<void>>();
 
         // Ajout des relations
         articles.forEach((article, index) => {
-            achatsAjoutesDansArticle$.push(article.addAchat(achats[index]));
-            achatsAjoutesDansTicket$.push(ticket.addAchat(achats[index]));
+            achatsAjoutesDansArticle.push(article.addAchat(achats[index]));
+            achatsAjoutesDansTicket.push(ticket.addAchat(achats[index]));
         });
-        await Promise.all(achatsAjoutesDansArticle$);
-        await Promise.all(achatsAjoutesDansTicket$);
+        await Promise.all(achatsAjoutesDansArticle);
+        await Promise.all(achatsAjoutesDansTicket);
         await magasin.addTicket(ticket);
         await client.addTicket(ticket);
 
@@ -231,7 +230,7 @@ export const recuperer_tickets_get = async (req: Request, res: Response, next: N
 
         let message: any;
         Json: message = {
-            "Tickets": [
+            "Tickets": [ 
 
             ]
 
@@ -442,7 +441,7 @@ export const test_creation_article = async (req: Request, res: Response, next: N
             codebar: '1239',
             nom: 'machin6'
         }));
-        res.json(article).status(200);
+        res.status(200).json(article);
     }
     catch (error) {
         next(error);
@@ -451,10 +450,10 @@ export const test_creation_article = async (req: Request, res: Response, next: N
 
 export const test_creation_commerce = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const article = await (Commerce.create({
-            nom: "Carrefour"
+        const commerce = await (Commerce.create({
+            nom: "Spar"
         }));
-        res.json(article).status(200);
+        res.status(200).json(commerce);
     }
     catch (error) {
         next(error);
