@@ -1,0 +1,16 @@
+{
+    "ajouts": [
+        {
+            "nomProduit": "Fraises",
+            "quantite": "5"
+        },
+        {
+            "nomProduit": "Banaes",
+            "quantite": "6"
+        },
+        {
+            "nomProduit": "Pommes",
+            "quantite": "8"
+        }
+    ]
+}

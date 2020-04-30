@@ -1,0 +1,30 @@
+{
+    "Groupe": {
+        "nom": "Auchan"
+    },
+    "donneesTicket": {
+        "idTicket": "021552",
+        "montant": "11.25",
+        "date": "23/03/2109",
+        "achats": [
+            {
+                "nomArticle": "Panzanni pates 500g",
+                "nomCategorieProduit": "Epicerie",
+                "quantite": "2",
+                "prix": "0.96"
+            },
+            {
+                "nomArticle": "Coca-Cola 6*33cl",
+                "nomCategorieProduit": "Liquides",
+                "quantite": "1",
+                "prix": "4.62"
+            },
+            {
+                "nomArticle": "Hache P.Boeuf 15%Mat. GR.",
+                "nomCategorieProduit": "Boucherie",
+                "quantite": "1",
+                "prix": "4.35"
+            }
+        ]
+    }
+}

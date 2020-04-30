@@ -5,6 +5,7 @@ import { init_db } from './database';
 import { init_mw } from './middlewares';
 import { init_rt } from './routes';
 
+
 let app = express();
 init_db();
 init_mw(app);

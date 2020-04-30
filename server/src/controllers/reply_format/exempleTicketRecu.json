@@ -1,0 +1,27 @@
+{
+    "donneesMagasin": {
+        "idCommerce": "1"
+    },
+    "donneesClient": {
+        "idClient": "1"
+    },
+    "donneesTicket": {
+        "achats": [
+            {
+                "codeBarre": "1234",
+                "quantite": "2",
+                "prix": "12.5"
+            },
+            {
+                "codeBarre": "1235",
+                "quantite": "12",
+                "prix": "2.02"
+            },
+            {
+                "codeBarre": "1236",
+                "quantite": "6",
+                "prix": "4.99"
+            }
+        ]
+    }
+}

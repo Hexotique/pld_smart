@@ -1,12 +1,16 @@
-import { Sequelize, Model, DataTypes } from "sequelize";
-
+import { Sequelize, Model, DataTypes, HasManyGetAssociationsMixin, HasManyAddAssociationMixin, HasManyRemoveAssociationMixin } from "sequelize";
+import { Item } from "./Item";
 
 export class GardeManger extends Model {
   public id!: number;
-  public quantite!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  public getItems!: HasManyGetAssociationsMixin<Item>;
+  public addItem!: HasManyAddAssociationMixin<Item, number>;
+  public removeItem!: HasManyRemoveAssociationMixin<Item, number>;
+
 }
 
 
@@ -17,11 +21,7 @@ export const init_model_gardemanger = (sequelize: Sequelize) => {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
-      },
-      quantite: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
+      }
     },
     {
       sequelize

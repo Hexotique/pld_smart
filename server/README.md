@@ -12,22 +12,22 @@ Example: to invoke the function named creerClient: `PUT https://BASEURL/api/clie
 ### Ticket
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
 |-------------------|------|----------------------------------------|-----------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| creerTicket  | PUT  | crée un ticket dans la BD                 | api/ticket/creerticket  | idClient, idMagasin             | {message: Success, idTicket: 1} |
-| supprimerTicket  | DELETE  | supprime un ticket de la BD                 | api/ticket/supprimerticket  | idTicket    | {message: Success} |
-| recupererListeTickets  | GET | récupère un ticket dans la BD                 | api/ticket/recupererlistetickets  | null | {"tickets": [{idTicket: 1, montant: 10, commerce: "Auchan"}, {...}]} |
-| recupererDetailTicket  | GET | récupère un ticket dans la BD  | api/ticket/recupererdetailticket  | idTicket    | {"ticket": {montant: 15, commerce: "Auchan", dateAchat: "13/05/2016"}, "achats": [{nomArticle: "beurre doux", quantite: 3, prix: 2, categorie: "Produits laitiers"}, {..}]} |
+| creer_ticket_put  | PUT  | crée un ticket dans la BD                 | api/ticket/creer  | idlient, idagasin             | {message: Success, idTicket: 1} |
+| supprimer_ticket_delete  | DELETE  | supprime un ticket de la BD                 | api/ticket/supprimer-ticket  | idticket    | {message: Success} |
+| recuperer_tickets_get  | GET | récupère un ticket dans la BD                 | api/ticket/recuperer-tickets  | null | {"tickets": [{idTicket: 1, montant: 10, commerce: "Auchan"}, {...}]} |
+| recuperer_detail_ticket_get  | GET | récupère un ticket dans la BD  | api/ticket/recuperer-detail-ticket  | idticket    | {"ticket": {montant: 15, commerce: "Auchan", dateAchat: "13/05/2016"}, "achats": [{nomArticle: "beurre doux", quantite: 3, prix: 2, categorie: "Produits laitiers"}, {..}]} |
 | ajouterArticleTicket  | PUT | Ajoute un article au ticket  | api/ticket/ajouterarticleticket  | idTicket, codeBarre, quantite, prix    | {message: "Success"} |
 | validerCreationTicket  | PUT | Valide l'ajout des articles achetés au garde manger du client et au ticket.  | api/ticket/validerticket  | idTicket  | {message: "Success"} |
 
 ### Garde-manger
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
 |-------------------|------|----------------------------------------|-----------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| supprimerProduit  | DELETE  | supprime un produit du garde-manger | api/gardemanger/supprimerproduit  | codeBarre | {message: Success} |
-| ajouterProduitALaMano  | PUT  | ajouter un produit au garde-manger saisi par l'utilisateur (V0) | api/gardemanger/ajouterproduitalamano  | nomProduit, quantite | {message: Success} |
-| recupererContenuGardeManger  | GET  | récupérer les produits dans le garde manger d'un client | api/gardemanger/recuperercontenugardemanger  | null | {produits : [{nomProduit: "Litre de lait", quantite: 3, categorie: "Produits laitiers"}, {..}]} |
+| modifier_quantite_post  | POST  | modifie la quantité ou supprime un produit du garde-manger | api/garde-manger/supprimer-produit  | idproduit, quantite | {message: Success} |
+| ajouter_produit_alamano_put  | PUT  | ajouter un produit au garde-manger saisi par l'utilisateur (V0) | api/garde-manger/ajouter-produit-alamano  | nomproduit, quantite | {message: Success} |
+| recuperer_contenu_get  | GET  | récupérer les produits dans le garde manger d'un client | api/garde-manger/recuperer-contenu  | null | {produits : [{nomProduit: "Litre de lait", quantite: 3, categorie: "Produits laitiers"}, {..}]} |
 
 ### Liste de courses
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
 |-------------------|------|----------------------------------------|-----------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| ajouterProduit  | PUT | ajoute un produit saisi par l'utilisateur à la liste de courses (V0) | api/listedecourses/ajouterproduit  | nomProduit | {message: Success} |
-| supprimerProduit  | DELETE | supprime un produit de la liste de courses | api/listedecourses/supprimerproduit  | idProduit | {message: Success} |
+| ajouter_produit_put  | PUT | ajoute un produit saisi par l'utilisateur à la liste de courses (V0) | api/liste-courses/ajouter-produit  | nomproduit | {message: Success} |
+| supprimer_produit_delete  | DELETE | supprime un produit de la liste de courses | api/liste-courses/supprimer-produit  | idproduit | {message: Success} |

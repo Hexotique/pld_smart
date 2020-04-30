@@ -1,4 +1,7 @@
-import { Sequelize, Model, DataTypes } from "sequelize";
+import { Sequelize, Model, DataTypes, HasManyGetAssociationsMixin, HasManyAddAssociationMixin, HasManyRemoveAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyAddAssociationMixin, BelongsToManyRemoveAssociationMixin } from "sequelize";
+import { Article } from "./Article";
+import { Item } from "./Item";
+import { Liste } from "./Liste";
 
 export class Produit extends Model {
   public id!: number;
@@ -6,8 +9,16 @@ export class Produit extends Model {
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-}
 
+  public getArticles!: HasManyGetAssociationsMixin<Article>;
+  public addArticle!: HasManyAddAssociationMixin<Article, number>;
+
+  public getListe!: BelongsToManyGetAssociationsMixin<Liste>;
+
+  public getItems!: HasManyGetAssociationsMixin<Item>;
+  public addItem!: HasManyAddAssociationMixin<Item, number>;
+  public removeItem!: HasManyRemoveAssociationMixin<Item, number>;
+}
 
 export const init_model_produit = (sequelize: Sequelize) => {
   Produit.init(
@@ -19,7 +30,8 @@ export const init_model_produit = (sequelize: Sequelize) => {
       },
       nom: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       }
     },
     {
