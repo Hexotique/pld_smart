@@ -3,9 +3,8 @@ import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategoriePro
 import { json } from 'body-parser';
 import { Json } from 'sequelize/types/lib/utils';
 import sequelize, { Op } from 'sequelize';
+// 
 
-
-const fetch = require("node-fetch");
 
 interface DonneesMagasin {
     idCommerce: number;
@@ -37,9 +36,9 @@ const retirer_AchatArticle_null = async (achats: Array<Achat>, articles: Array<A
     for (let index = 0; index < achats.length; index++) {
         if (!articles[index]) {
             const achat_tmp = achats[index];
-            await articles.splice(Number(index), 1);
-            await achats.splice(Number(index), 1);
-            await achat_tmp.destroy();
+            articles.splice(Number(index), 1);
+            achats.splice(Number(index), 1);
+            achat_tmp.destroy();
         }
     }
   

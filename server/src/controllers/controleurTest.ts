@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { Ticket, Article, Client, Commerce, Achat, GardeManger, Liste, Groupe, CategorieProduit, Produit, Item } from '../database/models';
 import sequelize, { Sequelize } from 'sequelize';
 
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch");
 
 interface code_article {
     code: string;
