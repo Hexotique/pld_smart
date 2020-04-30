@@ -5,10 +5,11 @@ const rem: number = entireScreenWidth / 380;
 
 const styles = StyleSheet.create({
     conteneur_entete: {
+        flex:10,
         flexDirection: 'column',
         backgroundColor: 'white',
         paddingLeft: '2%',
-        height: '9%',
+        //height: '9%',
         marginBottom: 10 * rem,
     },
     ligne1: {

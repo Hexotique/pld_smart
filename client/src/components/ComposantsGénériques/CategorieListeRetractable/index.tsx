@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import styles from './styles';
 
-function CatégorieListeRetractable({ item }: any) {
+function CategorieListeRetractable({ item }: any) {
     return (
         <View style={styles.container}>
             <Text style={styles.nomItem}>{item.toString()}</Text>
@@ -11,4 +11,4 @@ function CatégorieListeRetractable({ item }: any) {
 }
 
 
-export default CatégorieListeRetractable;
+export default CategorieListeRetractable;

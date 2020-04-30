@@ -15,10 +15,16 @@ function ListeGlissable() {
     const [enableScroll, setEnableScroll] = useState(true);
 
     return (
-        <FlatList
-            data={listData}
-            renderItem={({item}) => <ItemListe text={item.key} toggleScroll={setEnableScroll} />}
-        />
+        <View style={{ flex: 90 }}>
+            <FlatList
+                contentContainerStyle={{ paddingBottom: 140 }}
+
+
+                data={listData}
+                renderItem={({ item }) => <ItemListe text={item.key} toggleScroll={setEnableScroll} />
+                }
+            />
+        </View>
     );
 }
 

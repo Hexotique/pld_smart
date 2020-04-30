@@ -16,7 +16,7 @@ import styles, { navOptions } from "./styles";
 export default function App() {
     return (
         <NavigationContainer>
-            <Tab.Navigator initialRouteName="ListeCourse" screenOptions={{ tabBarVisible: true }}>
+            <Tab.Navigator initialRouteName="ListeCourse" screenOptions={{ tabBarVisible: false }}>
                 <Tab.Screen name="GardeManger" component={GardeManger} />
                 <Tab.Screen name="ListeCourse" component={ListeCourse} />
                 <Tab.Screen name="ListeTicket" component={ListeTicket} />

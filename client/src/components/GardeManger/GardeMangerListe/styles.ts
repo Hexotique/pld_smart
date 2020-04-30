@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff2ee",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        height: 45
     },
     ajoutProduitTexte: {
         textAlign: "center"

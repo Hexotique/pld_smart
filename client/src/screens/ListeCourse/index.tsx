@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import ListeGlissable from '../../components/ListeGlissable';
 import Header from '../../components/ComposantsGénériques/Header';
 import { ListeCourseProp } from "../../navigator";
@@ -12,10 +12,10 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
             style={{ flex: 1 }}
             onSwipeRight={() => { navGauche(navigation) }}
             onSwipeLeft={() => { navDroite(navigation) }}>
-            <View style={{ flex: 1, backgroundColor: 'white' }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                 <Header indexe={1} />
                 <ListeGlissable />
-            </View>
+            </SafeAreaView>
             <BarreNavigation navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} indexe={1} />
         </GestureRecognizer>
     );
