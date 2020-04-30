@@ -1,3 +1,5 @@
+import {userToken, APIBaseURL} from './configApi';
+
 export interface itemGardeMangerJson {
     idItem: string,
     quantite: number,
@@ -18,8 +20,6 @@ export interface GardeMangerJson {
 
 
 
-let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJndWlsaGVtLmhlcm1ldEBoZXhvdGlxdWUuY29tIiwiaWF0IjoxNTg4MDc0MDA5fQ.PM3dAxFviLwFV2SKZODd1kYto-Hhrvmclpsc7eaAktE';
-const APIBaseURL = 'http://192.168.0.25:3000/api';
 
 function _setHTTPMethod(url: RequestInfo, httpMethod: string, body?: any): Promise<Response> {
     const httpOptions: RequestInit = {
