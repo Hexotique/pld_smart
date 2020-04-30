@@ -28,7 +28,7 @@ function BarreNavigation(props: Propriete) {
             couleur1 = guide_de_style.Couleurs.Peche;
             couleur2 = guide_de_style.Couleurs.Fraise;
             couleur3 = guide_de_style.Couleurs.Banane;
-            icon1 = guide_de_style.Icones.Garde_Manger ;
+            icon1 = guide_de_style.Icones.Garde_Manger;
             icon2 = guide_de_style.Icones.Liste_Courses;
             icon3 = guide_de_style.Icones.Tickets;
             // fonction1 = () => { };
@@ -53,9 +53,9 @@ function BarreNavigation(props: Propriete) {
             couleur1 = guide_de_style.Couleurs.Fraise;
             couleur2 = guide_de_style.Couleurs.Banane;
             couleur3 = guide_de_style.Couleurs.Peche;
-            icon1 = guide_de_style.Icones.Garde_Manger;
+            icon1 = guide_de_style.Icones.Liste_Courses;
             icon2 = guide_de_style.Icones.Tickets;
-            icon3 = guide_de_style.Icones.Liste_Courses;
+            icon3 = guide_de_style.Icones.Garde_Manger;
             // fonction1 = () => { };
             // fonction2 = () => { };
             // fonction3 = () => { };
@@ -64,9 +64,9 @@ function BarreNavigation(props: Propriete) {
     }
     return (
         <View style={styles.conteneur_navBar}>
-            <BoutonRond fonction = {props.navGauche} couleur={couleur1} icon={icon1} rayon={60} />
+            <BoutonRond fonction={props.navGauche} couleur={couleur1} icon={icon1} rayon={60} />
             <BoutonRond couleur={couleur2} icon={icon2} rayon={85} />
-            <BoutonRond fonction = {props.navDroite} couleur={couleur3} icon={icon3} rayon={60} />
+            <BoutonRond fonction={props.navDroite} couleur={couleur3} icon={icon3} rayon={60} />
         </View>
     );
 }
