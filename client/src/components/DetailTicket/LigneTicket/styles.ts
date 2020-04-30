@@ -1,46 +1,45 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
-     conteneur_principal: {
-          flexDirection : 'row',
-          paddingLeft   : '4%',
-          paddingRight  : '4%',
-          marginVertical: '1%',
-          alignItems    : 'center',
-     },
-     conteneur_produit: {
-          paddingVertical: '1%',
-          flex           : 50,
-          backgroundColor: '#e6b8afff',
-          borderRadius   : 5,
-          paddingLeft    : '5%',
-          paddingRight   : '5%',
-     },
-     conteneur_quantite: {
-          paddingVertical: '1%',
-          flex           : 25,
+
+    vueItem: {
+          borderTopWidth: 1,
+          borderTopColor: '#b3b3b3',
+          height: 45,
+          flexDirection  : "row",
+          paddingLeft    : 10,
+          paddingRight: 10,
+          justifyContent : 'flex-start',
           alignItems     : 'center',
-          borderRadius   : 5,
-     },
-     conteneur_prix: {
-          paddingVertical: '1%',
-          flex           : 25,
-          backgroundColor: '#e6b8afff',
-          alignItems     : "center",
-          borderRadius   : 5,
-     },
-     texte_produit: {
-          // fontFamily:
-          // fontSize:
-     },
-     texte_quantite: {
-          // fontFamily:
-          // fontSize:
-     },
-     texte_prix: {
-          // fontFamily:
-          // fontSize:
-     },
+          backgroundColor: 'white',
+
+    },
+    
+
+    nomItemConteneur: {
+        flexDirection: "row",
+        flex: 3,
+        justifyContent: "center"
+    },
+    nomItem: {
+        fontFamily: "Comfortaa",
+        color: '#434343',
+        fontWeight: "bold"
+    },
+
+    quantiteItem: {
+        flex      : 1,
+        fontFamily: "Comfortaa",
+        textAlign: "center"
+    },
+
+    prixItem: {
+     flex      : 1,
+     fontFamily: "Comfortaa",
+     textAlign: "center"
+ },
+ 
+
 });
 
 export default styles;
