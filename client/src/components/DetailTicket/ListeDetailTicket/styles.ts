@@ -3,27 +3,6 @@ import { StyleSheet } from 'react-native';
 
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   marginHorizontal: 16
-  // },
-  // item: {
-  //   backgroundColor: "#f9c2ff",
-  //   padding: 20,
-  // },
-  entete: {
-    fontSize       : 32,
-    backgroundColor: "#dd7e6bff",
-    color          : 'white',
-    borderRadius   : 5,
-    paddingLeft    : '5%',
-    fontWeight     : 'bold',
-    marginLeft     : '2%',
-    marginRight    : '2%'
-  },
-  // title: {
-  //   fontSize: 24
-  // }
 
 });
 

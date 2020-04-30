@@ -1,34 +1,20 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
 
 
 function LigneTicket({ nomItem, quantite, prix }: any) {
      return (
-          // <View style = {styles.conteneur_principal}>
-          //      <View style = {styles.conteneur_produit}>
-          //           <Text style = {styles.texte_produit}>{nomItem}</Text>
-          //      </View>
-          //      <View style = {styles.conteneur_quantite}>
-          //           <Text style = {styles.texte_quantite}>{quantite}</Text>
-          //      </View>
-          //      <View style = {styles.conteneur_prix}>
-          //           <Text style = {styles.texte_prix}>{prix}</Text>
-          //      </View>
-          // </View>
-          <View style = {styles.conteneur_principal}>
-               <View style = {styles.conteneur_produit}>
-                    <Text style = {styles.texte_produit}>{nomItem}</Text>
+               <View style   = {styles.vueItem}>
+                    <View style= {styles.nomItemConteneur}>
+                         <Text style   = {styles.nomItem}>{nomItem}</Text>
+                    </View>
+                    
+                    <Text style = {styles.quantiteItem}>{quantite}</Text>
+                    <Text style = {styles.prixItem}>{prix}</Text>
                </View>
-               <View style = {styles.conteneur_quantite}>
-                    <Text style = {styles.texte_quantite}>{quantite}</Text>
-               </View>
-               <View style = {styles.conteneur_prix}>
-                    <Text style = {styles.texte_prix}>{prix}</Text>
-               </View>
-          </View>
-     );
+      );
 }
 
 export default LigneTicket;

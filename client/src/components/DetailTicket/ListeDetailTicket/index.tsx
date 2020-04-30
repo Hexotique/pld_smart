@@ -153,7 +153,7 @@ function ListeDetailTicket(purchases: any) {
                     <View>
                         <Collapse>
                             <CollapseHeader>
-                              <Categorie item = {item.categorieProduit}/>
+                              <Categorie item = {item.categorieProduit} couleur="#fbbd4c"/>
                             </CollapseHeader>
                             <CollapseBody>
                                 <FlatList

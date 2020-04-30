@@ -39,7 +39,7 @@ function GardeMangerListe() {
 
 
     return (
-        <View style={{ flex: 90 }}>
+        <View style={styles.container}>
             <View style={styles.ajoutProduit}>
                 <TextInput placeholder="Ajoutez un item" style={styles.ajoutProduitTexte}></TextInput>
             </View>
@@ -51,7 +51,7 @@ function GardeMangerListe() {
                     <View>
                         <Collapse>
                             <CollapseHeader>
-                                <Categorie item={item}></Categorie>
+                                <Categorie item = {item} couleur="#f3a993"></Categorie>
                             </CollapseHeader>
                             <CollapseBody>
                                 <FlatList

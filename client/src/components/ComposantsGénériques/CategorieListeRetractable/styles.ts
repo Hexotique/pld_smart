@@ -7,11 +7,9 @@ const styles = StyleSheet.create({
         marginTop: 3,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f3a993'
+
     },
     nomItem: {
-        marginLeft: 20,
-        flex: 1,
         //fontFamily: "Comfortaa",
         color: "white",
         fontWeight: "bold",
