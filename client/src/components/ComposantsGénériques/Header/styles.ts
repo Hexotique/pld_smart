@@ -40,9 +40,9 @@ const styles = StyleSheet.create({
     },
     nom_app: {
         //flex: 15,
-        fontWeight: "bold",
-        fontSize: 18 * rem,
-        fontFamily: "Lobster"
+        fontFamily: "Lobster-Regular",
+        fontSize: 22 * rem,
+        
     }
 });
 

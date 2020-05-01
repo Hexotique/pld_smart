@@ -1,5 +1,6 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, PropsWithChildren } from 'react';
 import { Animated, Dimensions, TouchableOpacity, Easing, PanResponder, Text, View } from 'react-native';
+import { CheckBox } from 'react-native-elements';
 import styles from './styles';
 
 type ItemListeProps = {
@@ -11,7 +12,7 @@ type ItemListeProps = {
     droiteHandler?: Function;
 };
 
-function ItemListe(props: ItemListeProps) {
+function ItemListe(props: PropsWithChildren<ItemListeProps>) {
     const LARGEUR_ECRAN = Dimensions.get('window').width;
     const SEUIL_MVT = LARGEUR_ECRAN / 15;
     const SEUIL_VSN = LARGEUR_ECRAN / 7;
@@ -132,9 +133,7 @@ function ItemListe(props: ItemListeProps) {
                 style={[styles.conteneurPrincipale, position.getLayout()]}
                 {...panResponder.panHandlers}
             >
-                <Text style={styles.textePrincipale}>
-                    {props.texte}
-                </Text>
+                {props.children}
             </Animated.View>
             {props.droite &&
                 <Animated.View style={[styles.conteneurDroite, droitePropStyle()]}>
