@@ -11,6 +11,7 @@ type RootTabParamList = {
     ListeCourse: undefined;
     ListeTicket: undefined;
     TicketDetail: undefined;
+    Scanner: undefined;
 }
 
 type AccueilRouteProp = RouteProp<RootTabParamList, 'Accueil'>;
@@ -67,6 +68,14 @@ type TicketDetailNavigationProp = StackNavigationProp<RootTabParamList, 'TicketD
 export type TicketDetailProp = {
     route: TicketDetailRouteProp;
     navigation: TicketDetailNavigationProp;
+}
+
+type ScannerRouteProp = RouteProp<RootTabParamList, 'TicketDetail'>;
+type ScannerNavigationProp = StackNavigationProp<RootTabParamList, 'TicketDetail'>;
+
+export type ScannerProp = {
+    route: ScannerRouteProp;
+    navigation: ScannerNavigationProp;
 }
 
 export const Tab = createBottomTabNavigator<RootTabParamList>();

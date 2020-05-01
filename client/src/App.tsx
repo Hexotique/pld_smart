@@ -12,16 +12,18 @@ import Connexion from "./screens/Connexion";
 import Inscription from "./screens/Inscription";
 
 import styles, { navOptions } from "./styles";
+import Scanner from './screens/Scaner';
 
 export default function App() {
     return (
         <NavigationContainer>
-            <Tab.Navigator initialRouteName="ListeCourse" screenOptions={{ tabBarVisible: false }}>
+            <Tab.Navigator initialRouteName="ListeCourse" screenOptions={{ tabBarVisible: true }}>
                 <Tab.Screen name="GardeManger" component={GardeManger} />
                 <Tab.Screen name="ListeCourse" component={ListeCourse} />
                 <Tab.Screen name="ListeTicket" component={ListeTicket} />
                 <Tab.Screen name="Connexion" component={Connexion} />
                 <Tab.Screen name="Inscription" component={Inscription} />
+                <Tab.Screen name="Scanner" component={Scanner} />
             </Tab.Navigator>
         </NavigationContainer>
     );
