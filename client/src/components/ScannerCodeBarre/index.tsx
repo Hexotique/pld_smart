@@ -1,31 +1,40 @@
-import React, { Component, useState } from 'react';
-import { Text, View, StyleSheet, Alert, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, Button } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import styles from './styles';
 
 
 interface DonneesCodeBarre {
-    data: any,
-    rawData: any,
+    data: string,
+    rawData: string | undefined,
     type: any,
     bounds: any
 }
 
-function _codeBarreLu(donnees: DonneesCodeBarre) {
-    Alert.alert("data : " + donnees.data + "\nrawData : " + donnees.rawData + "\ntype : " + donnees.type);
-}
-
 function ScannerCodeBarre() {
-    const [torchOn, setTorchOn] = useState(false);
+    const [flahAllume, setflahAllume] = useState(false);
+    const [reconnaitreCode, setReconnaitreCode] = useState(true);
+    const [codeBarre, setCodeBarre] = useState(new String());
+
+    const _codeBarreLu = (donnees: DonneesCodeBarre) => {
+        setReconnaitreCode(false);
+        setCodeBarre(donnees.data);
+        //Alert.alert("data : " + donnees.data + "\nrawData : " + donnees.rawData + "\ntype : " + donnees.type);
+    }
 
     return (
-        <View style={{ flex: 90 }}>
+        <View style={{ flex: 1 }}>
+            <View style={styles.entete}>
+                <Text>{codeBarre}</Text>
+                <Button title={'Valider'} onPress={() => { setReconnaitreCode(true); setCodeBarre(new String()); }}></Button>
+            </View>
             <RNCamera
                 style={styles.affichage}
-                onBarCodeRead={_codeBarreLu}
+                onBarCodeRead={reconnaitreCode ? _codeBarreLu : () => { }}
                 type={RNCamera.Constants.Type.back}
                 captureAudio={false}
-                flashMode={torchOn ? RNCamera.Constants.FlashMode.on : RNCamera.Constants.FlashMode.off}
+                flashMode={flahAllume ? RNCamera.Constants.FlashMode.on : RNCamera.Constants.FlashMode.off}
+
             >
             </RNCamera>
         </View>
