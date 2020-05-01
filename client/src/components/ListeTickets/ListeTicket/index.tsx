@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList, View } from 'react-native';
 import Item from "../ListeTicketItem";
 import styles from './styles';
+import { recupererContenuListeTicketGet, ListeTickets, Ticket } from '../../../api'
 
 const dataTicket = [
     {
@@ -165,20 +166,41 @@ const dataTicket = [
 
 
 function TicketListe() {
+
+    const [ticketArrayState, setTicketArrayState] = useState(new Array<Ticket>());
+
+    useEffect(() => {
+        recupererContenuListeTicketGet()
+            .then((data: ListeTickets) => {
+                const ticketArray: Array<Ticket> = new Array<Ticket>();
+                setTicketArrayState(ticketArray);
+            }).catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
     return (
         <View style={styles.liste}>
             <View >
                 <FlatList
                     contentContainerStyle={{ paddingBottom: 140 }}
-                    data={dataTicket}
+                    data={ticketArrayState}
+                    keyExtractor={(itemValue) => itemValue.idTicket.toString()}
                     horizontal={false}
                     numColumns={3}
-                    keyExtractor={(item, index) => item + index.toString()}
+                    renderItem={({ item }) => <Item
+                        prix={item.montant}
+                        commerce={item.nomGroupe}
+                        date={item.date}
+                    />
+                    //Avant le lien avec le back : (décommenter si besoin pour gérer le style)
+                    /*data={dataTicket}
+                    keyExtractor={(item, index) => item + index.toString()}                    
                     renderItem={({ item }) => <Item
                         prix={item.prix}
                         commerce={item.commerce}
                         date={item.date}
-                    />}
+                    />*/}
                 />
 
             </View>

@@ -1,5 +1,7 @@
 import { userToken, APIBaseURL } from './configApi';
 
+//Json pour le garde manger 
+
 export interface itemGardeMangerJson {
     idItem: string,
     quantite: number,
@@ -18,6 +20,18 @@ export interface GardeMangerJson {
     items: Array<itemGardeMangerJson>
 }
 
+//Json pour les tickets
+
+export interface Ticket {
+    nomGroupe: string,
+    idTicket: string,
+    montant: number,
+    date: string
+}
+
+export interface ListeTickets {
+    Tickets: Array<Ticket>
+}
 
 
 
@@ -50,3 +64,15 @@ export function recupererContenuGardeMangerGet(): Promise<GardeMangerJson> {
 
 }
 
+export function recupererContenuListeTicketGet(): Promise<ListeTickets> {
+    const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-tickets`;
+    return _setHTTPMethod(url, 'GET')
+        .then((response) => {
+            return response.json();
+        })
+        .catch((error) => {
+            console.log(error);
+            console.error(error);
+        });
+
+}
