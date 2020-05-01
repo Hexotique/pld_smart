@@ -2,7 +2,10 @@ import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
-
+//A implémenter pour faire le lien avec le Back
+function supprimerTicket() { 
+    
+}
 
 function LigneTicket({ nomItem, quantite, prix }: any) {
      return (
