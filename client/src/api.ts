@@ -20,7 +20,7 @@ export interface GardeMangerJson {
     items: Array<itemGardeMangerJson>
 }
 
-//Json pour les tickets
+//Json pour la liste des tickets
 
 export interface Ticket {
     nomGroupe: string,
@@ -31,6 +31,26 @@ export interface Ticket {
 
 export interface ListeTickets {
     Tickets: Array<Ticket>
+}
+
+//Json pour le détail d'un ticket
+
+export interface Achat {
+    nomArticle: string,
+    nomCategorieProduit: string,
+    quantite: number,
+    prix: number
+}
+
+export interface DetailTicket {
+    groupe: string,
+    commerce: string,
+    donneesTicket: {
+        idTicket: string,
+        montant: number,
+        date: string,
+        achats: Array<Achat>
+    }
 }
 
 
@@ -66,6 +86,19 @@ export function recupererContenuGardeMangerGet(): Promise<GardeMangerJson> {
 
 export function recupererContenuListeTicketGet(): Promise<ListeTickets> {
     const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-tickets`;
+    return _setHTTPMethod(url, 'GET')
+        .then((response) => {
+            return response.json();
+        })
+        .catch((error) => {
+            console.log(error);
+            console.error(error);
+        });
+
+}
+
+export function recupererContenuDetailTicketGet(): Promise<DetailTicket> {
+    const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-detail-ticket`;
     return _setHTTPMethod(url, 'GET')
         .then((response) => {
             return response.json();
