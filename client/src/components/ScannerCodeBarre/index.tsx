@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Text, View, Button } from 'react-native';
+import { Text, View, Button, Image } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import styles from './styles';
-
+import { recupererProduitViaCodeBarre } from '../../api';
+import ModalProduit from '../ModalProduit';
 
 interface DonneesCodeBarre {
     data: string,
@@ -14,20 +15,29 @@ interface DonneesCodeBarre {
 function ScannerCodeBarre() {
     const [flahAllume, setflahAllume] = useState(false);
     const [reconnaitreCode, setReconnaitreCode] = useState(true);
-    const [codeBarre, setCodeBarre] = useState(new String());
+    const [articleScanne, setArtiCleScanne] = useState(['non reconnu', '../../assets/Flag_Blank.png'])
+    const [montrerModal, setMontrerModal] = useState(false);
 
     const _codeBarreLu = (donnees: DonneesCodeBarre) => {
+        console.log(donnees.data);
         setReconnaitreCode(false);
-        setCodeBarre(donnees.data);
+        recupererProduitViaCodeBarre(donnees.data)
+            .then((res) => {
+                setArtiCleScanne([res.product.product_name, res.product.image_small_url]);
+                setMontrerModal(true);
+            });
         //Alert.alert("data : " + donnees.data + "\nrawData : " + donnees.rawData + "\ntype : " + donnees.type);
+    }
+
+    const onCloseHandler = () => {
+        setMontrerModal(false);
+        setReconnaitreCode(true);
+        setArtiCleScanne(['non reconnu', '../../assets/Flag_Blank.png']);
+        setMontrerModal(false);
     }
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={styles.entete}>
-                <Text>{codeBarre}</Text>
-                <Button title={'Valider'} onPress={() => { setReconnaitreCode(true); setCodeBarre(new String()); }}></Button>
-            </View>
             <RNCamera
                 style={styles.affichage}
                 onBarCodeRead={reconnaitreCode ? _codeBarreLu : () => { }}
@@ -37,6 +47,7 @@ function ScannerCodeBarre() {
 
             >
             </RNCamera>
+            <ModalProduit show={montrerModal} close={onCloseHandler} nom={articleScanne[0]} url={articleScanne[1]} />
         </View>
     );
 }

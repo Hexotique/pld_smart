@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     entete: {
-        flex: 1,
+        flex: 5,
     }
 });
 
