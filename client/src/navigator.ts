@@ -4,7 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 type RootTabParamList = {
-    Accueil: undefined;
+    ProfilClient: undefined;
     Connexion: undefined;
     Inscription: undefined;
     GardeManger: undefined;
@@ -14,12 +14,12 @@ type RootTabParamList = {
     Scanner: undefined;
 }
 
-type AccueilRouteProp = RouteProp<RootTabParamList, 'Accueil'>;
-type AccueilNavigationProp = StackNavigationProp<RootTabParamList, 'Accueil'>;
+type ProfilClientRouteProp = RouteProp<RootTabParamList, 'ProfilClient'>;
+type ProfilClientNavigationProp = StackNavigationProp<RootTabParamList, 'ProfilClient'>;
 
-export type AccueilProp = {
-    route: AccueilRouteProp;
-    navigation: AccueilNavigationProp;
+export type ProfilClientProp = {
+    route: ProfilClientRouteProp;
+    navigation: ProfilClientNavigationProp;
 }
 
 type ConnexionRouteProp = RouteProp<RootTabParamList, 'Connexion'>;

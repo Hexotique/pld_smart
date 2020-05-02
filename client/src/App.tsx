@@ -7,12 +7,10 @@ import { Tab } from "./navigator";
 import GardeManger from "./screens/GardeManger";
 import ListeCourse from "./screens/ListeCourse";
 import ListeTicket from "./screens/ListeTicket";
-import TicketDetail from "./screens/TicketDetail";
 import Connexion from "./screens/Connexion";
 import Inscription from "./screens/Inscription";
-
-import styles, { navOptions } from "./styles";
 import Scanner from './screens/Scaner';
+import ProfilClient from './screens/ProfilClient';
 
 export default function App() {
     return (
@@ -24,6 +22,7 @@ export default function App() {
                 <Tab.Screen name="Connexion" component={Connexion} />
                 <Tab.Screen name="Inscription" component={Inscription} />
                 <Tab.Screen name="Scanner" component={Scanner} />
+                <Tab.Screen name="ProfilClient" component={ProfilClient} />
             </Tab.Navigator>
         </NavigationContainer>
     );
