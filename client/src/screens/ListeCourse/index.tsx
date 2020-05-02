@@ -36,7 +36,7 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
                         height: 50,
                         backgroundColor: "#fff2ee",
                         textAlign: 'center'
-                    }} 
+                    }}
                     placeholder="Ajoutez un item..."
                     value={texteAjout}
                     onChangeText={setTexteAjout}

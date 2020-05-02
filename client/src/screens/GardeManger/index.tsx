@@ -22,9 +22,13 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
                 <Header indexe={2} />
                 <GardeMangerListe></GardeMangerListe>
             </SafeAreaView>
-            <BarreNavigation indexe={2} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} />
+            <BarreNavigation indexe={2} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} boutonCentre={() => { actionCentre(navigation) }} />
         </GestureRecognizer>
     );
+}
+
+function actionCentre(nav: any) {
+    nav.navigate('Scanner');
 }
 
 const navGauche = (nav: any) => {
