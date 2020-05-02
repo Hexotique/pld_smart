@@ -1,28 +1,36 @@
 import React, { useState } from 'react';
-import { Text, View, Image, FlatList } from 'react-native';
+import {  View, FlatList } from 'react-native';
 
 import ItemListe from '../ItemListe';
 
 import styles from './styles';
 
-const listData = [
-    { key: "Yaourts" },
-    { key: "Miel" },
-    { key: "Chips" }
-]
+type ListeGlissableProps = {
+    items: Array<{ key: string; }>;
+    gauche?: any;
+    droite?: any;
+    gaucheHandler?: Function;
+    droiteHandler?: Function;
+};
 
-function ListeGlissable() {
-    const [enableScroll, setEnableScroll] = useState(true);
+function ListeGlissable(props: ListeGlissableProps) {
+    const [modeDefile, setModeDefile] = useState(true);
 
     return (
         <View style={{ flex: 90 }}>
             <FlatList
                 contentContainerStyle={{ paddingBottom: 140 }}
-
-
-                data={listData}
-                renderItem={({ item }) => <ItemListe text={item.key} toggleScroll={setEnableScroll} />
-                }
+                data={props.items}
+                renderItem={({ item }) => (
+                    <ItemListe
+                        texte={item.key}
+                        permetDefile={setModeDefile}
+                        gauche={props.gauche}
+                        droite={props.droite}
+                        gaucheHandler={props.gaucheHandler}
+                        droiteHandler={props.droiteHandler}
+                    />
+                )}
             />
         </View>
     );
