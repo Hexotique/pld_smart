@@ -70,7 +70,7 @@ function ListeGlissable(props: ListeGlissableProps) {
     )
 
     return (
-        <View style={{ flex: 90 }}>
+        <View>
             <ScrollView contentContainerStyle={{ paddingBottom: 140 }}>
                 {renderItems()}
             </ScrollView>
