@@ -1,13 +1,20 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useState, createContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { Tab } from "./navigator";
+// V2
+// import AsyncStorage from '@react-native-community/async-storage';
+import { Stack } from './app-navigator';
 
-import { TabPrincipal } from './Navigators/EcransPricipaux';
-import { StackAuthentification } from './Navigators/InscriptionConnexion';
-import { StackGardeManger } from './Navigators/FonctionsGardeManger';
-import { StackGlobale } from './Navigators/SwitchPrincipal';
+// V0
+//import { Tab } from "./navigator";
+
+
+// V1
+// import { TabPrincipal } from './Navigators/EcransPricipaux';
+// import { StackAuthentification } from './Navigators/InscriptionConnexion';
+// import { StackGardeManger } from './Navigators/FonctionsGardeManger';
+// import { StackGlobale } from './Navigators/SwitchPrincipal';
 
 import GardeManger from "./screens/GardeManger";
 import ListeCourse from "./screens/ListeCourse";
@@ -15,17 +22,35 @@ import ListeTicket from "./screens/ListeTicket";
 import Connexion from "./screens/Connexion";
 import Inscription from "./screens/Inscription";
 import Scanner from './screens/Scanner';
-import ProfilClient from './screens/ProfilClient';
+
+//import ProfilClient from './screens/ProfilClient';
 
 export default function App() {
+    const [tokenUtilisateur, setToken] = useState(false);
     return (
         <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                {tokenUtilisateur ?
+                    (
+                        <Stack.Screen name='GardeManger' component={GardeManger} />
+                    ) : (
+                        <Stack.Screen name='Connexion' component={Connexion} />
+                    )
+                }
+            </Stack.Navigator>
 
-            <StackGlobale.Navigator initialRouteName="Authentification" screenOptions={{ headerShown: false }}>
+
+
+
+
+            {/* V1 avec de nested navigation */}
+            {/* <StackGlobale.Navigator initialRouteName="Authentification" screenOptions={{ headerShown: false }}>
                 <StackGlobale.Screen name="App" component={buildMainTab} />
                 <StackGlobale.Screen name="Authentification" component={buildAuthStack} />
-            </StackGlobale.Navigator>
+            </StackGlobale.Navigator> */}
 
+
+            {/* V0 de teck */}
             {/* <Tab.Navigator initialRouteName="ListeCourse" screenOptions={{ tabBarVisible: true }}>
                 <Tab.Screen name="GardeManger" component={GardeManger} />
                 <Tab.Screen name="ListeCourse" component={ListeCourse} />
@@ -39,30 +64,31 @@ export default function App() {
     );
 }
 
-function buildMainTab() {
-    return (
-        < TabPrincipal.Navigator initialRouteName="ListeCourse" screenOptions={{ tabBarVisible: false }}>
-            <TabPrincipal.Screen name="GardeManger" component={buildGardeMangerStack} />
-            <TabPrincipal.Screen name="ListeCourse" component={ListeCourse} />
-            <TabPrincipal.Screen name="ListeTicket" component={ListeTicket} />
-        </ TabPrincipal.Navigator >
-    )
-}
+// V1 suite
+// function buildMainTab() {
+//     return (
+//         < TabPrincipal.Navigator initialRouteName="ListeCourse" screenOptions={{ tabBarVisible: false }}>
+//             <TabPrincipal.Screen name="GardeManger" component={buildGardeMangerStack} />
+//             <TabPrincipal.Screen name="ListeCourse" component={ListeCourse} />
+//             <TabPrincipal.Screen name="ListeTicket" component={ListeTicket} />
+//         </ TabPrincipal.Navigator >
+//     )
+// }
 
-function buildAuthStack() {
-    return (
-        <StackAuthentification.Navigator initialRouteName="Connexion" screenOptions={{ headerShown: false }}>
-            <StackAuthentification.Screen name="Connexion" component={Connexion} />
-            <StackAuthentification.Screen name="Inscription" component={Inscription} />
-        </StackAuthentification.Navigator>
-    )
-}
+// function buildAuthStack() {
+//     return (
+//         <StackAuthentification.Navigator initialRouteName="Connexion" screenOptions={{ headerShown: false }}>
+//             <StackAuthentification.Screen name="Connexion" component={Connexion} />
+//             <StackAuthentification.Screen name="Inscription" component={Inscription} />
+//         </StackAuthentification.Navigator>
+//     )
+// }
 
-function buildGardeMangerStack() {
-    return (
-        <StackGardeManger.Navigator initialRouteName='GardeManger' screenOptions={{ headerShown: false }}>
-            <StackGardeManger.Screen name='GardeManger' component={GardeManger} />
-            <StackGardeManger.Screen name='Scanner' component={Scanner} />
-        </StackGardeManger.Navigator>
-    )
-}
+// function buildGardeMangerStack() {
+//     return (
+//         <StackGardeManger.Navigator initialRouteName='GardeManger' screenOptions={{ headerShown: false }}>
+//             <StackGardeManger.Screen name='GardeManger' component={GardeManger} />
+//             <StackGardeManger.Screen name='Scanner' component={Scanner} />
+//         </StackGardeManger.Navigator>
+//     )
+// }
