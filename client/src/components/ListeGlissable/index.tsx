@@ -50,8 +50,7 @@ function ListeGlissable(props: ListeGlissableProps) {
             }}>
                 <CheckBox
                     wrapperStyle={{
-                        alignSelf: 'flex-start',
-                        marginRight: -100
+                        alignSelf: 'flex-start'
                     }}
                     checkedColor="red"
                     checked={item.checked}
@@ -63,7 +62,7 @@ function ListeGlissable(props: ListeGlissableProps) {
                         fontFamily: "Comfortaa-Bold",
                         fontSize: 18,
                         color: '#434343',
-                        textAlign: 'center'
+                        marginLeft: 80
                     }}
                 >{item.id}</Text>
             </View>
