@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         paddingLeft: '2%',
         //height: '9%',
-        marginBottom: 10 * rem,
+        marginBottom: 10 * rem
     },
     ligne1: {
         marginTop: 1 * rem,

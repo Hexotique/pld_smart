@@ -12,7 +12,6 @@ interface Propriete {
 }
 
 function Header(prop: Propriete) {
-
     let couleur: string ;
     let titrePage: string;
     let fonction: any;

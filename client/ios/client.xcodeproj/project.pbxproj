@@ -38,6 +38,9 @@
 		D71D098928420A2F95D89340 /* libPods-client-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EFAD0E34690A654C764C8AC /* libPods-client-tvOS.a */; };
 		732A503447A3461B93E4503E /* Lobster.otf in Resources */ = {isa = PBXBuildFile; fileRef = A5E032CBAB9E4BCE97F39394 /* Lobster.otf */; };
 		7DA8C9B460184C35A62ACDD6 /* Lobster-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19D539D7B4AB422BB2B0B410 /* Lobster-Regular.ttf */; };
+		BC404CFD7D584AB4801D4D73 /* Comfortaa-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F0AA7D5B1CD4989B006791D /* Comfortaa-Bold.ttf */; };
+		6EE9AA62E92F426A8C3DDF25 /* Comfortaa-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 79C6C194735B426E920E5900 /* Comfortaa-Light.ttf */; };
+		21D4865F70A046FD9A4333A3 /* Comfortaa-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55CF1051435D4476941460C6 /* Comfortaa-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +108,9 @@
 		FF45A4D08835467E83074A9A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		A5E032CBAB9E4BCE97F39394 /* Lobster.otf */ = {isa = PBXFileReference; name = "Lobster.otf"; path = "../src/assets/fonts/Lobster.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		19D539D7B4AB422BB2B0B410 /* Lobster-Regular.ttf */ = {isa = PBXFileReference; name = "Lobster-Regular.ttf"; path = "../src/assets/fonts/Lobster-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5F0AA7D5B1CD4989B006791D /* Comfortaa-Bold.ttf */ = {isa = PBXFileReference; name = "Comfortaa-Bold.ttf"; path = "../src/assets/fonts/Comfortaa-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		79C6C194735B426E920E5900 /* Comfortaa-Light.ttf */ = {isa = PBXFileReference; name = "Comfortaa-Light.ttf"; path = "../src/assets/fonts/Comfortaa-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		55CF1051435D4476941460C6 /* Comfortaa-Regular.ttf */ = {isa = PBXFileReference; name = "Comfortaa-Regular.ttf"; path = "../src/assets/fonts/Comfortaa-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +273,9 @@
 				BA485C62D6D7416D8BB8C126 /* Zocial.ttf */,
 				A5E032CBAB9E4BCE97F39394 /* Lobster.otf */,
 				19D539D7B4AB422BB2B0B410 /* Lobster-Regular.ttf */,
+				5F0AA7D5B1CD4989B006791D /* Comfortaa-Bold.ttf */,
+				79C6C194735B426E920E5900 /* Comfortaa-Light.ttf */,
+				55CF1051435D4476941460C6 /* Comfortaa-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -433,6 +442,9 @@
 				95E7E19753DC41118C92DB37 /* Zocial.ttf in Resources */,
 				732A503447A3461B93E4503E /* Lobster.otf in Resources */,
 				7DA8C9B460184C35A62ACDD6 /* Lobster-Regular.ttf in Resources */,
+				BC404CFD7D584AB4801D4D73 /* Comfortaa-Bold.ttf in Resources */,
+				6EE9AA62E92F426A8C3DDF25 /* Comfortaa-Light.ttf in Resources */,
+				21D4865F70A046FD9A4333A3 /* Comfortaa-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

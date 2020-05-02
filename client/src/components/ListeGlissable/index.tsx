@@ -1,23 +1,80 @@
-import React, { useState } from 'react';
-import {  View, FlatList, ListRenderItem } from 'react-native';
-
+import React, { SetStateAction } from 'react';
+import {  Text, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import ItemListe from '../ItemListe';
-
-import styles from './styles';
+import { CheckBox } from 'react-native-elements';
 
 type ListeGlissableProps = {
-    items: Array<any>;
-    renderItems: ListRenderItem<any>;
+    donnee: Array<any>;
+    setDonnee: React.Dispatch<SetStateAction<Array<{
+        id: string;
+        checked: boolean;
+    }>>>;
+    enleveItem: Function;
+    droite?: any;
+    gauche?: any;
+    droiteHandler?: Function;
+    gaucheHandler?: Function;
 };
 
 function ListeGlissable(props: ListeGlissableProps) {
+    const onCheckHandler = (id: string) => {
+        props.setDonnee(prevListe => prevListe.map(item => {
+            if (item.id === id) {
+                return ({
+                    ...item,
+                    checked: !item.checked
+                });
+            } else {
+                return ({
+                    ...item
+                });
+            }
+        }));
+    }
+
+    const renderItems = () => props.donnee.map((item) => 
+        <ItemListe
+            key={item.id}
+            permetDefile={() => {}}
+            enleveItem={() => props.enleveItem(item.id)}
+            droite={props.droite}
+            checked={item.checked}
+
+        >
+            <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}>
+                <CheckBox
+                    wrapperStyle={{
+                        alignSelf: 'flex-start',
+                        marginRight: -100
+                    }}
+                    checkedColor="red"
+                    checked={item.checked}
+                    onPress={() => onCheckHandler(item.id)}
+                />
+                <Text
+                    style={{
+                        flex: 1,
+                        fontFamily: "Comfortaa-Bold",
+                        fontSize: 18,
+                        color: '#434343',
+                        textAlign: 'center'
+                    }}
+                >{item.id}</Text>
+            </View>
+        </ItemListe>
+    )
+
     return (
         <View style={{ flex: 90 }}>
-            <FlatList
-                contentContainerStyle={{ paddingBottom: 140 }}
-                data={props.items}
-                renderItem={props.renderItems}
-            />
+            <ScrollView contentContainerStyle={{ paddingBottom: 140 }}>
+                {renderItems()}
+            </ScrollView>
         </View>
     );
 }

@@ -12,7 +12,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderLeftWidth: 0.5,
         borderRightWidth: 0.5,
-        borderColor: 'gray'
+        borderColor: 'gray',
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     conteneurGauche: {
         alignItems: 'center',
