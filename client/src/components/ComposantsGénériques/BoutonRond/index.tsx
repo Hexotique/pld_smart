@@ -15,15 +15,16 @@ interface RondProps {
 
 function BoutonRond(props: RondProps) {
     return (
-        <TouchableOpacity style={[
-            styles.rond,
-            { backgroundColor: props.couleur },
-            {
-                height: props.rayon * rem,
-                width: props.rayon * rem,
-                borderRadius: rem * (props.rayon / 2),
-            }
-        ]}
+        <TouchableOpacity
+            style={[
+                styles.rond,
+                { backgroundColor: props.couleur },
+                {
+                    height: props.rayon * rem,
+                    width: props.rayon * rem,
+                    borderRadius: rem * (props.rayon / 2),
+                }
+            ]}
             onPress={props.fonction}>
             <Icon name={props.icon} size={props.rayon * rem / 1.5} color={'white'} />
 
