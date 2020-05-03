@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { SafeAreaView, Text, NativeSyntheticEvent, TextInputSubmitEditingEventData } from 'react-native';
 import ListeGlissable from '../../components/ListeGlissable';
 import Header from '../../components/ComposantsGénériques/Header';
@@ -6,8 +6,11 @@ import { ListeCourseProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
 import { TextInput } from 'react-native-gesture-handler';
+import { ContexteProp, Contexte } from '../../contexte'
+
 
 function ListeCourse({ route, navigation }: ListeCourseProp) {
+    const contexte: ContexteProp = useContext(Contexte);
     const listData = [
         { key: "Yaourts" },
         { key: "Miel" },

@@ -1,81 +1,62 @@
+import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { RouteProp } from '@react-navigation/native';
 
-import { RouteProp, NavigationContainer } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-type RootTabParamList = {
-    ProfilClient: undefined;
+type RootStackParamList = {
     Connexion: undefined;
     Inscription: undefined;
     GardeManger: undefined;
     ListeCourse: undefined;
     ListeTicket: undefined;
-    TicketDetail: undefined;
     Scanner: undefined;
+    Profile: undefined;
 }
 
-type ProfilClientRouteProp = RouteProp<RootTabParamList, 'ProfilClient'>;
-type ProfilClientNavigationProp = StackNavigationProp<RootTabParamList, 'ProfilClient'>;
-
-export type ProfilClientProp = {
-    route: ProfilClientRouteProp;
-    navigation: ProfilClientNavigationProp;
-}
-
-type ConnexionRouteProp = RouteProp<RootTabParamList, 'Connexion'>;
-type ConnexionNavigationProp = StackNavigationProp<RootTabParamList, 'Connexion'>;
+type ConnexionRouteProp = RouteProp<RootStackParamList, 'Connexion'>;
+type ConnexionNavigationProp = BottomTabNavigationProp<RootStackParamList, 'Connexion'>;
 
 export type ConnexionProp = {
     route: ConnexionRouteProp;
     navigation: ConnexionNavigationProp;
 }
 
-type InscriptionRouteProp = RouteProp<RootTabParamList, 'Inscription'>;
-type InscriptionNavigationProp = StackNavigationProp<RootTabParamList, 'Inscription'>;
+type InscriptionRouteProp = RouteProp<RootStackParamList, 'Inscription'>;
+type InscriptionNavigationProp = BottomTabNavigationProp<RootStackParamList, 'Inscription'>;
 
 export type InscriptionProp = {
     route: InscriptionRouteProp;
     navigation: InscriptionNavigationProp;
 }
 
-type GardeMangerRouteProp = RouteProp<RootTabParamList, 'GardeManger'>;
-type GardeMangerNavigationProp = StackNavigationProp<RootTabParamList, 'GardeManger'>;
+type GardeMangerRouteProp = RouteProp<RootStackParamList, 'GardeManger'>;
+type GardeMangerNavigationProp = BottomTabNavigationProp<RootStackParamList, 'GardeManger'>;
 
 export type GardeMangerProp = {
     route: GardeMangerRouteProp;
     navigation: GardeMangerNavigationProp;
 }
 
-type ListeCourseRouteProp = RouteProp<RootTabParamList, 'ListeCourse'>;
-type ListeCourseNavigationProp = StackNavigationProp<RootTabParamList, 'ListeCourse'>;
+type ListeCourseRouteProp = RouteProp<RootStackParamList, 'ListeCourse'>;
+type ListeCourseNavigationProp = BottomTabNavigationProp<RootStackParamList, 'ListeCourse'>;
 
 export type ListeCourseProp = {
     route: ListeCourseRouteProp;
     navigation: ListeCourseNavigationProp;
 }
 
-type ListeTicketRouteProp = RouteProp<RootTabParamList, 'ListeTicket'>;
-type ListeTicketNavigationProp = StackNavigationProp<RootTabParamList, 'ListeTicket'>;
+type ListeTicketRouteProp = RouteProp<RootStackParamList, 'ListeTicket'>;
+type ListeTicketNavigationProp = BottomTabNavigationProp<RootStackParamList, 'ListeTicket'>;
 
 export type ListeTicketProp = {
     route: ListeTicketRouteProp;
     navigation: ListeTicketNavigationProp;
 }
 
-type TicketDetailRouteProp = RouteProp<RootTabParamList, 'TicketDetail'>;
-type TicketDetailNavigationProp = StackNavigationProp<RootTabParamList, 'TicketDetail'>;
-
-export type TicketDetailProp = {
-    route: TicketDetailRouteProp;
-    navigation: TicketDetailNavigationProp;
-}
-
-type ScannerRouteProp = RouteProp<RootTabParamList, 'TicketDetail'>;
-type ScannerNavigationProp = StackNavigationProp<RootTabParamList, 'TicketDetail'>;
+type ScannerRouteProp = RouteProp<RootStackParamList, 'Scanner'>;
+type ScannerNavigationProp = BottomTabNavigationProp<RootStackParamList, 'Scanner'>;
 
 export type ScannerProp = {
     route: ScannerRouteProp;
     navigation: ScannerNavigationProp;
 }
 
-export const Tab = createBottomTabNavigator<RootTabParamList>();
+export const Tab = createBottomTabNavigator<RootStackParamList>();
