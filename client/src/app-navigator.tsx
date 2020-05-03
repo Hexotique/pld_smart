@@ -1,4 +1,4 @@
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp } from '@react-navigation/native';
 
 type RootStackParamList = {
@@ -8,10 +8,11 @@ type RootStackParamList = {
     ListeCourse: undefined;
     ListeTicket: undefined;
     Scanner: undefined;
+    Profile: undefined;
 }
 
 type ConnexionRouteProp = RouteProp<RootStackParamList, 'Connexion'>;
-type ConnexionNavigationProp = StackNavigationProp<RootStackParamList, 'Connexion'>;
+type ConnexionNavigationProp = BottomTabNavigationProp<RootStackParamList, 'Connexion'>;
 
 export type ConnexionProp = {
     route: ConnexionRouteProp;
@@ -19,7 +20,7 @@ export type ConnexionProp = {
 }
 
 type InscriptionRouteProp = RouteProp<RootStackParamList, 'Inscription'>;
-type InscriptionNavigationProp = StackNavigationProp<RootStackParamList, 'Inscription'>;
+type InscriptionNavigationProp = BottomTabNavigationProp<RootStackParamList, 'Inscription'>;
 
 export type InscriptionProp = {
     route: InscriptionRouteProp;
@@ -27,7 +28,7 @@ export type InscriptionProp = {
 }
 
 type GardeMangerRouteProp = RouteProp<RootStackParamList, 'GardeManger'>;
-type GardeMangerNavigationProp = StackNavigationProp<RootStackParamList, 'GardeManger'>;
+type GardeMangerNavigationProp = BottomTabNavigationProp<RootStackParamList, 'GardeManger'>;
 
 export type GardeMangerProp = {
     route: GardeMangerRouteProp;
@@ -35,7 +36,7 @@ export type GardeMangerProp = {
 }
 
 type ListeCourseRouteProp = RouteProp<RootStackParamList, 'ListeCourse'>;
-type ListeCourseNavigationProp = StackNavigationProp<RootStackParamList, 'ListeCourse'>;
+type ListeCourseNavigationProp = BottomTabNavigationProp<RootStackParamList, 'ListeCourse'>;
 
 export type ListeCourseProp = {
     route: ListeCourseRouteProp;
@@ -43,7 +44,7 @@ export type ListeCourseProp = {
 }
 
 type ListeTicketRouteProp = RouteProp<RootStackParamList, 'ListeTicket'>;
-type ListeTicketNavigationProp = StackNavigationProp<RootStackParamList, 'ListeTicket'>;
+type ListeTicketNavigationProp = BottomTabNavigationProp<RootStackParamList, 'ListeTicket'>;
 
 export type ListeTicketProp = {
     route: ListeTicketRouteProp;
@@ -53,11 +54,20 @@ export type ListeTicketProp = {
 
 
 type ScannerRouteProp = RouteProp<RootStackParamList, 'Scanner'>;
-type ScannerNavigationProp = StackNavigationProp<RootStackParamList, 'Scanner'>;
+type ScannerNavigationProp = BottomTabNavigationProp<RootStackParamList, 'Scanner'>;
 
 export type ScannerProp = {
     route: ScannerRouteProp;
     navigation: ScannerNavigationProp;
 }
 
-export const Stack = createStackNavigator<RootStackParamList>();
+type ProfileRouteProp = RouteProp<RootStackParamList, 'Profile'>;
+type ProfileNavigationProp = BottomTabNavigationProp<RootStackParamList, 'Profile'>;
+
+export type ProfileProp = {
+    route: ProfileRouteProp;
+    navigation: ProfileNavigationProp;
+}
+
+
+export const Tab = createBottomTabNavigator<RootStackParamList>();

@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 // V2
 // import AsyncStorage from '@react-native-community/async-storage';
-import { Stack } from './app-navigator';
+import { Tab } from './app-navigator';
 
 // V0
 //import { Tab } from "./navigator";
@@ -23,21 +23,28 @@ import Connexion from "./screens/Connexion";
 import Inscription from "./screens/Inscription";
 import Scanner from './screens/Scanner';
 
-//import ProfilClient from './screens/ProfilClient';
+import ProfilClient from './screens/ProfilClient';
 
 export default function App() {
-    const [tokenUtilisateur, setToken] = useState(false);
+    const [chargement, setChargement] = useState(false);
+    const [tokenUtilisateur, setTokenUtilisateur] = useState(true);
     return (
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Tab.Navigator screenOptions={{ tabBarVisible: true }}>
                 {tokenUtilisateur ?
-                    (
-                        <Stack.Screen name='GardeManger' component={GardeManger} />
-                    ) : (
-                        <Stack.Screen name='Connexion' component={Connexion} />
+                    (<>
+                        <Tab.Screen name='GardeManger' component={GardeManger} />
+                        <Tab.Screen name='ListeCourse' component={ListeCourse} />
+                        <Tab.Screen name='ListeTicket' component={ListeTicket} />
+                        <Tab.Screen name='Scanner' component={Scanner} />
+                        <Tab.Screen name='Profile' component={ProfilClient} />
+                    </>) : (<>
+                        <Tab.Screen name='Connexion' component={Connexion} />
+                        <Tab.Screen name='Inscription' component={Inscription} />
+                    </>
                     )
                 }
-            </Stack.Navigator>
+            </Tab.Navigator>
 
 
 
