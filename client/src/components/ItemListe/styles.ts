@@ -9,12 +9,14 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
         height: 50,
         zIndex: 2,
-        alignItems: 'center',
-        justifyContent: 'center',
         borderBottomWidth: 0.5,
         borderLeftWidth: 0.5,
         borderRightWidth: 0.5,
-        borderColor: 'gray'
+        borderColor: 'gray',
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     conteneurGauche: {
         alignItems: 'center',
@@ -30,12 +32,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: "#d91f1fff",
         height: 50
-    },
-    textePrincipale: {
-        fontFamily: "Comfortaa",
-        fontWeight: "bold",
-        fontSize: 18,
-        color: '#434343'
     }
 });
 

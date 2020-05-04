@@ -1,17 +1,19 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, PropsWithChildren } from 'react';
 import { Animated, Dimensions, TouchableOpacity, Easing, PanResponder, Text, View } from 'react-native';
 import styles from './styles';
+import { CheckBox } from 'react-native-elements';
 
 type ItemListeProps = {
-    texte: string;
     permetDefile: Function;
     gauche?: any;
     droite?: any;
     gaucheHandler?: Function;
     droiteHandler?: Function;
+    enleveItem: Function;
+    checked: boolean;
 };
 
-function ItemListe(props: ItemListeProps) {
+function ItemListe(props: PropsWithChildren<ItemListeProps>) {
     const LARGEUR_ECRAN = Dimensions.get('window').width;
     const SEUIL_MVT = LARGEUR_ECRAN / 15;
     const SEUIL_VSN = LARGEUR_ECRAN / 7;
@@ -19,7 +21,7 @@ function ItemListe(props: ItemListeProps) {
 
     const DUREE_ANIM = 350;
 
-    const position = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+    const position = new Animated.ValueXY({ x: 0, y: 0 });
 
     const glisseComplete = (direction: string, cb: Function | undefined) => {
         const x = direction === 'droite' ? LARGEUR_ECRAN : -LARGEUR_ECRAN;
@@ -27,8 +29,8 @@ function ItemListe(props: ItemListeProps) {
             toValue: { x, y: 0 },
             duration: DUREE_ANIM,
             useNativeDriver: false
-        }).start()
-        if(cb) {
+        }).start(() => props.enleveItem())
+        if (cb) {
             cb();
         }
     }
@@ -51,7 +53,7 @@ function ItemListe(props: ItemListeProps) {
         }).start()
     }
 
-    const panResponder = useMemo(() => PanResponder.create({
+    const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (evt, geste) => false,
         onMoveShouldSetPanResponder: (evt, geste) => true,
         onPanResponderTerminationRequest: (evt, geste) => false,
@@ -95,7 +97,7 @@ function ItemListe(props: ItemListeProps) {
                 useNativeDriver: false
             }).start()
         }
-    }), []);
+    });
 
     const gauchePropStyle = () => {
         const opacity = position.x.interpolate({
@@ -132,9 +134,7 @@ function ItemListe(props: ItemListeProps) {
                 style={[styles.conteneurPrincipale, position.getLayout()]}
                 {...panResponder.panHandlers}
             >
-                <Text style={styles.textePrincipale}>
-                    {props.texte}
-                </Text>
+                {props.children}
             </Animated.View>
             {props.droite &&
                 <Animated.View style={[styles.conteneurDroite, droitePropStyle()]}>
