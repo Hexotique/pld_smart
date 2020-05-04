@@ -18,13 +18,8 @@ export interface GardeMangerJson {
     items: Array<itemGardeMangerJson>
 }
 
-export interface ClientJson {
-    nom:string,
-    prenom:string,
-    email:string,
-    mdp?:string,
-    token?:string,
-}
+
+
 
 function _setHTTPMethod(url: RequestInfo, httpMethod: string, body?: any): Promise<Response> {
     const httpOptions: RequestInit = {
@@ -53,18 +48,6 @@ export function recupererContenuGardeMangerGet(): Promise<GardeMangerJson> {
             console.error(error);
         });
 
-}
-
-export function inscription_client_put(): Promise<ClientJson> {
-    const url: RequestInfo = `${APIBaseURL}/garde-manger/recuperer-contenu`;
-    return _setHTTPMethod(url, 'GET')
-        .then((response) => {
-            return response.json();
-        })
-        .catch((error) => {
-            console.log(error);
-            console.error(error);
-        });
 }
 
 export function recupererProduitViaCodeBarre(code: string): Promise<any> {
