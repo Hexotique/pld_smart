@@ -15,7 +15,7 @@ function Connexion({ route, navigation }: InscriptionProp) {
             </ImageBackground>
             <View style={styles.fondTransparent}></View>
             <View style={styles.titre}><InscriptionTitre></InscriptionTitre></View>
-            <View style={styles.inscription}><InscriptionChamps fonction={() => contexte.inscription()}></InscriptionChamps></View>
+            <View style={styles.inscription}><InscriptionChamps></InscriptionChamps></View>
         </View>
     );
 }

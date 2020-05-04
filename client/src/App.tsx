@@ -86,6 +86,7 @@ export default function App() {
             deconnexion: () => updateState({ type: 'SIGN_OUT', tokenUtilisateur: null }), // déconnexion basique, faut peut être sortir le token du cache ?
             inscription: async (mail: string, mdp: string, nom: string, prenom: string) => {
 
+                console.log(mail + mdp + nom + prenom);
                 //Effectuer l'inscription
 
                 updateState({ type: 'SIGN_IN', tokenUtilisateur: 'dummy-auth-token' });

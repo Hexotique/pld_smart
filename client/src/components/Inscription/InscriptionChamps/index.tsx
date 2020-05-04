@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import styles from './styles';
+import { Contexte, ContexteProp } from '../../../contexte';
 
-interface Propriete {
-    fonction: any
-}
 
-function InscriptionChamps(prop: Propriete) {
+function InscriptionChamps() {
+    const contexte: ContexteProp = useContext(Contexte);
+
     const [valeurPrenom, prenom] = React.useState('');
     const [valeurNom, nom] = React.useState('');
     const [valeurIdentifiant, identifiant] = React.useState('');
@@ -51,7 +51,7 @@ function InscriptionChamps(prop: Propriete) {
                 value={valeurMdp}
             />
 
-            <TouchableOpacity style={styles.bouton} onPress={prop.fonction}>
+            <TouchableOpacity style={styles.bouton} onPress={() => { contexte.inscription(valeurIdentifiant, valeurMdp, valeurNom, valeurPrenom) }}>
                 <Text style={styles.texteBouton}>VALIDER</Text>
             </TouchableOpacity>
 
