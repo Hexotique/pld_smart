@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { View, TextInput, TouchableOpacity, Text, Keyboard, KeyboardEvent } from 'react-native';
 import styles from './styles';
 import { Contexte, ContexteProp } from '../../../contexte';
 
