@@ -166,12 +166,23 @@ export function recupererContenuListeTicketGet(): Promise<ListeTickets> {
 
 }
 
-
 export function recupererContenuDetailTicketGet(): Promise<DetailTicket> {
     const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-detail-ticket`;
     return _setHTTPMethod(url, 'GET')
         .then((response) => {
             return response.json();
+        })
+        .catch((error) => {
+            console.log(error);
+            console.error(error);
+        });
+}
+
+export function supprimer_ticket_delete(idTicket: number) {
+    const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-detail-ticket/${idTicket}`;
+    _setHTTPMethod(url, 'DELETE')
+        .then((response) => {
+            // Je sais pas si on fait un truc
         })
         .catch((error) => {
             console.log(error);
