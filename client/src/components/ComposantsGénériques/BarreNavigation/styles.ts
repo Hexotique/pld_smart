@@ -2,16 +2,20 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 const entireScreenWidth: number = Dimensions.get('window').width;
 const rem: number = entireScreenWidth / 380;
+const hauteurBarreNav : number = 0.1 * entireScreenWidth;
 
 const styles = StyleSheet.create({
     conteneur_navBar: {
+        position:'absolute',
+        bottom:0,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#ffffffa5',
         paddingLeft: '2%',
-        height: '9%',
-        paddingBottom: 50 * rem
+        width:entireScreenWidth,
+        height: hauteurBarreNav,
+        paddingBottom: hauteurBarreNav*2
     },
 });
 

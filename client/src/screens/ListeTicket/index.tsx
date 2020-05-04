@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import TicketListe from "../../components/ListeTickets/ListeTicket";
 import { ListeTicketProp } from "../../navigator";
@@ -33,13 +33,11 @@ function ListeTicket({ route, navigation }: ListeTicketProp) {
             style={{ flex: 1 }}
             onSwipeRight={() => navGauche(navigation)}
             onSwipeLeft={() => navDroite(navigation)}>
-            <View style={{ flex: 1, backgroundColor: 'white' }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                 <Header indexe={3} />
                 <TicketListe></TicketListe>
-            </View>
-
+            </SafeAreaView>
             <BarreNavigation indexe={3} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} />
-
         </GestureRecognizer >
     );
 }

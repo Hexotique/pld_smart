@@ -167,18 +167,21 @@ const dataTicket = [
 function TicketListe() {
     return (
         <View style={styles.liste}>
-            <FlatList 
-                data={dataTicket}
-                horizontal={false}
-                numColumns={3}
-                keyExtractor={(item, index) => item + index.toString()}
-                renderItem={({ item }) => <Item
-                    prix={item.prix}
-                    commerce={item.commerce}
-                    date={item.date}
-                />}
-                
-            />
+            <View >
+                <FlatList
+                    contentContainerStyle={{ paddingBottom: 140 }}
+                    data={dataTicket}
+                    horizontal={false}
+                    numColumns={3}
+                    keyExtractor={(item, index) => item + index.toString()}
+                    renderItem={({ item }) => <Item
+                        prix={item.prix}
+                        commerce={item.commerce}
+                        date={item.date}
+                    />}
+                />
+
+            </View>
         </View>
     );
 }

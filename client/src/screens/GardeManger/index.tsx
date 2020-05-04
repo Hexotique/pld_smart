@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import GardeMangerListe from '../../components/GardeManger/GardeMangerListe';
 import { recupererContenuGardeMangerGet } from '../../api';
@@ -18,13 +18,11 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
             onSwipeRight={() => navGauche(navigation)}
             onSwipeLeft={() => navDroite(navigation)}
             style={{ flex: 1 }}>
-            <View style={{ flex: 1, backgroundColor: 'white' }}>
-                <View style={{ flex: 8 }}>
-                    <Header indexe={2} />
-                    <GardeMangerListe></GardeMangerListe>
-                </View>
-                <BarreNavigation indexe={2} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} />
-            </View>
+            <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+                <Header indexe={2} />
+                <GardeMangerListe></GardeMangerListe>
+            </SafeAreaView>
+            <BarreNavigation indexe={2} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} />
         </GestureRecognizer>
     );
 }
