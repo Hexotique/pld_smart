@@ -196,8 +196,15 @@ export function connexion_client_post(client: Client): Promise<Client> {
     const url: RequestInfo = `${APIBaseURL}/client/connexion`;
     return _setHTTPMethod(url, 'POST', client)
         .then((response) => {
-            console.log(response);
-            return response.json();
+            console.log('res : ' + response.status);
+            switch (response.status) {
+                case 200: //succès
+                    return response.json();
+                    break;
+                default:
+                    return null;
+                    break;
+            }
         })
         .catch((error) => {
             console.log(error);
@@ -218,8 +225,16 @@ export function inscription_client_put(client: Client): Promise<Client> {
     console.log("request sent : " + url);
     console.log(httpOptions);
     return fetch(url, httpOptions)
-        .then((res) => {
-            return res.json();
+        .then((response) => {
+            console.log('res : ' + response.status);
+            switch (response.status) {
+                case 201: //succès
+                    return response.json();
+                    break;
+                default:
+                    return null;
+                    break;
+            }
         })
         .catch((error) => {
             console.log(error);

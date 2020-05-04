@@ -1,13 +1,13 @@
 import 'react-native-gesture-handler';
 import React, { useState, createContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-
 import AsyncStorage from '@react-native-community/async-storage';
+import { View, Image, Platform, ToastAndroid } from 'react-native';
+import Toast from 'react-native-simple-toast';
+
 import { Tab } from './navigator';
 import { Contexte, ContexteProp } from './contexte';
 import { inscription_client_put, Client, connexion_client_post } from './api';
-
-
 import GardeManger from "./screens/GardeManger";
 import ListeCourse from "./screens/ListeCourse";
 import ListeTicket from "./screens/ListeTicket";
@@ -15,7 +15,6 @@ import Connexion from "./screens/Connexion";
 import Inscription from "./screens/Inscription";
 import Scanner from './screens/Scanner';
 
-import { View, Image } from 'react-native';
 
 type action = {
     type: string;
@@ -64,7 +63,7 @@ export default function App() {
 
     // Quand on lance l'app ça s'exécute de manière asynchrone
     useEffect(() => {
-        AsyncStorage.getItem('Token') //Le cture du token dans le cache de l'app, renvoie null si absent
+        AsyncStorage.getItem('Token') //Le cture dutoken dans le cache de l'app, renvoie null si absent
             .then((token) => {
                 updateState({ type: 'RESTORE_TOKEN', tokenUtilisateur: token });
                 console.log(token);
@@ -83,12 +82,14 @@ export default function App() {
                 console.log(nouveauClient);
                 connexion_client_post(nouveauClient)
                     .then((client) => {
-                        updateState({ type: 'SIGN_IN', tokenUtilisateur: client.token });
-                        console.log(client.token);
+                        if (client === null) {
+                            Toast.show('connexion impossible', Toast.SHORT)
+                        } else {
+                            updateState({ type: 'SIGN_IN', tokenUtilisateur: client.token });
+                        }
                     })
                     .catch((error) => {
-                        console.log(error);
-                        console.error(error);
+                        console.log('Connexion failed');
                     });
             },
             deconnexion: () => updateState({ type: 'SIGN_OUT', tokenUtilisateur: null }), // déconnexion basique, faut peut être sortir le token du cache ?
@@ -97,11 +98,15 @@ export default function App() {
                 console.log(nouveauClient);
                 inscription_client_put(nouveauClient)
                     .then((client) => {
-                        updateState({ type: 'SIGN_IN', tokenUtilisateur: client.token });
+                        if (client === null) {
+                            Toast.show('Inscription impossible', Toast.SHORT)
+                        } else {
+                            updateState({ type: 'SIGN_IN', tokenUtilisateur: client.token });
+                        }
                     })
                     .catch((error) => {
-                        console.log(error);
-                        console.error(error);
+                        console.log('Inscription failed');
+
                     });
             },
         }),
