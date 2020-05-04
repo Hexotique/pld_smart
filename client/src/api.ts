@@ -137,7 +137,7 @@ export function recupererContenuDetailTicketGet(): Promise<DetailTicket> {
 // Client
 
 export function connexion_client_post(client: Client): Promise<Client> {
-    const url: RequestInfo = `${APIBaseURL}/client/inscription`;
+    const url: RequestInfo = `${APIBaseURL}/client/connexion`;
     return _setHTTPMethod(url, 'POST', client)
         .then((response) => {
             return response.json();
@@ -168,6 +168,8 @@ export function inscription_client_put(client: Client): Promise<Client> {
             console.error(error);
         });
 }
+
+
 
 
 
