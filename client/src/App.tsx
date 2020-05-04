@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, { useState, createContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { View, Image, Platform, ToastAndroid } from 'react-native';
+import { View, Image, Vibration, Platform, ToastAndroid } from 'react-native';
 import Toast from 'react-native-simple-toast';
 
 import { Tab } from './navigator';
@@ -83,7 +83,8 @@ export default function App() {
                 connexion_client_post(nouveauClient)
                     .then((client) => {
                         if (client === null) {
-                            Toast.show('connexion impossible', Toast.SHORT)
+                            Toast.show('connexion impossible', Toast.SHORT);
+                            Vibration.vibrate([0, 80, 80, 80])
                         } else {
                             updateState({ type: 'SIGN_IN', tokenUtilisateur: client.token });
                         }
@@ -100,6 +101,7 @@ export default function App() {
                     .then((client) => {
                         if (client === null) {
                             Toast.show('Inscription impossible', Toast.SHORT)
+                            Vibration.vibrate([0, 80, 80, 80])
                         } else {
                             updateState({ type: 'SIGN_IN', tokenUtilisateur: client.token });
                         }
