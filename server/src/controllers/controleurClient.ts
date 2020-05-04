@@ -22,7 +22,13 @@ export const inscription_client_put = async (req: Request, res: Response, next: 
             });
             await nouvelUtilisateur.createGardeManger();
             await nouvelUtilisateur.createListe();
-            res.status(201).json(nouvelUtilisateur.get());
+            const token = jwt.sign({ id: nouvelUtilisateur.id, email: nouvelUtilisateur.email }, process.env.SECRET_CODE as string);
+            res.status(201).json({
+                email: nouvelUtilisateur.email,
+                nom: nouvelUtilisateur.nom,
+                prenom: nouvelUtilisateur.prenom,
+                token: token
+            });
             return nouvelUtilisateur;
         }
     }
@@ -49,13 +55,10 @@ export const connexion_client_post = (req: Request, res: Response, next: NextFun
                 }
                 const token = jwt.sign({ id: utilisateur.id, email: utilisateur.email }, process.env.SECRET_CODE as string);
                 return res.status(200).json({
-                    utilisateur: {
-                        id: utilisateur.id,
-                        email: utilisateur.email,
-                        nom: utilisateur.nom,
-                        prenom: utilisateur.prenom
-                    },
-                    token
+                    email: utilisateur.email,
+                    nom: utilisateur.nom,
+                    prenom: utilisateur.prenom,
+                    token: token
                 });
             });
         })(req, res, next);
