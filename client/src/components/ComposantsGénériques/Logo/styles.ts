@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
 
     profile_image: {
         height: 27 * rem,
-        width: 27 * rem,
-        marginRight: 2 * rem
+        width: 32 * rem,
+        //marginRight: 2 * rem
     },
 });
 

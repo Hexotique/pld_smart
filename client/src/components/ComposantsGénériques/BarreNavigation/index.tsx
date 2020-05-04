@@ -8,7 +8,8 @@ const guide_de_style = require('../../../assets/guide_de_style.json');
 interface Propriete {
     indexe: number,
     navGauche: any,
-    navDroite: any
+    navDroite: any,
+    boutonCentre?: any
 }
 
 function BarreNavigation(props: Propriete) {
@@ -19,6 +20,7 @@ function BarreNavigation(props: Propriete) {
     let icon1: string;
     let icon2: string;
     let icon3: string;
+    let f: any = () => { };
     // let fonction1: any;
     // let fonction2: any;
     // let fonction3: any;
@@ -44,6 +46,7 @@ function BarreNavigation(props: Propriete) {
             icon1 = guide_de_style.Icones.Tickets;
             icon2 = guide_de_style.Icones.Garde_Manger;
             icon3 = guide_de_style.Icones.Liste_Courses;
+            f = props.boutonCentre;
             // fonction1 = () => { };
             // fonction2 = () => { };
             // fonction3 = () => { };
@@ -65,7 +68,7 @@ function BarreNavigation(props: Propriete) {
     return (
         <View style={styles.conteneur_navBar}>
             <BoutonRond fonction={props.navGauche} couleur={couleur1} icon={icon1} rayon={60} />
-            <BoutonRond couleur={couleur2} icon={icon2} rayon={85} />
+            <BoutonRond couleur={couleur2} icon={icon2} rayon={85} fonction={f} />
             <BoutonRond fonction={props.navDroite} couleur={couleur3} icon={icon3} rayon={60} />
         </View>
     );

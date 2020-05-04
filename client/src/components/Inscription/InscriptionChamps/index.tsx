@@ -2,7 +2,11 @@ import React from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import styles from './styles';
 
-function InscriptionChamps() {
+interface Propriete {
+    fonction: any
+}
+
+function InscriptionChamps(prop: Propriete) {
     const [valeurPrenom, prenom] = React.useState('');
     const [valeurNom, nom] = React.useState('');
     const [valeurIdentifiant, identifiant] = React.useState('');
@@ -46,11 +50,11 @@ function InscriptionChamps() {
                 onChangeText={text => mdp(text)}
                 value={valeurMdp}
             />
-            
-             <TouchableOpacity style={styles.bouton} onPress={() => {}}>
-                 <Text style={styles.texteBouton}>VALIDER</Text>
-             </TouchableOpacity>
-             
+
+            <TouchableOpacity style={styles.bouton} onPress={prop.fonction}>
+                <Text style={styles.texteBouton}>VALIDER</Text>
+            </TouchableOpacity>
+
         </View>
     );
 }

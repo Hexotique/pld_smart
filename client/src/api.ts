@@ -84,6 +84,20 @@ export function recupererContenuGardeMangerGet(): Promise<GardeMangerJson> {
 
 }
 
+export function recupererProduitViaCodeBarre(code: string): Promise<any> {
+
+    const url = `https://fr.openfoodfacts.org/api/v0/product/${code}.json`;
+
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            UserAgent: 'Pot d\'Yaourt - ReactNative - Version 1.0'
+        }
+    })
+}
+
 export function recupererContenuListeTicketGet(): Promise<ListeTickets> {
     const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-tickets`;
     return _setHTTPMethod(url, 'GET')
@@ -97,6 +111,7 @@ export function recupererContenuListeTicketGet(): Promise<ListeTickets> {
 
 }
 
+
 export function recupererContenuDetailTicketGet(): Promise<DetailTicket> {
     const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-detail-ticket`;
     return _setHTTPMethod(url, 'GET')
@@ -108,4 +123,6 @@ export function recupererContenuDetailTicketGet(): Promise<DetailTicket> {
             console.error(error);
         });
 
+
 }
+
