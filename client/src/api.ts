@@ -53,7 +53,14 @@ export interface DetailTicket {
     }
 }
 
-
+//JSON pour les infos d'un client
+export interface Client {
+    mail: string,
+    mdp?: string,
+    nom?: string,
+    prenom?: string,
+    token?: string
+}
 
 function _setHTTPMethod(url: RequestInfo, httpMethod: string, body?: any): Promise<Response> {
     const httpOptions: RequestInit = {
@@ -71,6 +78,7 @@ function _setHTTPMethod(url: RequestInfo, httpMethod: string, body?: any): Promi
     return fetch(url, httpOptions);
 }
 
+// Garde Manger
 export function recupererContenuGardeMangerGet(): Promise<GardeMangerJson> {
     const url: RequestInfo = `${APIBaseURL}/garde-manger/recuperer-contenu`;
     return _setHTTPMethod(url, 'GET')
@@ -84,6 +92,7 @@ export function recupererContenuGardeMangerGet(): Promise<GardeMangerJson> {
 
 }
 
+// Interactions OFF
 export function recupererProduitViaCodeBarre(code: string): Promise<any> {
 
     const url = `https://fr.openfoodfacts.org/api/v0/product/${code}.json`;
@@ -98,6 +107,7 @@ export function recupererProduitViaCodeBarre(code: string): Promise<any> {
     })
 }
 
+//Liste Tickets
 export function recupererContenuListeTicketGet(): Promise<ListeTickets> {
     const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-tickets`;
     return _setHTTPMethod(url, 'GET')
@@ -122,7 +132,42 @@ export function recupererContenuDetailTicketGet(): Promise<DetailTicket> {
             console.log(error);
             console.error(error);
         });
-
-
 }
+
+// Client
+
+export function connexion_client_post(client: Client): Promise<Client> {
+    const url: RequestInfo = `${APIBaseURL}/client/inscription`;
+    return _setHTTPMethod(url, 'POST', client)
+        .then((response) => {
+            return response.json();
+        })
+        .catch((error) => {
+            console.log(error);
+            console.error(error);
+        });
+}
+
+export function inscription_client_put(client: Client): Promise<Client> {
+    const url: RequestInfo = `${APIBaseURL}/client/inscription`;
+    const httpOptions: RequestInit = {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    };
+    httpOptions.body = JSON.stringify(client);
+    console.log("request sent : " + url);
+    return fetch(url, httpOptions)
+        .then((res) => {
+            return res.json();
+        })
+        .catch((error) => {
+            console.log(error);
+            console.error(error);
+        });
+}
+
+
 
