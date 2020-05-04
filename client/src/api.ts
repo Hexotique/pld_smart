@@ -20,6 +20,24 @@ export interface GardeMangerJson {
     items: Array<itemGardeMangerJson>
 }
 
+export interface Ajout {
+    nomProduit: string;
+    quantite: number;
+}
+
+export interface AjoutJson {
+    ajouts: Array<Ajout>;
+}
+
+interface Modification {
+    idItem: number;
+    quantite: number;
+}
+
+interface ModificationJson {
+    modifications: Array<Modification>;
+}
+
 //Json pour la liste des tickets
 
 export interface Ticket {
@@ -54,6 +72,7 @@ export interface DetailTicket {
 }
 
 //JSON pour les infos d'un client
+
 export interface Client {
     mail: string,
     mdp?: string,
@@ -61,6 +80,8 @@ export interface Client {
     prenom?: string,
     token?: string
 }
+
+// Méthode pour générer les requètes
 
 function _setHTTPMethod(url: RequestInfo, httpMethod: string, body?: any): Promise<Response> {
     const httpOptions: RequestInit = {
@@ -84,6 +105,30 @@ export function recupererContenuGardeMangerGet(): Promise<GardeMangerJson> {
     return _setHTTPMethod(url, 'GET')
         .then((response) => {
             return response.json();
+        })
+        .catch((error) => {
+            console.log(error);
+            console.error(error);
+        });
+}
+
+export function ajouter_produit_alamano_put(ajouts: AjoutJson) {
+    const url: RequestInfo = `${APIBaseURL}/garde-manger/ajouter-produit-alamano`;
+    _setHTTPMethod(url, 'PUT', ajouts)
+        .then((response) => {
+            // Je sais pas si on fait un truc
+        })
+        .catch((error) => {
+            console.log(error);
+            console.error(error);
+        });
+}
+
+export function modifier_quantite_post(modifications: ModificationJson) {
+    const url: RequestInfo = `${APIBaseURL}/garde-manger/modifier-quantite`;
+    _setHTTPMethod(url, 'POST', modifications)
+        .then((response) => {
+            // Je sais pas si on fait un truc
         })
         .catch((error) => {
             console.log(error);
