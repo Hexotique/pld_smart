@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import styles from './styles';
-import { Propriete } from 'src/components/ComposantsScanner/ModalProduit';
+import { Contexte, ContexteProp } from '../../../contexte';
 
 interface Proprite {
     fonction: any,
 }
 
 function ConnexionChamps(props: Proprite) {
+    const contexte: ContexteProp = useContext(Contexte);
 
     const [valeurIdentifiant, identifiant] = React.useState('');
     const [valeurMdp, mdp] = React.useState('');
@@ -33,7 +34,7 @@ function ConnexionChamps(props: Proprite) {
                 value={valeurMdp}
             />
 
-            <TouchableOpacity style={styles.bouton} onPress={props.fonction}>
+            <TouchableOpacity style={styles.bouton} onPress={() => { contexte.connexion({ email: valeurIdentifiant, mdp: valeurMdp }) }}>
                 <Text style={styles.texteBouton}>CONNEXION</Text>
             </TouchableOpacity>
 

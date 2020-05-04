@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Tab } from './navigator';
 import { Contexte, ContexteProp } from './contexte';
+import { inscription_client_put, Client, connexion_client_post } from './api';
 
 
 import GardeManger from "./screens/GardeManger";
@@ -77,19 +78,31 @@ export default function App() {
     // On utilise useMemo car ça permet de faire moins de calculs mais j'ai pas tout compris cf https://fr.reactjs.org/docs/hooks-reference.html#usememo
     const authContext: ContexteProp = React.useMemo(
         () => ({
-            connexion: async (mail: string, mdp: string) => {
+            connexion: async (nouveauClient: Client) => {
 
-                // Effectuer la connexion
-
-                updateState({ type: 'SIGN_IN', tokenUtilisateur: 'dummy-auth-token' });
+                console.log(nouveauClient);
+                connexion_client_post(nouveauClient)
+                    .then((client) => {
+                        updateState({ type: 'SIGN_IN', tokenUtilisateur: client.token });
+                        console.log(client.token);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        console.error(error);
+                    });
             },
             deconnexion: () => updateState({ type: 'SIGN_OUT', tokenUtilisateur: null }), // déconnexion basique, faut peut être sortir le token du cache ?
-            inscription: async (mail: string, mdp: string, nom: string, prenom: string) => {
+            inscription: async (nouveauClient: Client) => {
 
-                console.log(mail + mdp + nom + prenom);
-                //Effectuer l'inscription
-
-                updateState({ type: 'SIGN_IN', tokenUtilisateur: 'dummy-auth-token' });
+                console.log(nouveauClient);
+                inscription_client_put(nouveauClient)
+                    .then((client) => {
+                        updateState({ type: 'SIGN_IN', tokenUtilisateur: client.token });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        console.error(error);
+                    });
             },
         }),
         []

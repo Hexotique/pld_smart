@@ -51,7 +51,7 @@ function InscriptionChamps() {
                 value={valeurMdp}
             />
 
-            <TouchableOpacity style={styles.bouton} onPress={() => { contexte.inscription(valeurIdentifiant, valeurMdp, valeurNom, valeurPrenom) }}>
+            <TouchableOpacity style={styles.bouton} onPress={() => { contexte.inscription({ email: valeurIdentifiant, mdp: valeurMdp, nom: valeurNom, prenom: valeurPrenom }) }}>
                 <Text style={styles.texteBouton}>VALIDER</Text>
             </TouchableOpacity>
 

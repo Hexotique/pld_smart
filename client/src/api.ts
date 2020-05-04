@@ -74,7 +74,7 @@ export interface DetailTicket {
 //JSON pour les infos d'un client
 
 export interface Client {
-    mail: string,
+    email: string,
     mdp?: string,
     nom?: string,
     prenom?: string,
@@ -196,6 +196,7 @@ export function connexion_client_post(client: Client): Promise<Client> {
     const url: RequestInfo = `${APIBaseURL}/client/connexion`;
     return _setHTTPMethod(url, 'POST', client)
         .then((response) => {
+            console.log(response);
             return response.json();
         })
         .catch((error) => {
@@ -215,6 +216,7 @@ export function inscription_client_put(client: Client): Promise<Client> {
     };
     httpOptions.body = JSON.stringify(client);
     console.log("request sent : " + url);
+    console.log(httpOptions);
     return fetch(url, httpOptions)
         .then((res) => {
             return res.json();
