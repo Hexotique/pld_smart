@@ -151,6 +151,7 @@ export function recupererProduitViaCodeBarre(code: string): Promise<any> {
             UserAgent: 'Pot d\'Yaourt - ReactNative - Version 1.0'
         }
     })
+        .then((res) => { return res.json() })
 }
 
 //Liste Tickets
