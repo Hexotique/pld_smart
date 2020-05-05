@@ -143,7 +143,7 @@ export default function App() {
     return (
         <Contexte.Provider value={{...authContext, email: state.email, nomComplet: state.nomComplet }}>
             <NavigationContainer>
-                <Tab.Navigator screenOptions={{ tabBarVisible: false }}>
+                <Tab.Navigator  screenOptions={{ tabBarVisible: false }}>
                     {state.token ?
                         (<>
                             {/*Ecrans accessibles quand le token est chargé donc quand on est connecté*/}

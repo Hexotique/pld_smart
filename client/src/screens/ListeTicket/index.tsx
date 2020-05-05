@@ -48,6 +48,11 @@ function ListeTicket({ route, navigation }: ListeTicketProp) {
             });
     }
 
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', chargerTickets);
+        return unsubscribe;
+    }, [navigation]);
+
     useEffect(chargerTickets, []);
 
     const supprimerTicket = (id: string) => {
