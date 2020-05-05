@@ -50,3 +50,24 @@ export function recupererContenuGardeMangerGet(): Promise<GardeMangerJson> {
 
 }
 
+export function recupererProduitViaCodeBarre(code: string): Promise<any> {
+
+    const url = `https://fr.openfoodfacts.org/api/v0/product/${code}.json`;
+
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            UserAgent: 'Pot d\'Yaourt - ReactNative - Version 1.0'
+        }
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .catch((error) => {
+            console.log(error);
+            console.error(error);
+        });
+}
+

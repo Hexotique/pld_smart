@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import TicketListe from "../../components/ListeTickets/ListeTicket";
 import { ListeTicketProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
+import { ContexteProp, Contexte } from '../../contexte'
 
 const dataTicket = [
     {
@@ -28,6 +29,8 @@ const dataTicket = [
 ]
 
 function ListeTicket({ route, navigation }: ListeTicketProp) {
+    const contexte: ContexteProp = useContext(Contexte);
+
     return (
         <GestureRecognizer
             style={{ flex: 1 }}

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import GardeMangerListe from '../../components/GardeManger/GardeMangerListe';
@@ -7,8 +7,13 @@ import { recupererContenuGardeMangerGet } from '../../api';
 import { GardeMangerProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
+import { ContexteProp, Contexte } from '../../contexte'
+
 
 function GardeManger({ route, navigation }: GardeMangerProp) {
+    const contexte: ContexteProp = useContext(Contexte);
+
+
     recupererContenuGardeMangerGet().then((data) => {
         console.log(`Les données reçues par http sont ${data} -----------fin de requêtes`);
     }).catch((error) => console.error(error));
@@ -22,9 +27,13 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
                 <Header indexe={2} />
                 <GardeMangerListe></GardeMangerListe>
             </SafeAreaView>
-            <BarreNavigation indexe={2} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} />
+            <BarreNavigation indexe={2} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} boutonCentre={() => { actionCentre(navigation) }} />
         </GestureRecognizer>
     );
+}
+
+function actionCentre(nav: any) {
+    nav.navigate('Scanner');
 }
 
 const navGauche = (nav: any) => {
