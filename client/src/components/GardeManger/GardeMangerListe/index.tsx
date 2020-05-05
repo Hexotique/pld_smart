@@ -1,6 +1,7 @@
 import React, { useState, useEffect, PropsWithChildren } from 'react';
 import { View, FlatList, Text, Image, TouchableOpacity } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
+import Autocomplete from 'react-native-autocomplete-input';
 import Item from '../GardeMangerItem'
 import Categorie from '../../ComposantsGénériques/CategorieListeRetractable';
 import { recupererContenuGardeMangerGet, GardeMangerJson, itemGardeMangerJson, modifier_quantite_post } from '../../../api'
@@ -14,12 +15,36 @@ type ItemListeProps = {
     itemMap: Map<String, Array<itemGardeMangerJson>>,
     enleveItem: Function,
     modifieQuantite: Function,
-    rafraichirFlatList: boolean
+    rafraichirFlatList: boolean,
+    nomsProduits: Map<string, string>
 };
 
 function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
 
+    const [listeRechercheProduits, setListeRechercheProduits] = useState(new Array<any>());
+    const [query, setQuery] = useState('');
 
+    const trouverProduits = (query: string) => {
+        //method called everytime when we change the value of the input
+        const listeProduitsTemp: any[] = [];
+        if (query === '') {
+          //if the query is null then return blank
+          return [];
+        }
+        
+        props.nomsProduits.forEach((nomProduit, idProduit) => {
+            //making a case insensitive regular expression to get similar value from the list of products
+            const regex = new RegExp(`${query.trim()}`, 'i');
+            if (nomProduit.search(regex) >=0) listeProduitsTemp.push({nom: nomProduit}); 
+        })
+        
+        //return the filtered film array according the query from the input
+        setListeRechercheProduits(listeProduitsTemp);
+        console.log("produits trouvés: " + listeRechercheProduits);
+      }
+
+    
+    const comp = (a: any, b: any) => a.toLowerCase().trim() === b.toLowerCase().trim();
 
     const boutonSupprimer = (
         <React.Fragment>
@@ -39,55 +64,75 @@ function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
     return (
         <View style={styles.container}>
             <View style={styles.ajoutProduit}>
-                <TextInput placeholder="Ajoutez un item" style={styles.ajoutProduitTexte}></TextInput>
+                <Autocomplete
+                    inputContainerStyle={styles.ajoutProduitConteneur}
+                    containerStyle={styles.ajoutProduitAutocompletion}
+                    style={styles.ajoutProduitTexte}
+                    onChangeText={(text: string) => {setQuery(text); trouverProduits(query)}}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    defaultValue={query}
+                    data={listeRechercheProduits}
+                    placeholder="Ajouter un item"
+                    renderItem={({item, i}: any) => (
+                        <View style={{flexDirection: "row", height: 45, justifyContent: "center", alignItems: "center"}}>
+                            <TouchableOpacity onPress={() => {setQuery(item.nom)}}>
+                                <Text>{item.nom}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                />
             </View>
-            <FlatList
-                extraData={props.rafraichirFlatList}
-                contentContainerStyle={{ paddingBottom: 140 }}
-                data={props.categories}
-                keyExtractor={(itemValue) => itemValue.toString()}
-                renderItem={({ item }) =>
-                    <View>
-                        <Collapse>
-                            <CollapseHeader>
-                                <Categorie item={item} couleur="#f3a993"></Categorie>
-                            </CollapseHeader>
-                            <CollapseBody>
-                                <FlatList
-                                    extraData={props.rafraichirFlatList}
-                                    data={props.itemMap.get(item)}
-                                    keyExtractor={(itemValue) => itemValue.idItem}
-                                    renderItem={({ item }) =>
-                                        <ItemListe
-                                            permetDefile={() => {}}
-                                            enleveItem={() => {props.enleveItem(item.produit.categorie.nomCategorie, item.idItem)}}
-                                            droite={boutonSupprimer}
-                                        >
-                                            <View style={styles.vueItem}>
-                                                <View style={styles.nomItemConteneur}>
-                                                    <Text style={styles.nomItem}>{item.produit.nom}</Text>
-                                                </View>
+            <View style={styles.listeGardeManger}>
+                <FlatList
+                    extraData={props.rafraichirFlatList}
+                    contentContainerStyle={{ paddingBottom: 140 }}
+                    data={props.categories}
+                    keyExtractor={(itemValue) => itemValue.toString()}
+                    renderItem={({ item }) =>
+                        <View>
+                            <Collapse>
+                                <CollapseHeader>
+                                    <Categorie item={item} couleur="#f3a993"></Categorie>
+                                </CollapseHeader>
+                                <CollapseBody>
+                                    <FlatList
+                                        extraData={props.rafraichirFlatList}
+                                        data={props.itemMap.get(item)}
+                                        keyExtractor={(itemValue) => itemValue.idItem}
+                                        renderItem={({ item }) =>
+                                            <ItemListe
+                                                permetDefile={() => {}}
+                                                enleveItem={() => {props.enleveItem(item.produit.categorie.nomCategorie, item.idItem)}}
+                                                droite={boutonSupprimer}
+                                            >
+                                                <View style={styles.vueItem}>
+                                                    <View style={styles.nomItemConteneur}>
+                                                        <Text style={styles.nomItem}>{item.produit.nom}</Text>
+                                                    </View>
 
-                                                <View style={styles.changerQuantite}>
-                                                    <TouchableOpacity style={styles.boutonQuantite} onPress={() =>props.modifieQuantite(item.produit.categorie.nomCategorie, item.idItem, '-')}>
-                                                        <Image style={styles.icon} source={require('../../../assets/moins-icon.png')} />
-                                                    </TouchableOpacity>
+                                                    <View style={styles.changerQuantite}>
+                                                        <TouchableOpacity style={styles.boutonQuantite} onPress={() =>props.modifieQuantite(item.produit.categorie.nomCategorie, item.idItem, '-')}>
+                                                            <Image style={styles.icon} source={require('../../../assets/moins-icon.png')} />
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                    <Text style={styles.quantiteItem}>{item.quantite}</Text>
+                                                    <View style={styles.changerQuantite} >
+                                                        <TouchableOpacity style={styles.boutonQuantite} onPress={() => props.modifieQuantite(item.produit.categorie.nomCategorie, item.idItem, '+')}>
+                                                            <Image style={styles.icon} source={require('../../../assets/plus-icon.png')} />
+                                                        </TouchableOpacity>
+                                                    </View>
                                                 </View>
-                                                <Text style={styles.quantiteItem}>{item.quantite}</Text>
-                                                <View style={styles.changerQuantite} >
-                                                    <TouchableOpacity style={styles.boutonQuantite} onPress={() => props.modifieQuantite(item.produit.categorie.nomCategorie, item.idItem, '+')}>
-                                                        <Image style={styles.icon} source={require('../../../assets/plus-icon.png')} />
-                                                    </TouchableOpacity>
-                                                </View>
-                                            </View>
-                                        </ItemListe>
-                                    }
-                                />
-                            </CollapseBody>
-                        </Collapse>
-                    </View>
-                }
-            />
+                                            </ItemListe>
+                                        }
+                                    />
+                                </CollapseBody>
+                            </Collapse>
+                        </View>
+                    }
+                />
+            </View>
+            
         </View >
     );
 }

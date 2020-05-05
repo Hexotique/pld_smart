@@ -92,13 +92,15 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
             }).catch((error) => {
                 console.error(error);
             });
+
         recuperer_produits_get()
             .then((produits: Produits) => {
                 console.log(produits);
-                produits.produits.forEach((produit: Produit) => {
+                produits.Produits.forEach((produit: Produit) => {
                     setNomsProduits(nomsProduits => nomsProduits.set(produit.idProduit, produit.nom));
                 })
-
+            }).catch(error => {
+                console.error(error);
             })
     }, []);
 
@@ -115,6 +117,7 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
                     enleveItem = {enleveItem}
                     rafraichirFlatList={rafraichirFlatList}
                     modifieQuantite={modifieQuantite}
+                    nomsProduits={nomsProduits}
                 >
                 </GardeMangerListe>
             </SafeAreaView>

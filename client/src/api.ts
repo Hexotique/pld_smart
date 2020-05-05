@@ -39,7 +39,7 @@ export interface ModificationJson {
 }
 
 export interface Produits {
-    produits: Array<Produit>
+    Produits: Array<Produit>
 }
 
 export interface Produit {

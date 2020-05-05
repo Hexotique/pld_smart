@@ -5,15 +5,47 @@ const styles = StyleSheet.create({
         flex: 90,
     },
     ajoutProduit: {
-        height: 45,
-        backgroundColor: "#fff2ee",
+        flex: 1,
+        backgroundColor: "transparent",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        zIndex: 999,
     },
+
+    ajoutProduitConteneur: {
+        borderWidth: 0,
+        margin: 0,
+        padding: 0,
+        height: 45,
+        backgroundColor: "#fff2ee",
+    },
+
+    ajoutProduitAutocompletion: {
+        width: Dimensions.get('window').width,
+        flex: 1,
+        position: "absolute",
+        top: 45,
+        left: 0,
+        borderWidth: 0,
+        margin: 0,
+        padding: 0,
+        zIndex: 9
+    },
+
     ajoutProduitTexte: {
-        textAlign: "center"
+        textAlign: "center",
+        borderWidth: 0
     },
+
+    listeGardeManger: {
+        position: "absolute",
+        top: 90,
+        left: 0,
+        width: Dimensions.get('window').width,
+        zIndex: 1
+    },
+
     vueItem: {
         width: Dimensions.get('window').width,
         height: 45,
