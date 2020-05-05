@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     },
     vueItem: {
         width: Dimensions.get('window').width,
-        marginLeft: 120,
         height: 45,
         flexDirection  : "row",
         paddingLeft    : 10,
@@ -60,23 +59,7 @@ const styles = StyleSheet.create({
         height: 20,
         width : 20
     },
-    vueSwipe: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 120 + Dimensions.get('window').width,
-        width: 120,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        paddingRight: 5,
-        alignItems: 'center'
-    },
-    vueSwipeTexte: {
-        fontFamily: "Impact",
-        fontSize: 18,
-        fontWeight: "bold",
-        color: "white"
-    }
+
 });
 
 export default styles;
