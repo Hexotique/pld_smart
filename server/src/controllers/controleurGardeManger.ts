@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { Produit, GardeManger, Item, Client, Commerce, CategorieProduit } from '../database/models';
+import { Produit, GardeManger, Item, Client, Commerce, CategorieProduit, Article } from '../database/models';
+import { creerArticle } from './controleurTicket';
+import { Op } from 'sequelize';
 
 interface Ajout {
     nomProduit: string;
@@ -25,9 +27,9 @@ interface ItemGardeMangerJson {
     produit: {
         idProduit: string,
         nom: string,
-        categorie : {
-            idCategorie : string,
-            nomCategorie : string
+        categorie: {
+            idCategorie: string,
+            nomCategorie: string
         }
     }
 }
@@ -36,6 +38,61 @@ interface GardeMangerJson {
     idClient: string,
     items: Array<ItemGardeMangerJson>
 }
+
+// Ajout d'un produit au gardemanger par Scan
+// Nécessite : un code barre d'article
+export const ajouter_produit_scan_put = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const client = req.user as Client;
+        const gardeManger = await client.getGardeManger();
+
+        let art = await Article.findOne({
+            where: { codebar: req.params.codebar }
+        });
+
+        if (!art) {
+            art = await creerArticle(req.params.codebar);
+        }
+
+        if (art) {
+            const prod_id = Number(art.get("ProduitId"));
+            const prod = await Produit.findByPk(prod_id) as Produit;
+
+            const resultat = await Item.findOrCreate({
+                where: {
+                    [Op.and]: [
+                        { GardeMangerId: gardeManger.id },
+                        { ProduitId: prod_id }
+                    ]
+                },
+                defaults: {
+                    quantite: 1
+                }
+            });
+            console.log(resultat);
+            const item: Item = resultat[0];
+
+            if (resultat[1]) {
+                await gardeManger.addItem(item);
+                await prod.addItem(item);
+            } else {
+                item.quantite = Number(item.quantite) + 1;
+                await item.save();
+            }
+
+            res.status(200).json({ message: 'Success' });
+        }
+
+        else {
+            res.status(404).json({ message: 'Pas trouvé' });
+        }
+
+    }
+    catch (error) {
+        next(error);
+    }
+}
+
 
 // Ajoute un produit au garde manger
 // Nécessite : un nom de produit
@@ -54,7 +111,7 @@ export const ajouter_produit_alamano_put = async (req: Request, res: Response, n
             await ajouter(ajout, gardeManger);
         }
 
-        res.status(200).json({message: 'Success'});
+        res.status(200).json({ message: 'Success' });
     }
     catch (error) {
         next(error);
@@ -80,7 +137,7 @@ export const modifier_quantite_post = async (req: Request, res: Response, next: 
             await modifier(modification, gardeManger);
         }
 
-        res.status(200).json({message: 'Success'});
+        res.status(200).json({ message: 'Success' });
     }
     catch (error) {
         next(error);
@@ -99,7 +156,7 @@ export const recuperer_contenu_get = async (req: Request, res: Response, next: N
         const client = req.user as Client;
         const gardemanger = await client.getGardeManger();
         reponse.idGardeManger = gardemanger.id.toString();
-        reponse.idClient=client.id.toString();
+        reponse.idClient = client.id.toString();
         const items: Item[] = await gardemanger.getItems();
         for (const item of items) {
             let itemJson: ItemGardeMangerJson = {
@@ -108,9 +165,9 @@ export const recuperer_contenu_get = async (req: Request, res: Response, next: N
                 produit: {
                     idProduit: '',
                     nom: '',
-                    categorie : {
-                        idCategorie : '',
-                        nomCategorie : ''
+                    categorie: {
+                        idCategorie: '',
+                        nomCategorie: ''
                     }
                 }
             }
@@ -118,10 +175,10 @@ export const recuperer_contenu_get = async (req: Request, res: Response, next: N
             const produit = await Produit.findByPk(produitId) as Produit;
             const categorieProduit = await CategorieProduit.findByPk(Number(produit.get("CategorieProduitId")))
             const nom = produit.nom;
-            itemJson.idItem= item.id.toString();
-            itemJson.quantite=item.quantite;
-            itemJson.produit.idProduit=produitId.toString();
-            itemJson.produit.nom=nom;
+            itemJson.idItem = item.id.toString();
+            itemJson.quantite = item.quantite;
+            itemJson.produit.idProduit = produitId.toString();
+            itemJson.produit.nom = nom;
             itemJson.produit.categorie.idCategorie = String(categorieProduit?.id);
             itemJson.produit.categorie.nomCategorie = String(categorieProduit?.nom);
             reponse.items.push(itemJson);

@@ -11,6 +11,8 @@ router.post('/modifier-quantite', passport.authenticate('jwt', { session: false 
 
 router.get('/recuperer-contenu', passport.authenticate('jwt', { session: false }), controleurGardeManger.recuperer_contenu_get);
 
+router.put('/scan-article/:codebar', passport.authenticate('jwt', { session: false }), controleurGardeManger.ajouter_produit_scan_put);
+
 // route de test
 // router.get('/testgardemanger', controleurGardeManger.gardemanger_test);
 
