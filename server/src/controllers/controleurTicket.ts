@@ -339,7 +339,6 @@ export const creerArticle = async (code: string) => {
     const url = `https://fr.openfoodfacts.org/api/v0/product/${code}.json`;
 
     try {
-
         const response = await fetch(url, {
             method: 'GET',
             headers: {

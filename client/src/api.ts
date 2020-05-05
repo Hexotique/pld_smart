@@ -125,6 +125,26 @@ export function ajouter_produit_alamano_put(ajouts: AjoutJson) {
         });
 }
 
+export function ajouter_produit_scan_put(codebar: string) {
+    const url: RequestInfo = `${APIBaseURL}/garde-manger/scan-article/${codebar}`;
+    _setHTTPMethod(url, 'PUT')
+        .then((response) => {
+            console.log('res : ' + response.status);
+            switch (response.status) {
+                case 200: //succès
+                    return true;
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+            console.error(error);
+        });
+}
+
 export function modifier_quantite_post(modifications: ModificationJson) {
     const url: RequestInfo = `${APIBaseURL}/garde-manger/modifier-quantite`;
     _setHTTPMethod(url, 'POST', modifications)
@@ -151,7 +171,8 @@ export function recupererProduitViaCodeBarre(code: string): Promise<any> {
             UserAgent: 'Pot d\'Yaourt - ReactNative - Version 1.0'
         }
     })
-        .then((res) => { return res.json() })
+        .then((response) => { return response.json() })
+        .catch((e) => console.log(e));
 }
 
 //Liste Tickets
