@@ -9,35 +9,55 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
 import { ContexteProp, Contexte } from '../../contexte'
 
+const modifications: Map<string, number> = new Map<string, number>();
 
 function GardeManger({ route, navigation }: GardeMangerProp) {
 
 
     const contexte: ContexteProp = useContext(Contexte);
 
-    const [listeQuantites, setListeQuantites] = useState(new Map<String, number>());
-
     const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
     const [itemMapState, setItemMapState] = useState(new Map<String, Array<itemGardeMangerJson>>());
     const [rafraichirFlatList, setRafraichirFlatList] = useState(false);
-    const [enableScroll, setEnableScroll] = useState(true);
+
+    
 
     const enleveItem = (nomCategorie: string, idItem: string) => {
         setItemMapState(itemMapState => {
             const tableauItems: Array<itemGardeMangerJson> | undefined = itemMapState.get(nomCategorie);
             if (tableauItems) {
-                console.log(tableauItems);
                 const indexASupprimer: number = tableauItems.findIndex((item: itemGardeMangerJson) => item.idItem === idItem);
                 console.log(indexASupprimer);
                 if (indexASupprimer !== undefined) {
                     tableauItems.splice(indexASupprimer, 1);
+                    modifications.set(idItem, 0);
                 }
             }
 
             return itemMapState;
         });
+        console.log(modifications);
         setRafraichirFlatList(!rafraichirFlatList);
     }
+
+    const modifieQuantite = (nomCategorie: string, idItem: string, typeOperation: string) => {
+        setItemMapState(itemMapState => {
+            const tableauItems: Array<itemGardeMangerJson> | undefined = itemMapState.get(nomCategorie);
+            if (tableauItems) {
+                const indexASupprimer: number = tableauItems.findIndex((item: itemGardeMangerJson) => item.idItem === idItem);
+                console.log(indexASupprimer);
+                if (indexASupprimer !== undefined) {
+                    if(typeOperation === '-' && tableauItems[indexASupprimer].quantite > 0) tableauItems[indexASupprimer].quantite--;
+                    else if(typeOperation === '+') tableauItems[indexASupprimer].quantite++;
+                    modifications.set(idItem, tableauItems[indexASupprimer].quantite);
+                }
+            }
+            return itemMapState;
+        });
+        console.log(modifications);
+        setRafraichirFlatList(!rafraichirFlatList);
+    }
+    
     
 
     useEffect(() => {
@@ -73,7 +93,14 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
             style={{ flex: 1 }}>
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                 <Header indexe={2} />
-                <GardeMangerListe categories={keyArrayState} itemMap={itemMapState} enleveItem = {enleveItem} rafraichirFlatList={rafraichirFlatList}></GardeMangerListe>
+                <GardeMangerListe 
+                    categories={keyArrayState}
+                    itemMap={itemMapState}
+                    enleveItem = {enleveItem}
+                    rafraichirFlatList={rafraichirFlatList}
+                    modifieQuantite={modifieQuantite}
+                >
+                </GardeMangerListe>
             </SafeAreaView>
             <BarreNavigation indexe={2} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} boutonCentre={() => { actionCentre(navigation) }} />
         </GestureRecognizer>

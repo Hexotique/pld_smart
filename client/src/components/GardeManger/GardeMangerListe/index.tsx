@@ -1,10 +1,10 @@
 import React, { useState, useEffect, PropsWithChildren } from 'react';
-import { View, FlatList, Text, Image } from 'react-native';
+import { View, FlatList, Text, Image, TouchableOpacity } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import Item from '../GardeMangerItem'
 import Categorie from '../../ComposantsGénériques/CategorieListeRetractable';
-import { recupererContenuGardeMangerGet, GardeMangerJson, itemGardeMangerJson } from '../../../api'
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { recupererContenuGardeMangerGet, GardeMangerJson, itemGardeMangerJson, modifier_quantite_post } from '../../../api'
+import { TextInput } from 'react-native-gesture-handler';
 import styles from './styles';
 
 import ItemListe from '../../ItemListe';
@@ -13,6 +13,7 @@ type ItemListeProps = {
     categories: Array<String>,
     itemMap: Map<String, Array<itemGardeMangerJson>>,
     enleveItem: Function,
+    modifieQuantite: Function,
     rafraichirFlatList: boolean
 };
 
@@ -68,13 +69,13 @@ function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
                                                 </View>
 
                                                 <View style={styles.changerQuantite}>
-                                                    <TouchableOpacity style={styles.boutonQuantite} onPress={() => _decreaseItemQuantity(quantiteState, setQuantiteState)}>
+                                                    <TouchableOpacity style={styles.boutonQuantite} onPress={() =>props.modifieQuantite(item.produit.categorie.nomCategorie, item.idItem, '-')}>
                                                         <Image style={styles.icon} source={require('../../../assets/moins-icon.png')} />
                                                     </TouchableOpacity>
                                                 </View>
                                                 <Text style={styles.quantiteItem}>{item.quantite}</Text>
                                                 <View style={styles.changerQuantite} >
-                                                    <TouchableOpacity style={styles.boutonQuantite} onPress={() => _increaseItemQuantity(quantiteState, setQuantiteState)}>
+                                                    <TouchableOpacity style={styles.boutonQuantite} onPress={() => props.modifieQuantite(item.produit.categorie.nomCategorie, item.idItem, '+')}>
                                                         <Image style={styles.icon} source={require('../../../assets/plus-icon.png')} />
                                                     </TouchableOpacity>
                                                 </View>
