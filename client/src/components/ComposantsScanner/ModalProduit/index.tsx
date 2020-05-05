@@ -4,6 +4,7 @@ import styles from './styles';
 import Modal from 'react-native-modal';
 import { ajouter_produit_scan_put } from '../../../api'
 import { Icon } from 'react-native-elements'
+import Ticket from 'src/components/ComposantsVueTickets/DetailTicket/Ticket';
 
 function ajoutProduit(codebarre: string) {
     ajouter_produit_scan_put(codebarre);
@@ -18,6 +19,7 @@ export interface Propriete {
 }
 
 function ModalProduit(props: Propriete) {
+    console.log('code barre : ' + props.codebarre);
     return (
         props.show ?
 

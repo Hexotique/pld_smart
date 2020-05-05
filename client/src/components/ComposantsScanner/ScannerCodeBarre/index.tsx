@@ -23,11 +23,12 @@ function ScannerCodeBarre() {
     const [reconnaitreCode, setReconnaitreCode] = useState(true);
     const [articleScanne, setArtiCleScanne] = useState(['non reconnu', '../../assets/Flag_Blank.png'])
     const [montrerModal, setMontrerModal] = useState(false);
+    const [code, setCode] = useState('');
 
-    var code = ""; //trouver meilleure façon de récup le code barre ?
     const _codeBarreLu = (donnees: DonneesCodeBarre) => {
         console.log(donnees.data);
-        code = donnees.data;
+        setCode(donnees.data as string);
+        console.log("code depuis scanner " + code);
         setReconnaitreCode(false);
         recupererProduitViaCodeBarre(donnees.data)
             .then((res) => {

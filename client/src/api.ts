@@ -126,8 +126,8 @@ export function ajouter_produit_alamano_put(ajouts: AjoutJson) {
 }
 
 export function ajouter_produit_scan_put(codebar: string) {
-    const url: RequestInfo = `${APIBaseURL}/garde-manger//scan-article/${codebar}`;
-    _setHTTPMethod(url, 'PUT', codebar)
+    const url: RequestInfo = `${APIBaseURL}/garde-manger/scan-article/${codebar}`;
+    _setHTTPMethod(url, 'PUT')
         .then((response) => {
             console.log('res : ' + response.status);
             switch (response.status) {
@@ -171,6 +171,8 @@ export function recupererProduitViaCodeBarre(code: string): Promise<any> {
             UserAgent: 'Pot d\'Yaourt - ReactNative - Version 1.0'
         }
     })
+        .then((response) => { return response.json() })
+        .catch((e) => console.log(e));
 }
 
 //Liste Tickets
