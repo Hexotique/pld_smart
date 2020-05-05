@@ -18,7 +18,7 @@ import Scanner from './screens/Scanner';
 
 type action = {
     type: string;
-    tokenUtilisateur: any;
+    [key: string]: any;
 }
 
 export default function App() {
@@ -34,30 +34,38 @@ export default function App() {
                 case 'RESTORE_TOKEN':
                     return {
                         ...prevState,
-                        token: action.tokenUtilisateur,
+                        email: action.email,
+                        nomComplet: `${action.prenom} ${action.nom}`,
+                        token: action.token,
                         chargement: false,
                     };
                 //A la connexion ou l'inscription ou au premier démarage de l'app
                 case 'SIGN_IN':
                     return {
                         ...prevState,
-                        deconnecte: false,
-                        token: action.tokenUtilisateur,
+                        email: action.email,
+                        nomComplet: `${action.prenom} ${action.nom}`,
+                        token: action.token,
+                        deconnecte: false
                     };
                 //A la deconnecion
                 case 'SIGN_OUT':
                     return {
                         ...prevState,
-                        deconnecte: true,
+                        email: null,
+                        nomComplet: null,
                         token: null,
+                        deconnecte: true
                     };
             }
         },
         {
             // Rajouter des proprietes du state ici
             chargement: true,
-            deconnecte: false,
+            deconnecte: true,
             token: null,
+            email: null,
+            nomComplet: null
         }
     );
 
@@ -73,44 +81,51 @@ export default function App() {
             })
     }, []);
 
+    const connexion = async (nouveauClient: Client) => {
+        console.log(nouveauClient);
+        connexion_client_post(nouveauClient)
+            .then((client) => {
+                if (client === null) {
+                    Toast.show('connexion impossible', Toast.SHORT);
+                    Vibration.vibrate([0, 80, 80, 80])
+                } else {
+                    updateState({ type: 'SIGN_IN', ...client });
+                }
+            })
+            .catch((error) => {
+                console.log('Connexion failed');
+            });
+    }
+
+    const deconnexion = () => updateState({
+        type: 'SIGN_OUT',
+    });
+
+    const inscription = async (nouveauClient: Client) => {
+        console.log(nouveauClient);
+        inscription_client_put(nouveauClient)
+            .then((client) => {
+                if (client === null) {
+                    Toast.show('Inscription impossible', Toast.SHORT)
+                    Vibration.vibrate([0, 80, 80, 80])
+                } else {
+                    updateState({ type: 'SIGN_IN', ...client });
+                }
+            })
+            .catch((error) => {
+                console.log('Inscription failed');
+            });
+    }
+
     // On crée un contexte de l'app pour rendre la modification du state de l'app accessible partout
     // On utilise useMemo car ça permet de faire moins de calculs mais j'ai pas tout compris cf https://fr.reactjs.org/docs/hooks-reference.html#usememo
     const authContext: ContexteProp = React.useMemo(
         () => ({
-            connexion: async (nouveauClient: Client) => {
-
-                console.log(nouveauClient);
-                connexion_client_post(nouveauClient)
-                    .then((client) => {
-                        if (client === null) {
-                            Toast.show('connexion impossible', Toast.SHORT);
-                            Vibration.vibrate([0, 80, 80, 80])
-                        } else {
-                            updateState({ type: 'SIGN_IN', tokenUtilisateur: client.token });
-                        }
-                    })
-                    .catch((error) => {
-                        console.log('Connexion failed');
-                    });
-            },
-            deconnexion: () => updateState({ type: 'SIGN_OUT', tokenUtilisateur: null }), // déconnexion basique, faut peut être sortir le token du cache ?
-            inscription: async (nouveauClient: Client) => {
-
-                console.log(nouveauClient);
-                inscription_client_put(nouveauClient)
-                    .then((client) => {
-                        if (client === null) {
-                            Toast.show('Inscription impossible', Toast.SHORT)
-                            Vibration.vibrate([0, 80, 80, 80])
-                        } else {
-                            updateState({ type: 'SIGN_IN', tokenUtilisateur: client.token });
-                        }
-                    })
-                    .catch((error) => {
-                        console.log('Inscription failed');
-
-                    });
-            },
+            connexion,
+            deconnexion, // déconnexion basique, faut peut être sortir le token du cache ?
+            inscription,
+            email: "",
+            nomComplet: ""
         }),
         []
     );
@@ -126,10 +141,10 @@ export default function App() {
 
     // Rendu de l'app
     return (
-        <Contexte.Provider value={authContext}>
+        <Contexte.Provider value={{...authContext, email: state.email, nomComplet: state.nomComplet }}>
             <NavigationContainer>
                 <Tab.Navigator screenOptions={{ tabBarVisible: false }}>
-                    {state.token !== null ?
+                    {state.token ?
                         (<>
                             {/*Ecrans accessibles quand le token est chargé donc quand on est connecté*/}
                             <Tab.Screen name='GardeManger' component={GardeManger} />
