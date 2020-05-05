@@ -97,6 +97,31 @@ export const modifier_quantite_post = async (req: Request, res: Response, next: 
     }
 }
 
+// Supprime un produit du garde-manger
+// Nécessite : un id de produit
+export const supprimer_produit_delete = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log(req);
+        if (!req.params.idproduit) throw ('parametre idproduit manquant');
+        const idProduit: number = Number(req.params.idproduit);
+
+        let gardeManger: GardeManger = await (req.user as Client).getGardeManger();
+
+        await Item.destroy({
+            where: {
+                ProduitId: idProduit,
+                GardeMangerId : gardeManger.id
+            }
+        });
+
+        res.sendStatus(200);
+        console.log('ticket : ' + idProduit + ' supprimé du garde manger d\'id ' + gardeManger.id);
+    }
+    catch (error) {
+        next(error);
+    }
+}
+
 // Récupère le contenu du garde-manger
 export const recuperer_contenu_get = async (req: Request, res: Response, next: NextFunction) => {
     try {

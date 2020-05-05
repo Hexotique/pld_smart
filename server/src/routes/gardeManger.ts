@@ -9,6 +9,8 @@ router.put('/ajouter-produit-alamano', passport.authenticate('jwt', { session: f
 
 router.post('/modifier-quantite', passport.authenticate('jwt', { session: false }), controleurGardeManger.modifier_quantite_post);
 
+router.delete('/supprimer-produit/:idproduit', passport.authenticate('jwt', { session: false }), controleurGardeManger.supprimer_produit_delete);
+
 router.get('/recuperer-contenu', passport.authenticate('jwt', { session: false }), controleurGardeManger.recuperer_contenu_get);
 
 router.get('/recuperer-produits-recherche/:recherche', passport.authenticate('jwt', { session: false }), controleurGardeManger.recuperer_produits_recherche_get);
