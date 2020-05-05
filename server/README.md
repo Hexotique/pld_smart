@@ -26,7 +26,7 @@ Example: to invoke the function named creerClient: `PUT https://BASEURL/api/clie
 | ajouter_produit_alamano_put  | PUT  | ajouter un produit au garde-manger saisi par l'utilisateur (V0) | api/garde-manger/ajouter-produit-alamano  | nomproduit, quantite | {message: Success} |
 | recuperer_contenu_get  | GET  | récupérer les produits dans le garde manger d'un client | api/garde-manger/recuperer-contenu  | null | {produits : [{nomProduit: "Litre de lait", quantite: 3, categorie: "Produits laitiers"}, {..}]} |
 | supprimer_produit_delete  | DELETE  | Supprimer un produit du garde-manger d'un client | api/garde-manger/supprimer-produit  | idproduit | OK |
-| recuperer-produits-recherche  | GET  | récupérer les produits en fonction de la recherche | api/garde-manger/recuperer-produits-recherche  | recherche | {"Produits": [{"idProduit": "1","nom": "Pates","categorie": {"idCategorie": "1", "nomCategorie": "Feculents"}}]} |
+| recuperer-produits  | GET  | récupérer les produits | api/garde-manger/recuperer-produits  | null | {"Produits": [{"idProduit": "1","nom": "Pates","categorie": {"idCategorie": "1", "nomCategorie": "Feculents"}}]} |
 
 ### Liste de courses
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |

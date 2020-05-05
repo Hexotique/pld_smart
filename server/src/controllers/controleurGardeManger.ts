@@ -228,10 +228,9 @@ export const recuperer_contenu_get = async (req: Request, res: Response, next: N
 
 // Récupère les produits en fonction de la recherche
 // Nécessite : une recherche
-export const recuperer_produits_recherche_get = async (req: Request, res: Response, next: NextFunction) => {
+export const recuperer_produits_get = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        //console.log(req);
-        if (!req.params.recherche) throw ('parametre recherche manquant');
+        console.log(req);
         const recherche : string = req.params.recherche;
 
         let produits : any = {
@@ -243,7 +242,6 @@ export const recuperer_produits_recherche_get = async (req: Request, res: Respon
         for (const categorie  of categoriesProduits) {
             const produitsCategories = await categorie.getProduits();
             for (const produit of produitsCategories ){
-                if(produit.nom.toLowerCase().startsWith(recherche.toLowerCase())){
                     let produitJson : ProduitJson = {
                         idProduit : produit.id.toString(),
                         nom : produit.nom,
@@ -253,7 +251,6 @@ export const recuperer_produits_recherche_get = async (req: Request, res: Respon
                         }
                     }
                     produits.Produits.push(produitJson)
-                }
             }
         }
         res.status(200).json(produits);
