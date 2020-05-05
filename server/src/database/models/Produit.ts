@@ -6,6 +6,7 @@ import { Liste } from "./Liste";
 export class Produit extends Model {
   public id!: number;
   public nom!: string;
+  public url_image!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -32,6 +33,10 @@ export const init_model_produit = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
+      },
+      url_image: {
+        type: DataTypes.STRING,
+        allowNull: true
       }
     },
     {
