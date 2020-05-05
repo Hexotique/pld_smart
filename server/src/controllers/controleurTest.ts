@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { Ticket, Article, Client, Commerce, Achat, GardeManger, Liste, Groupe, CategorieProduit, Produit, Item } from '../database/models';
 import sequelize, { Sequelize } from 'sequelize';
 
-// const fetch = require("node-fetch");
+const fetch = require("node-fetch");
 
 interface code_article {
     code: string;
@@ -38,7 +38,7 @@ export const init_articles = async (req: Request, res: Response, next: NextFunct
 
     try {
         for (const art of arts) {
-            await creerArticle(art.code);
+            await creerouModifierArticle(art.code);
         }
         res.sendStatus(200);
     }
@@ -47,7 +47,7 @@ export const init_articles = async (req: Request, res: Response, next: NextFunct
     }
 }
 
-export const creerArticle = async (code: string) => {
+export const creerouModifierArticle = async (code: string) => {
 
 
     const url = `https://fr.openfoodfacts.org/api/v0/product/${code}.json`;
@@ -72,6 +72,7 @@ export const creerArticle = async (code: string) => {
         let nom_produit: string = produit.product.product_name_fr ? produit.product.product_name_fr : produit.product.product_name;
         let marque: string = produit.product.brands_tags[0] ? produit.product.brands_tags[0] : "";
         let poids: string = produit.product.quantity ? produit.product.quantity : "";
+        let url_im: string = produit.product.image_url ? produit.product.image_url : null;
         let nom_article: string;
 
         if (poids && marque === "") {
@@ -87,7 +88,12 @@ export const creerArticle = async (code: string) => {
             nom_article = nom_produit + '-' + marque + '-' + poids;
         }
 
-        const art = await Article.create({ nom: nom_article, codebar: code });
+        const promise_art = await Article.findOrCreate({ where : { codebar: code }});
+        const art = promise_art[0];
+
+        if(promise_art[1]){
+            art.setAttributes({nom: nom_article});
+        }
 
         //Trouver la bonne catégorie -------------------------------------------------
         let categorie: string = "Autres";
@@ -138,6 +144,11 @@ export const creerArticle = async (code: string) => {
 
         if (prod[1]){
             (await cate?.addProduit(prod[0]));
+        }
+
+        if (!prod[0].url_image){
+            prod[0].setAttributes({url_image : url_im});
+            await (prod[0].save());
         }
 
         await (prod[0].addArticle(art));
