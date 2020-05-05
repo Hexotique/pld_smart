@@ -41,7 +41,7 @@ const retirer_AchatArticle_null = async (achats: Array<Achat>, articles: Array<A
             achat_tmp.destroy();
         }
     }
-  
+
 }
 
 // Crée un ticket
@@ -118,10 +118,10 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
                 quantites.push(achats[index].quantite);
             }
         }
-        
+
         //On enlève tous les achats qui sont null et leur articles associés
         await retirer_AchatArticle_null(achats, articles);
-       
+
         // récupération des produits associés à chaque article
         const produitsPromises: Array<Promise<Produit>> = new Array<Promise<Produit>>();
         for (const article of articles) {
@@ -230,7 +230,7 @@ export const recuperer_tickets_get = async (req: Request, res: Response, next: N
 
         let message: any;
         Json: message = {
-            "Tickets": [ 
+            "Tickets": [
 
             ]
 

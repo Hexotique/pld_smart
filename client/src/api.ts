@@ -61,8 +61,9 @@ export interface Achat {
 }
 
 export interface DetailTicket {
-    groupe: string,
-    commerce: string,
+    groupe: {
+        nom: string
+    }
     donneesTicket: {
         idTicket: string,
         montant: number,
@@ -177,6 +178,7 @@ export function recupererContenuListeTicketGet(): Promise<ListeTickets> {
     const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-tickets`;
     return _setHTTPMethod(url, 'GET')
         .then((response) => {
+            console.log("res: " + response.status);
             return response.json();
         })
         .catch((error) => {
@@ -186,11 +188,18 @@ export function recupererContenuListeTicketGet(): Promise<ListeTickets> {
 
 }
 
-export function recupererContenuDetailTicketGet(): Promise<DetailTicket> {
-    const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-detail-ticket`;
+export function recupererContenuDetailTicketGet(idTicket: number): Promise<DetailTicket> {
+    const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-detail-ticket/${idTicket}`;
     return _setHTTPMethod(url, 'GET')
         .then((response) => {
-            return response.json();
+            switch (response.status) {
+                case 200: //succès
+                    return response.json();
+                    break;
+                default:
+                    return null;
+                    break;
+            }
         })
         .catch((error) => {
             console.log(error);
@@ -199,10 +208,17 @@ export function recupererContenuDetailTicketGet(): Promise<DetailTicket> {
 }
 
 export function supprimer_ticket_delete(idTicket: number) {
-    const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-detail-ticket/${idTicket}`;
+    const url: RequestInfo = `${APIBaseURL}/ticket/supprimer-ticket/${idTicket}`;
     _setHTTPMethod(url, 'DELETE')
         .then((response) => {
-            // Je sais pas si on fait un truc
+            switch (response.status) {
+                case 200: //succès
+                    return true;
+                    break;
+                default:
+                    return false;
+                    break;
+            }
         })
         .catch((error) => {
             console.log(error);
