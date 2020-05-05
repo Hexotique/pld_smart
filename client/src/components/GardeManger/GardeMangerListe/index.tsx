@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList, Text, Image } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import Item from '../GardeMangerItem'
 import Categorie from '../../ComposantsGénériques/CategorieListeRetractable';
 import { recupererContenuGardeMangerGet, GardeMangerJson, itemGardeMangerJson } from '../../../api'
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import styles from './styles';
+
+import ItemListe from '../../ItemListe';
 
 function GardeMangerListe() {
     const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
     const [itemMapState, setItemMapState] = useState(new Map<String, Array<itemGardeMangerJson>>());
     const [enableScroll, setEnableScroll] = useState(true);
+
     useEffect(() => {
         recupererContenuGardeMangerGet()
             .then((data: GardeMangerJson) => {
@@ -38,6 +41,21 @@ function GardeMangerListe() {
     }, []);
 
 
+    const boutonSupprimer = (
+        <React.Fragment>
+            <Text
+                numberOfLines={1}
+                ellipsizeMode='clip'
+                style={{
+                    color: 'white',
+                    fontWeight: 'bold',
+                    fontFamily: 'Sans Serif'
+                }}
+            >
+                SUPPRIMER
+            </Text>
+        </React.Fragment>);
+
     return (
         <View style={styles.container}>
             <View style={styles.ajoutProduit}>
@@ -46,19 +64,40 @@ function GardeMangerListe() {
             <FlatList
                 contentContainerStyle={{ paddingBottom: 140 }}
                 data={keyArrayState}
-                keyExtractor={(itemKey) => itemKey.toString()}
                 renderItem={({ item }) =>
                     <View>
                         <Collapse>
                             <CollapseHeader>
-                                <Categorie item = {item} couleur="#f3a993"></Categorie>
+                                <Categorie item={item} couleur="#f3a993"></Categorie>
                             </CollapseHeader>
                             <CollapseBody>
                                 <FlatList
                                     data={itemMapState.get(item)}
-                                    keyExtractor={(itemValue) => itemValue.idItem.toString()}
+                                    keyExtractor={(itemValue) => itemValue.idItem}
                                     renderItem={({ item }) =>
-                                        <Item item={item} toggleScroll={setEnableScroll}></Item>
+                                        <ItemListe
+                                            permetDefile={() => {}}
+                                            enleveItem={() => {}}
+                                            droite={boutonSupprimer}
+                                        >
+                                            <View style={styles.vueItem}>
+                                                <View style={styles.nomItemConteneur}>
+                                                    <Text style={styles.nomItem}>{item.produit.nom}</Text>
+                                                </View>
+
+                                                <View style={styles.changerQuantite}>
+                                                    <TouchableOpacity style={styles.boutonQuantite} onPress={() => _decreaseItemQuantity(quantiteState, setQuantiteState)}>
+                                                        <Image style={styles.icon} source={require('../../../assets/moins-icon.png')} />
+                                                    </TouchableOpacity>
+                                                </View>
+                                                <Text style={styles.quantiteItem}>{}</Text>
+                                                <View style={styles.changerQuantite} >
+                                                    <TouchableOpacity style={styles.boutonQuantite} onPress={() => _increaseItemQuantity(quantiteState, setQuantiteState)}>
+                                                        <Image style={styles.icon} source={require('../../../assets/plus-icon.png')} />
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                        </ItemListe>
                                     }
                                 />
                             </CollapseBody>
