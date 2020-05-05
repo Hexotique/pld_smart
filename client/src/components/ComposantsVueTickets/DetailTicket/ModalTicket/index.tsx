@@ -23,14 +23,13 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
                     text: 'Oui',
                     onPress: () => {
                         console.log('suppression ticket : ' + props.id);
-                        props.close;
+                        props.close();
                     }
                 },
                 {
                     text: 'Annuler',
                     onPress: () => {
                         console.log("Annuler suppression ticket");
-                        props.close;
                     },
                     style: "cancel"
                 }

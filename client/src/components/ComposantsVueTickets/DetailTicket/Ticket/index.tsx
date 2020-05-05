@@ -4,14 +4,19 @@ import styles from './styles';
 import ListeDetailTicket from '../ListeDetailTicket';
 import { recupererContenuDetailTicketGet, Achat, DetailTicket } from '../../../../api'
 
-
-//A implémenter pour faire le lien avec le Back
-function supprimerTicket() {
+interface Propriete {
+     idTicket: number,
+     groupe: string,
+     date: string,
+     achatsMap: Map<String, Array<Achat>>,
+     categorieArray: Array<String>,
+     prix: number
 }
 
 
-function Ticket() {
+function Ticket(props: Propriete) {
 
+     console.log(props.achatsMap);
      /*const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
      const [itemMapState, setItemMapState] = useState(new Map<String, Array<Achat>>());
      const [enableScroll, setEnableScroll] = useState(true);
@@ -41,24 +46,23 @@ function Ticket() {
                });
      }, []);*/
 
-
      return (
           <View style={styles.conteneur_ticket}>
                <View style={styles.entete}>
                     <View>
-                         <Text style={styles.nom_enseigne}>Auchan</Text>
+                         <Text style={styles.nom_enseigne}>{props.groupe}</Text>
                     </View>
                     <View style={styles.date_numTicket_conteneur}>
-                         <Text style={styles.date}>11/04/2020</Text>
-                         <Text style={styles.numTicket}>n° 11879</Text>
+                         <Text style={styles.date}>{props.date}</Text>
+                         <Text style={styles.numTicket}>n°{props.idTicket}</Text>
                     </View>
                </View>
 
                <View style={styles.liste}>
-                    <ListeDetailTicket />
+                    <ListeDetailTicket achatsMap={props.achatsMap} categoriesArray={props.categorieArray} />
                </View>
                <View style={styles.total}>
-                    <Text style={styles.prix} >TOTAL : 35, 12 €</Text>
+                    <Text style={styles.prix} >TOTAL : {props.prix} €</Text>
                </View>
           </View>
      );

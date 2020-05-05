@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import Categorie from '../../../ComposantsGénériques/CategorieListeRetractable'
-
+import { Achat } from '../../../../api'
 
 // imports peronnels
 import styles from './styles';
@@ -143,8 +143,14 @@ function _genereListe() {
 }
 
 
-function ListeDetailTicket(purchases: any) {
+interface Propriete {
+     categoriesArray: Array<String>,
+     achatsMap: Map<String, Array<Achat>>
+}
 
+function ListeDetailTicket(props: Propriete) {
+
+     console.log(props.achatsMap);
 
 
      return (
@@ -172,23 +178,22 @@ function ListeDetailTicket(purchases: any) {
                     }
                />
           </View> }*/
-
           <View>
                <FlatList
-                    data={_genereListe()}
+                    data={props.categoriesArray}
                     keyExtractor={(item, index) => item + index.toString()}
                     renderItem={({ item }) =>
                          <View>
                               <Collapse>
                                    <CollapseHeader>
-                                        <Categorie item={item.categorieProduit} couleur="#fbbd4c" />
+                                        <Categorie item={item} couleur="#fbbd4c" />
                                    </CollapseHeader>
                                    <CollapseBody>
                                         <FlatList
-                                             data={item.donnees}
-                                             keyExtractor={(item, index) => item.article + index.toString()}
+                                             data={props.achatsMap.get(item)}
+                                             keyExtractor={(achat, index) => achat.nomArticle + index.toString()}
                                              renderItem={({ item }) =>
-                                                  <LigneTicket nomItem={item.article} quantite={item.quantite} prix={item.prix} />
+                                                  <LigneTicket nomItem={item.nomArticle} quantite={item.quantite} prix={item.prix} />
                                              }
                                         />
                                    </CollapseBody>

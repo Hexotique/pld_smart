@@ -166,28 +166,18 @@ const dataTicket = [
 
 ]*/
 
+interface Propriete {
+    ticketArray: Array<Ticket>
+}
 
-function TicketListe() {
 
-    const [ticketArrayState, setTicketArrayState] = useState(new Array<Ticket>());
-
-    useEffect(() => {
-        recupererContenuListeTicketGet()
-            .then((data: ListeTickets) => {
-                const ticketArray: Array<Ticket> = data.Tickets;
-                console.log(ticketArray);
-                setTicketArrayState(ticketArray);
-            }).catch((error) => {
-                console.error(error);
-            });
-    }, []);
-
+function TicketListe(props: Propriete) {
     return (
         <View style={styles.liste}>
             <View >
                 <FlatList
                     contentContainerStyle={{ paddingBottom: 140 }}
-                    data={ticketArrayState}
+                    data={props.ticketArray}
                     keyExtractor={(itemValue) => itemValue.idTicket.toString()}
                     horizontal={false}
                     numColumns={3}
