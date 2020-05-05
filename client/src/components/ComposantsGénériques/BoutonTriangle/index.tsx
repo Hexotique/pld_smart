@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import styles from './styles';
+import { ContexteProp, Contexte } from '../../../contexte'
+
 
 interface TriangleProps {
     couleur: string,
@@ -9,12 +11,15 @@ interface TriangleProps {
 }
 
 function BoutonTriangle(props: TriangleProps) {
+    const contexte: ContexteProp = useContext(Contexte);
     return (
         <TouchableOpacity style={[
             styles.triangle,
             { borderTopColor: props.couleur }
         ]}
-            onPress={props.fonction}>
+            // onPress={props.fonction}
+            onPress={contexte.deconnexion}
+        >
         </TouchableOpacity>
     );
 }

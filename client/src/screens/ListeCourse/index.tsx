@@ -6,11 +6,14 @@ import { ListeCourseProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
 import { TextInput } from 'react-native-gesture-handler';
+import { ContexteProp, Contexte } from '../../contexte'
+
 
 function ListeCourse({ route, navigation }: ListeCourseProp) {
+    //const contexte: ContexteProp = useContext(Contexte);
     const [texteAjout, setTexteAjout] = useState("");
     const [setItems, setSetItems] = useState(new Set());
-    const [listeItems, setListeItems] = useState([] as Array<{id: string, checked: boolean}>);
+    const [listeItems, setListeItems] = useState([] as Array<{ id: string, checked: boolean }>);
 
     const onSubmitHandler = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
         if (e.nativeEvent.text && !setItems.has(e.nativeEvent.text)) {

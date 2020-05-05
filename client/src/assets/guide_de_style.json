@@ -18,6 +18,8 @@
         "Garde_Manger": "fridge",
         "Liste_Courses": "playlist-check",
         "Tickets": "qrcode",
-        "QR":"qrcode"
+        "QR":"qrcode",
+        "Flash_On":"flashlight",
+        "Flash_Off":"flashlight-off"
     }
 }
