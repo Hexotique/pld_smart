@@ -107,6 +107,7 @@ function _setHTTPMethod(url: RequestInfo, httpMethod: string, body?: any): Promi
         }
     };
     if (body) {
+        console.log(JSON.stringify(body));
         httpOptions.body = JSON.stringify(body);
     }
     console.log("request sent : " + url);
@@ -142,8 +143,9 @@ export function modifier_quantite_post(modifications: ModificationJson) {
     const url: RequestInfo = `${APIBaseURL}/garde-manger/modifier-quantite`;
     _setHTTPMethod(url, 'POST', modifications)
         .then((response) => {
-            // Je sais pas si on fait un truc
+            console.log(response.status);
         })
+        .then((data: any) => console.log(data))
         .catch((error) => {
             console.log(error);
             console.error(error);

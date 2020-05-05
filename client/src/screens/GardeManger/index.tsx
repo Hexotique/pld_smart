@@ -9,7 +9,8 @@ import { recupererContenuGardeMangerGet,
         ModificationJson,
         itemGardeMangerJson, 
         recuperer_produits_get,
-        Produits} from '../../api';
+        Produits,
+        Produit} from '../../api';
 import { GardeMangerProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
@@ -25,6 +26,7 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
     const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
     const [itemMapState, setItemMapState] = useState(new Map<String, Array<itemGardeMangerJson>>());
     const [rafraichirFlatList, setRafraichirFlatList] = useState(false);
+    const [nomsProduits, setNomsProduits] = useState(new Map<string, string>());
 
     
 
@@ -93,6 +95,10 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
         recuperer_produits_get()
             .then((produits: Produits) => {
                 console.log(produits);
+                produits.produits.forEach((produit: Produit) => {
+                    setNomsProduits(nomsProduits => nomsProduits.set(produit.idProduit, produit.nom));
+                })
+
             })
     }, []);
 
@@ -136,7 +142,9 @@ const mettreAJourBack = () => {
     const modificationsJson: ModificationJson = {modifications: []};
     modifications.forEach((quantite, idItem) => {
         modificationsJson.modifications.push({idItem: idItem, quantite: quantite});
-    })
+    });
+    modifications.clear();
+    console.log(modificationsJson);
     modifier_quantite_post(modificationsJson);
 }
 
