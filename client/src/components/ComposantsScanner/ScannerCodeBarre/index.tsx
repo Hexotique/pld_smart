@@ -33,7 +33,14 @@ function ScannerCodeBarre() {
             .then((res) => {
                 setArtiCleScanne([res.product.product_name, res.product.image_small_url]);
                 setMontrerModal(true);
+            }).catch((error) => {
+                console.log(error);
+                setMontrerModal(false);
+                setReconnaitreCode(true);
+                setArtiCleScanne(['non reconnu', '../../assets/Flag_Blank.png']);
+                setMontrerModal(false);
             });
+
         //Alert.alert("data : " + donnees.data + "\nrawData : " + donnees.rawData + "\ntype : " + donnees.type);
     }
 
