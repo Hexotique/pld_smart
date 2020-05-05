@@ -187,9 +187,9 @@ export function recupererContenuDetailTicketGet(idTicket: number): Promise<Detai
         });
 }
 
-export function supprimer_ticket_delete(idTicket: number) {
+export function supprimer_ticket_delete(idTicket: number): Promise<Boolean | void> {
     const url: RequestInfo = `${APIBaseURL}/ticket/supprimer-ticket/${idTicket}`;
-    _setHTTPMethod(url, 'DELETE')
+    return _setHTTPMethod(url, 'DELETE')
         .then((response) => {
             switch (response.status) {
                 case 200: //succès

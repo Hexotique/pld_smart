@@ -32,18 +32,35 @@ const dataTicket = [
 
 function ListeTicket({ route, navigation }: ListeTicketProp) {
     const contexte: ContexteProp = useContext(Contexte);
-    const [ticketArrayState, setTicketArrayState] = useState(new Array<Ticket>());
+    const [ticketMapState, setTicketMapState] = useState(new Map<string, Ticket>());
 
-    useEffect(() => {
+    function chargerTickets() {
         recupererContenuListeTicketGet()
             .then((data: ListeTickets) => {
                 const ticketArray: Array<Ticket> = data.Tickets;
+                const ticketMap = new Map<string, Ticket>();
+                ticketArray.forEach((ticket: Ticket, indexe: number) => ticketMap.set(ticketArray[indexe].idTicket, ticket))
                 //console.log(ticketArray);
-                setTicketArrayState(ticketArray);
+                setTicketMapState(ticketMap);
             }).catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }
+
+    useEffect(chargerTickets, []);
+
+    const supprimerTicket = (id: string) => {
+        setTicketMapState((prevState) => {
+            console.log(prevState);
+            prevState.delete(id);
+            const newState = new Map<string, Ticket>();
+            prevState.forEach((value: Ticket, key: string) => {
+                newState.set(key, value);
+            })
+            console.log(newState);
+            return newState;
+        })
+    }
 
     return (
         <GestureRecognizer
@@ -52,7 +69,7 @@ function ListeTicket({ route, navigation }: ListeTicketProp) {
             onSwipeLeft={() => navDroite(navigation)}>
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                 <Header indexe={3} />
-                <TicketListe ticketArray={ticketArrayState}></TicketListe>
+                <TicketListe ticketArray={[...ticketMapState.values()]} supprimerTicket={supprimerTicket} ></TicketListe>
             </SafeAreaView>
             <BarreNavigation indexe={3} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} />
         </GestureRecognizer >

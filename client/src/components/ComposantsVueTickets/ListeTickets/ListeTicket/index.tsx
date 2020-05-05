@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, Dimensions } from 'react-native';
 import Item from "../ListeTicketItem";
 import styles from './styles';
 import { recupererContenuListeTicketGet, ListeTickets, Ticket } from '../../../../api'
@@ -167,7 +167,8 @@ const dataTicket = [
 ]*/
 
 interface Propriete {
-    ticketArray: Array<Ticket>
+    ticketArray: Array<Ticket>;
+    supprimerTicket: any;
 }
 
 
@@ -182,6 +183,7 @@ function TicketListe(props: Propriete) {
                     horizontal={false}
                     numColumns={3}
                     renderItem={({ item }) => <Item
+                        supprimerTicket={() => props.supprimerTicket(item.idTicket)}
                         idTicket={item.idTicket}
                         prix={item.montant}
                         commerce={item.nomGroupe}

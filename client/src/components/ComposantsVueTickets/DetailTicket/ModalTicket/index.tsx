@@ -1,5 +1,6 @@
 import React from 'react';
-import { Alert, View, Button, TouchableOpacity, Image, TouchableWithoutFeedback, Text } from 'react-native';
+import { Alert, View, Button, TouchableOpacity, Image, TouchableWithoutFeedback, Text, Vibration } from 'react-native';
+import Toast from 'react-native-simple-toast';
 import styles from './styles';
 import Modal from 'react-native-modal';
 import { Icon } from 'react-native-elements'
@@ -11,10 +12,12 @@ export interface ModalTicketProps {
     show: boolean;
     close: any;
     id: number;
+    supprimerTicket: any;
 }
 
 function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
-    const supprimerTicket = () => {
+
+    const controlerSuppressionTicket = () => {
         Alert.alert(
             "Suppression du ticket",
             "Etes-vous sûr de vouloir supprimer ce ticket ? Cette action est définitive.",
@@ -23,7 +26,20 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
                     text: 'Oui',
                     onPress: () => {
                         console.log('suppression ticket : ' + props.id);
-                        props.close();
+                        supprimer_ticket_delete(props.id)
+                            .then((succes) => {
+                                if (succes) {
+                                    props.supprimerTicket();
+                                    props.close()
+                                } else {
+                                    Toast.show('nous n\'avons pas pu effectuer la suppression', Toast.SHORT);
+                                    Vibration.vibrate([0, 80, 80, 80]);
+                                }
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                                console.error(e);
+                            });
                     }
                 },
                 {
@@ -51,7 +67,7 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
                             <View style={styles.modalConteneur}>
                                 <View style={styles.bouttons}>
                                     <View style={styles.supprimerModal}>
-                                        <TouchableOpacity onPress={supprimerTicket}>
+                                        <TouchableOpacity onPress={controlerSuppressionTicket}>
                                             <Text style={styles.boutonSuppr}>  SUPRIMER  </Text>
                                         </TouchableOpacity>
                                     </View>
