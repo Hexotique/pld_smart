@@ -26,6 +26,7 @@ export default function App() {
     //On crée un state globale de l'application (on peut le faire évoluer)
     //On utilise use reducer car ça permet de gérer différentes actions 
     //et de faire intervenir l'état précedent si besion
+
     const [state, updateState] = React.useReducer(
         (prevState: any, action: action) => {
             console.log(prevState);
@@ -73,9 +74,9 @@ export default function App() {
     const setClient = async (client: any) => {
         try {
             await AsyncStorage.setItem("email", client.email);
-            await AsyncStorage.setItem("nomComplet", client. nomComplet);
+            await AsyncStorage.setItem("nomComplet", client.nomComplet);
             await AsyncStorage.setItem("token", client.token);
-        } catch(e) {
+        } catch (e) {
             console.error(e);
         }
     }
@@ -85,16 +86,20 @@ export default function App() {
             const email = await AsyncStorage.getItem("email");
             const nomComplet = await AsyncStorage.getItem("nomComplet");
             const token = await AsyncStorage.getItem("token");
+            console.log(state.email);
             updateState({ type: 'RESTORE_TOKEN', email, nomComplet, token });
-        } catch(e) {
+            console.log(state.email);
+        } catch (e) {
             console.error(e);
         }
     }
 
-    // Quand on lance l'app ça s'exécute de manière asynchrone
     useEffect(() => {
         getClient();
     }, []);
+
+    // Quand on lance l'app ça s'exécute de manière asynchrone
+
 
     const connexion = async (nouveauClient: Client) => {
         console.log(nouveauClient);
@@ -109,7 +114,7 @@ export default function App() {
                         nomComplet: `${client.prenom} ${client.nom}`,
                         token: client.token
                     }
-                    updateState({ type: 'SIGN_IN',  nouveauClient });
+                    updateState({ type: 'SIGN_IN', nouveauClient });
                     setClient(nouveauClient);
                 }
             })
@@ -151,39 +156,33 @@ export default function App() {
         []
     );
 
-    // Affichage d'un écran de chargement pendant la lecture du cache
-    if (state.chargement) {
-        return (
+    // Rendu de l'app
+    return (
+        state.chargement ?
             <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
                 <Image style={{ height: 100, width: 100 }} source={require('./assets/logo.png')}></Image>
             </View>
-        )
-    }
-
-    // Rendu de l'app
-    return (
-        <Contexte.Provider value={{ ...authContext, email: state.email, nomComplet: state.nomComplet }}>
-            <NavigationContainer>
-                <Tab.Navigator screenOptions={{ tabBarVisible: false }}>
-                    {state.token ?
-                        (<>
-                            {/*Ecrans accessibles quand le token est chargé donc quand on est connecté*/}
-                            <Tab.Screen name='GardeManger' component={GardeManger} />
-                            <Tab.Screen name='ListeCourse' component={ListeCourse} />
-                            <Tab.Screen name='ListeTicket' component={ListeTicket} />
-                            <Tab.Screen name='Scanner' component={Scanner} />
-                        </>
-                        ) : (<>
-                            {/*Ecrans accessibles quand le token n'est pas chargé donc quand on est déconnecté*/}
-                            <Tab.Screen name='Connexion' component={Connexion} />
-                            <Tab.Screen name='Inscription' component={Inscription} />
-                        </>
-                        )
-                    }
-                </Tab.Navigator>
-            </NavigationContainer>
-        </Contexte.Provider>
-
-
+            :
+            <Contexte.Provider value={{ ...authContext, email: state.email, nomComplet: state.nomComplet }}>
+                <NavigationContainer>
+                    <Tab.Navigator screenOptions={{ tabBarVisible: false }}>
+                        {state.token ?
+                            (<>
+                                {/*Ecrans accessibles quand le token est chargé donc quand on est connecté*/}
+                                <Tab.Screen name='GardeManger' component={GardeManger} />
+                                <Tab.Screen name='ListeCourse' component={ListeCourse} />
+                                <Tab.Screen name='ListeTicket' component={ListeTicket} />
+                                <Tab.Screen name='Scanner' component={Scanner} />
+                            </>
+                            ) : (<>
+                                {/*Ecrans accessibles quand le token n'est pas chargé donc quand on est déconnecté*/}
+                                <Tab.Screen name='Connexion' component={Connexion} />
+                                <Tab.Screen name='Inscription' component={Inscription} />
+                            </>
+                            )
+                        }
+                    </Tab.Navigator>
+                </NavigationContainer>
+            </Contexte.Provider>
     );
 }
