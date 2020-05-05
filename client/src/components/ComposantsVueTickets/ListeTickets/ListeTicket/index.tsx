@@ -175,6 +175,7 @@ function TicketListe() {
         recupererContenuListeTicketGet()
             .then((data: ListeTickets) => {
                 const ticketArray: Array<Ticket> = data.Tickets;
+                console.log(ticketArray);
                 setTicketArrayState(ticketArray);
             }).catch((error) => {
                 console.error(error);
@@ -191,7 +192,7 @@ function TicketListe() {
                     horizontal={false}
                     numColumns={3}
                     renderItem={({ item }) => <Item
-                        id={item.idTicket}
+                        idTicket={item.idTicket}
                         prix={item.montant}
                         commerce={item.nomGroupe}
                         date={(item.date.substring(8, 10)).concat('/', item.date.substring(5, 7)).concat('/', item.date.substring(0, 4))}
