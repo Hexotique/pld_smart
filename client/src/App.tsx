@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View, Image, Vibration, Platform, ToastAndroid } from 'react-native';
@@ -27,6 +27,22 @@ export default function App() {
     //On utilise use reducer car ça permet de gérer différentes actions 
     //et de faire intervenir l'état précedent si besion
 
+    const setClient = async (client: any) => {
+        try {
+            if(client) {
+                await AsyncStorage.setItem("email", client.email);
+                await AsyncStorage.setItem("nomComplet", client.nomComplet);
+                await AsyncStorage.setItem("token", client.token);
+            } else {
+                await AsyncStorage.removeItem("email");
+                await AsyncStorage.removeItem("nomComplet");
+                await AsyncStorage.removeItem("token");
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     const [state, updateState] = React.useReducer(
         (prevState: any, action: action) => {
             console.log(prevState);
@@ -38,63 +54,53 @@ export default function App() {
                         email: action.email,
                         nomComplet: action.nomComplet,
                         token: action.token,
-                        deconnecte: false,
                         chargement: false
                     };
                 //A la connexion ou l'inscription ou au premier démarage de l'app
                 case 'SIGN_IN':
+                    setClient({
+                        email: action.email,
+                        nomComplet: action.nomComplet,
+                        token: action.token
+                    });
                     return {
                         ...prevState,
                         email: action.email,
                         nomComplet: action.nomComplet,
-                        token: action.token,
-                        deconnecte: false
+                        token: action.token
                     };
                 //A la deconnecion
                 case 'SIGN_OUT':
+                    setClient(null);
                     return {
                         ...prevState,
                         email: null,
                         nomComplet: null,
-                        token: null,
-                        deconnecte: true
+                        token: null
                     };
             }
         },
         {
             // Rajouter des proprietes du state ici
             chargement: true,
-            deconnecte: true,
             token: null,
             email: null,
             nomComplet: null
         }
     );
 
-    const setClient = async (client: any) => {
-        try {
-            await AsyncStorage.setItem("email", client.email);
-            await AsyncStorage.setItem("nomComplet", client.nomComplet);
-            await AsyncStorage.setItem("token", client.token);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     const getClient = async () => {
         try {
             const email = await AsyncStorage.getItem("email");
             const nomComplet = await AsyncStorage.getItem("nomComplet");
             const token = await AsyncStorage.getItem("token");
-            console.log(state.email);
-            updateState({ type: 'RESTORE_TOKEN', email, nomComplet, token });
-            console.log(state.email);
+            updateState({ type: 'RESTORE_CLIENT', email, nomComplet, token });
         } catch (e) {
             console.error(e);
         }
     }
 
-    useEffect(() => {
+    useEffect(() =>{
         getClient();
     }, []);
 
@@ -114,7 +120,7 @@ export default function App() {
                         nomComplet: `${client.prenom} ${client.nom}`,
                         token: client.token
                     }
-                    updateState({ type: 'SIGN_IN', nouveauClient });
+                    updateState({ type: 'SIGN_IN', ...nouveauClient });
                     setClient(nouveauClient);
                 }
             })

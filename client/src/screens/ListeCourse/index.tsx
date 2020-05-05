@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { SafeAreaView, Text, NativeSyntheticEvent, TextInputSubmitEditingEventData, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, Text, NativeSyntheticEvent, TextInputSubmitEditingEventData, View, AppState } from 'react-native';
 import ListeGlissable from '../../components/ListeGlissable';
 import Header from '../../components/ComposantsGénériques/Header';
 import { ListeCourseProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
 import { TextInput } from 'react-native-gesture-handler';
-import { ContexteProp, Contexte } from '../../contexte'
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 function ListeCourse({ route, navigation }: ListeCourseProp) {
@@ -15,6 +15,39 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
     const [setItems, setSetItems] = useState(new Set());
     const [listeItems, setListeItems] = useState([] as Array<{ id: string, checked: boolean }>);
 
+    const recupStorage = async () => {
+        try {
+            const liste = await AsyncStorage.getItem("listeCourse");
+            const set = await AsyncStorage.getItem("setItems");
+            if (liste && set) {
+                setListeItems(JSON.parse(liste));
+                setSetItems(new Set(JSON.parse(set)));
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    const modifStorage = async () => {
+        try {
+            await AsyncStorage.setItem("listeCourse", JSON.stringify(listeItems));
+            await AsyncStorage.setItem("setItems", JSON.stringify(Array.from(setItems)));
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    useEffect(() => {
+        //AsyncStorage.removeItem("listeCourse");
+        //AsyncStorage.removeItem("setItems");
+        recupStorage();
+    }, []);
+
+    useEffect(() => {
+        modifStorage();
+    }, [setItems, listeItems])
+
+
     const onSubmitHandler = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
         if (e.nativeEvent.text && !setItems.has(e.nativeEvent.text)) {
             setListeItems(prevListe => {
@@ -22,12 +55,14 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
                     id: e.nativeEvent.text,
                     checked: false
                 });
+                modifStorage();
                 return prevListe;
             });
             setSetItems(prevSet => {
                 prevSet.add(e.nativeEvent.text);
+                modifStorage();
                 return prevSet;
-            })
+            });
             setTexteAjout("");
         }
     }
@@ -37,7 +72,7 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
         setSetItems(prevSet => {
             prevSet.delete(id);
             return prevSet;
-        })
+        });
     }
 
     return (
