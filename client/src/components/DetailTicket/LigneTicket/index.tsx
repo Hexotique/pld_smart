@@ -3,7 +3,6 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
 
-
 function LigneTicket({ nomItem, quantite, prix }: any) {
      return (
                <View style   = {styles.vueItem}>

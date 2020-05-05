@@ -261,7 +261,7 @@ export const recuperer_tickets_get = async (req: Request, res: Response, next: N
     }
 }
 
-// Récupère tous les tickets d'un ticket
+// Récupère tous les détails d'un ticket
 // Nécessite : un id de ticket
 // Pas besoin de client car idTicket unique, les client dans le front ne peut accéder que à ses propres tickets
 export const recuperer_detail_ticket_get = async (req: Request, res: Response, next: NextFunction) => {

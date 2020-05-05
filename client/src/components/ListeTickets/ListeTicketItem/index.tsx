@@ -6,6 +6,7 @@ import Ticket from '../../DetailTicket/Ticket';
 //import Dialog from 'react-native';
 //import DialogContent from 'react-native';
 
+
 function Item({ prix, commerce, date }: any) {
 
     const [montrerModal, setMontrerModal] = useState(false);

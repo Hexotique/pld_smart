@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, TouchableOpacity, Image, TouchableWithoutFeedback} from 'react-native';
+import { View, Button, TouchableOpacity, Image, TouchableWithoutFeedback, Text} from 'react-native';
 import styles from './styles';
 import Modal from 'react-native-modal';
 import { Icon } from 'react-native-elements'
@@ -25,12 +25,19 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
                         <View style={styles.vueCentre}> 
                             <TouchableWithoutFeedback>
                                 <View style={styles.modalConteneur}>
-                                    <View style={styles.fermerModal}>
-                                        <TouchableOpacity  onPress={props.close}>
-                                            <Image style={styles.iconeCroix} source={require("../../assets/close.png")}/>
-                                        </TouchableOpacity>
-                                    </View> 
-                                    {props.children}
+                                    <View style={styles.bouttons}>                                        
+                                        <View style={styles.supprimerModal}>
+                                            <TouchableOpacity  onPress={props.close}>
+                                                    <Text style={styles.boutonSuppr}>  SUPPRIMER  </Text>
+                                            </TouchableOpacity>  
+                                        </View>
+                                        <View style={styles.fermerModal}>
+                                            <TouchableOpacity  onPress={props.close}>
+                                                <Image style={styles.iconeCroix} source={require("../../assets/close.png")}/>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>                                   
+                                        {props.children}
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>  
