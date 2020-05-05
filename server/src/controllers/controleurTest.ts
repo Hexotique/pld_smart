@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
-import { Ticket, Article, Client, Commerce, Achat, GardeManger, Liste, Groupe, CategorieProduit, Produit, Item } from '../database/models';
+import { Ticket, Article, Client, Commerce, Achat, GardeManger, AchatRegulier, Groupe, CategorieProduit, Produit, Item } from '../database/models';
 import sequelize, { Sequelize } from 'sequelize';
 
 const fetch = require("node-fetch");
@@ -176,11 +176,7 @@ export const init = async (req: Request, res: Response, next: NextFunction) => {
         client1.setGardeManger(gardemanger1);
         client2.setGardeManger(gardemanger2);
 
-        //init Liste
-        const listecourse1 = await Liste.create({});
-        const listecourse2 = await Liste.create({});
-        client1.setListe(listecourse1);
-        client2.setListe(listecourse2);
+      
 
         //init groupe
         const groupe1 = await Groupe.create({ nom: "Auchan" });
@@ -250,13 +246,6 @@ export const init = async (req: Request, res: Response, next: NextFunction) => {
         gardemanger2.addItem(item21);
         gardemanger2.addItem(item22);
 
-        // //remplir liste courses client 1
-        listecourse1.addProduit(produit1);
-        listecourse1.addProduit(produit2);
-
-        // //remplir liste courses client 2
-        listecourse2.addProduit(produit1);
-        listecourse2.addProduit(produit2);
 
         res.sendStatus(200);
 
