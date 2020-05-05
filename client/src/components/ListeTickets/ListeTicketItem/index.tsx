@@ -24,7 +24,7 @@ function Item({ prix, commerce, date }: any) {
                 </View>
             </TouchableOpacity>
 
-            <ModalTicket show={montrerModal} close={onCloseHandler}>
+            <ModalTicket id={1} show={montrerModal} close={onCloseHandler}>
                 <Ticket></Ticket>
             </ModalTicket>
         </View>

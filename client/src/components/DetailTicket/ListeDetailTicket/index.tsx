@@ -1,22 +1,23 @@
-import React from 'react';
-import { Text, View} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import Categorie from '../../ComposantsGénériques/CategorieListeRetractable'
+import { recupererContenuDetailTicketGet, Achat, DetailTicket } from '../../../api'
 
 // imports peronnels
 import styles from './styles';
 import LigneTicket from '../LigneTicket';
 
 interface Purchase {
-     article : string;
-     prix    : Number;
+     article: string;
+     prix: Number;
      quantite: Number;
 }
 
 interface Category {
      categorieProduit: string;
-     donnees         : Array<Purchase>;
+     donnees: Array<Purchase>;
 }
 /*
 function _testparser() {
@@ -46,95 +47,95 @@ function _genereListe() {
      return ([
           {
                categorieProduit: "Epicerie",
-               donnees         : [
+               donnees: [
                     {
-                         article : "tablette de Chocolat",
+                         article: "tablette de Chocolat",
                          quantite: '4',
-                         prix    : '11,01€',
+                         prix: '11,01€',
                     },
                     {
-                         article : "Quinoa",
+                         article: "Quinoa",
                          quantite: '2',
-                         prix    : '5,62€',
+                         prix: '5,62€',
                     },
                     {
-                         article : "Spaghetti",
+                         article: "Spaghetti",
                          quantite: '1',
-                         prix    : '1,17€',
+                         prix: '1,17€',
                     },
                ]
           },
           {
                categorieProduit: "Hygiène",
-               donnees         : [
+               donnees: [
                     {
-                         article : "Savon",
+                         article: "Savon",
                          quantite: '2',
-                         prix    : '8,01€',
+                         prix: '8,01€',
                     },
                     {
-                         article : "Javel",
+                         article: "Javel",
                          quantite: '1',
-                         prix    : '7,62€',
+                         prix: '7,62€',
                     },
                ]
           },
           {
                categorieProduit: "Boulangerie",
-               donnees         : [
+               donnees: [
                     {
-                         article : "Baguette tradition",
+                         article: "Baguette tradition",
                          quantite: '2',
-                         prix    : '1,54€',
+                         prix: '1,54€',
                     },
                     {
-                         article : "Croissants au beurre",
+                         article: "Croissants au beurre",
                          quantite: '10',
-                         prix    : '5,99€',
+                         prix: '5,99€',
                     },
                     {
-                         article : "Fougasse au fromage",
+                         article: "Fougasse au fromage",
                          quantite: '1',
-                         prix    : '2,49€',
+                         prix: '2,49€',
                     },
                ]
           },
           {
                categorieProduit: "Epicerie",
-               donnees         : [
+               donnees: [
                     {
-                         article : "tablette de Chocolat",
+                         article: "tablette de Chocolat",
                          quantite: '4',
-                         prix    : '11,01€',
+                         prix: '11,01€',
                     },
                     {
-                         article : "Quinoa",
+                         article: "Quinoa",
                          quantite: '2',
-                         prix    : '5,62€',
+                         prix: '5,62€',
                     },
                     {
-                         article : "Spaghetti",
+                         article: "Spaghetti",
                          quantite: '1',
-                         prix    : '1,17€',
+                         prix: '1,17€',
                     },
                ]
-          },{
+          }, {
                categorieProduit: "Epicerie",
-               donnees         : [
+               donnees: [
                     {
-                         article : "tablette de Chocolat",
+                         article: "tablette de Chocolat",
                          quantite: '4',
-                         prix    : '11,01€',
+                         prix: '11,01€',
                     },
                     {
-                         article : "Quinoa",
+                         article: "Quinoa",
                          quantite: '2',
-                         prix    : '5,62€',
+                         prix: '5,62€',
                     },
                     {
-                         article : "Spaghetti",
+                         article: "Spaghetti",
                          quantite: '1',
-                         prix    : '1,17€',
+                         prix: '1,17€',
                     },
                ]
           },
@@ -144,29 +145,84 @@ function _genereListe() {
 
 function ListeDetailTicket(purchases: any) {
 
+     const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
+     const [itemMapState, setItemMapState] = useState(new Map<String, Array<Achat>>());
+     const [enableScroll, setEnableScroll] = useState(true);
+     useEffect(() => {
+          recupererContenuDetailTicketGet()
+               .then((data: DetailTicket) => {
+                    const itemMap: Map<String, Array<Achat>> = new Map<String, Array<Achat>>();
+                    data.donneesTicket.achats.forEach((item: Achat) => {
+                         if (!itemMap.has(item.nomCategorieProduit)) {
+                              const itemList: Array<Achat> = [];
+                              itemList.push(item);
+                              itemMap.set(item.nomCategorieProduit, itemList);
+                         } else {
+                              const itemMapGet = itemMap.get(item.nomCategorieProduit);
+                              if (itemMapGet) {
+                                   itemMapGet.push(item);
+                              }
+                         }
+                    });
+                    const keyArray: Array<String> = Array.from(itemMap.keys());
+
+                    setKeyArrayState(keyArray);
+                    setItemMapState(itemMap);
+
+               }).catch((error) => {
+                    console.error(error);
+               });
+     }, []);
+
+
      return (
+          /*{ <View>
+               <FlatList
+                    data={keyArrayState}
+                    keyExtractor={(itemKey) => itemKey.toString()}
+                    renderItem={({ item }) =>
+                         <View>
+                              <Collapse>
+                                   <CollapseHeader>
+                                        <Categorie item={item} couleur="#fbbd4c" />
+                                   </CollapseHeader>
+                                   <CollapseBody>
+                                        <FlatList
+                                             data={itemMapState.get(item)}
+                                             keyExtractor={(itemValue) => itemValue.idItem.toString()}
+                                             renderItem={({ item }) =>
+                                                  <LigneTicket nomItem={item.article} quantite={item.quantite} prix={item.prix} />
+                                             }
+                                        />
+                                   </CollapseBody>
+                              </Collapse>
+                         </View>
+                    }
+               />
+          </View> }*/
+
           <View>
                <FlatList
-                    data         = {_genereListe()}
-                    keyExtractor = {(item, index) => item + index.toString() }
-                    renderItem   = {({ item }) =>
-                    <View>
-                        <Collapse>
-                            <CollapseHeader>
-                              <Categorie item = {item.categorieProduit} couleur="#fbbd4c"/>
-                            </CollapseHeader>
-                            <CollapseBody>
-                                <FlatList
-                                    data         = {item.donnees}
-                                    keyExtractor = {(item, index) => item.article + index.toString() }
-                                    renderItem   = {({ item }) =>
-                                         <LigneTicket nomItem = {item.article} quantite = {item.quantite} prix = {item.prix} />
-                                    }
-                                />
-                            </CollapseBody>
-                        </Collapse>
-                    </View>
-                }
+                    data={_genereListe()}
+                    keyExtractor={(item, index) => item + index.toString()}
+                    renderItem={({ item }) =>
+                         <View>
+                              <Collapse>
+                                   <CollapseHeader>
+                                        <Categorie item={item.categorieProduit} couleur="#fbbd4c" />
+                                   </CollapseHeader>
+                                   <CollapseBody>
+                                        <FlatList
+                                             data={item.donnees}
+                                             keyExtractor={(item, index) => item.article + index.toString()}
+                                             renderItem={({ item }) =>
+                                                  <LigneTicket nomItem={item.article} quantite={item.quantite} prix={item.prix} />
+                                             }
+                                        />
+                                   </CollapseBody>
+                              </Collapse>
+                         </View>
+                    }
                />
           </View>
      );
