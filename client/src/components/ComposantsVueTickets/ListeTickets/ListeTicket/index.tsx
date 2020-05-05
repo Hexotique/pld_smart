@@ -185,7 +185,7 @@ function TicketListe(props: Propriete) {
                     renderItem={({ item }) => <Item
                         supprimerTicket={() => props.supprimerTicket(item.idTicket)}
                         idTicket={item.idTicket}
-                        prix={item.montant}
+                        prix={Math.round(Number(item.montant) * 100) / 100}
                         commerce={item.nomGroupe}
                         date={(item.date.substring(8, 10)).concat('/', item.date.substring(5, 7)).concat('/', item.date.substring(0, 4))}
                     />
