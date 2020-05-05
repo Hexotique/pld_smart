@@ -37,17 +37,14 @@ function ModalProduit(props: Propriete) {
                                         <Image style={styles.iconeCroix} source={require("../../../assets/close.png")} />
                                     </TouchableOpacity>
                                 </View>
-                                <View style={styles.contenu}>
+                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                                     <View style={styles.zoneQuestion}>
                                         <Text style={styles.question}>      Souhaitez-vous ajouter {"\n"} ce produit au garde manger ?</Text>
                                     </View>
                                     <View style={styles.zoneNom}>
                                         <Text style={styles.nom}>{props.nom}</Text>
                                     </View>
-                                    <View style={styles.zoneImage}>
-                                        <Image style={styles.image} resizeMode="contain" source={{uri: props.url }}></Image>
-                                        {/* Test de l'image avec : source={require('../../../assets/fleche.png')*/}
-                                    </View>
+                                    <Image style={styles.image} source={{ uri: props.url }}></Image>
                                     <View style={styles.zoneBoutons}>
                                         <TouchableOpacity style={styles.boutonOui} onPress={() => { ajoutProduit(props.codebarre); props.close(); }}>
                                             <Text style={styles.texteBouton}>OUI</Text>

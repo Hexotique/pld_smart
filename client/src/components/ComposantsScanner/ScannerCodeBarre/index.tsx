@@ -32,7 +32,7 @@ function ScannerCodeBarre() {
         setReconnaitreCode(false);
         recupererProduitViaCodeBarre(donnees.data)
             .then((res) => {
-                setArtiCleScanne([res.product.product_name, res.product.image_small_url]);
+                setArtiCleScanne([res.product.product_name, res.product.image_url]);
                 setMontrerModal(true);
             }).catch((error) => {
                 console.log(error);
@@ -58,7 +58,7 @@ function ScannerCodeBarre() {
                 style={styles.rond}
                 onPress={() => { setflahAllume(!flashAllume) }}
             >
-                <Icon name={flashAllume ? iconOff : iconOn} size={rayon / 1.5} color={'#474747ff'} />
+                <Icon style={{ transform: [{ rotateZ: '45deg' }] }} name={flashAllume ? iconOff : iconOn} size={rayon / 1.5} color={'#474747ff'} />
             </TouchableHighlight>
             <RNCamera
                 style={styles.affichage}

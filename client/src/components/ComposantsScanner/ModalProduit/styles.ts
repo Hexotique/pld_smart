@@ -47,16 +47,11 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textTransform: 'uppercase',
     },
-    zoneImage: {
+    image: {
         flex: 8,
-        borderColor: "black",
-        alignItems: "center",
+        resizeMode: 'contain',
         marginLeft: 30,
         marginRight: 30,
-    },
-    image: {
-        flex: 1,
-        resizeMode: 'contain',
     },
     zoneBoutons: {
         flex: 3,
@@ -104,6 +99,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5
+    },
+    zoneArticle: {
+        flex: 9,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
 
