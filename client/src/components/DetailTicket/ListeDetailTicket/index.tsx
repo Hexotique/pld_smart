@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import Categorie from '../../ComposantsGénériques/CategorieListeRetractable'
-import { recupererContenuDetailTicketGet, Achat, DetailTicket } from '../../../api'
+
 
 // imports peronnels
 import styles from './styles';
@@ -145,34 +145,6 @@ function _genereListe() {
 
 function ListeDetailTicket(purchases: any) {
 
-     const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
-     const [itemMapState, setItemMapState] = useState(new Map<String, Array<Achat>>());
-     const [enableScroll, setEnableScroll] = useState(true);
-     useEffect(() => {
-          recupererContenuDetailTicketGet()
-               .then((data: DetailTicket) => {
-                    const itemMap: Map<String, Array<Achat>> = new Map<String, Array<Achat>>();
-                    data.donneesTicket.achats.forEach((item: Achat) => {
-                         if (!itemMap.has(item.nomCategorieProduit)) {
-                              const itemList: Array<Achat> = [];
-                              itemList.push(item);
-                              itemMap.set(item.nomCategorieProduit, itemList);
-                         } else {
-                              const itemMapGet = itemMap.get(item.nomCategorieProduit);
-                              if (itemMapGet) {
-                                   itemMapGet.push(item);
-                              }
-                         }
-                    });
-                    const keyArray: Array<String> = Array.from(itemMap.keys());
-
-                    setKeyArrayState(keyArray);
-                    setItemMapState(itemMap);
-
-               }).catch((error) => {
-                    console.error(error);
-               });
-     }, []);
 
 
      return (
@@ -191,7 +163,7 @@ function ListeDetailTicket(purchases: any) {
                                              data={itemMapState.get(item)}
                                              keyExtractor={(itemValue) => itemValue.idItem.toString()}
                                              renderItem={({ item }) =>
-                                                  <LigneTicket nomItem={item.article} quantite={item.quantite} prix={item.prix} />
+                                                  <LigneTicket nomItem={item.nomArticle} quantite={item.quantite} prix={item.prix} />
                                              }
                                         />
                                    </CollapseBody>

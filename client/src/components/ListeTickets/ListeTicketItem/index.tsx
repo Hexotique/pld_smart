@@ -7,7 +7,7 @@ import Ticket from '../../DetailTicket/Ticket';
 //import DialogContent from 'react-native';
 
 
-function Item({ prix, commerce, date }: any) {
+function Item({ prix, commerce, date, idTicket }: any) {
 
     const [montrerModal, setMontrerModal] = useState(false);
 
@@ -24,7 +24,7 @@ function Item({ prix, commerce, date }: any) {
                 </View>
             </TouchableOpacity>
 
-            <ModalTicket id={1} show={montrerModal} close={onCloseHandler}>
+            <ModalTicket id={idTicket} show={montrerModal} close={onCloseHandler}>
                 <Ticket></Ticket>
             </ModalTicket>
         </View>

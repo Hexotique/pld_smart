@@ -157,6 +157,7 @@ export function recupererContenuListeTicketGet(): Promise<ListeTickets> {
     const url: RequestInfo = `${APIBaseURL}/ticket/recuperer-tickets`;
     return _setHTTPMethod(url, 'GET')
         .then((response) => {
+            console.log("res: " + response.status);
             return response.json();
         })
         .catch((error) => {

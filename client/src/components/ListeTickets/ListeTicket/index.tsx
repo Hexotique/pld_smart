@@ -191,9 +191,10 @@ function TicketListe() {
                     horizontal={false}
                     numColumns={3}
                     renderItem={({ item }) => <Item
+                        id={item.idTicket}
                         prix={item.montant}
                         commerce={item.nomGroupe}
-                        date={(item.date.substring(8,10)).concat('/',item.date.substring(5,7)).concat('/',item.date.substring(0,4))}
+                        date={(item.date.substring(8, 10)).concat('/', item.date.substring(5, 7)).concat('/', item.date.substring(0, 4))}
                     />
                     //Avant le lien avec le back : (plus simple de décommenter si c'est pour gérer le style)
                     /*data={dataTicket}
