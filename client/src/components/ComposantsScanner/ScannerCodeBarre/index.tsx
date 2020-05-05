@@ -24,8 +24,10 @@ function ScannerCodeBarre() {
     const [articleScanne, setArtiCleScanne] = useState(['non reconnu', '../../assets/Flag_Blank.png'])
     const [montrerModal, setMontrerModal] = useState(false);
 
+    var code = ""; //trouver meilleure façon de récup le code barre ?
     const _codeBarreLu = (donnees: DonneesCodeBarre) => {
         console.log(donnees.data);
+        code = donnees.data;
         setReconnaitreCode(false);
         recupererProduitViaCodeBarre(donnees.data)
             .then((res) => {
@@ -58,7 +60,7 @@ function ScannerCodeBarre() {
                 flashMode={flashAllume ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
             >
             </RNCamera>
-            <ModalProduit show={montrerModal} close={onCloseHandler} nom={articleScanne[0]} url={articleScanne[1]} />
+            <ModalProduit show={montrerModal} close={onCloseHandler} nom={articleScanne[0]} url={articleScanne[1]} codebarre={code} />
         </View>
     );
 }

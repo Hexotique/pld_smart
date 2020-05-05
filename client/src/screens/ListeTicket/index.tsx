@@ -33,8 +33,7 @@ function ListeTicket({ route, navigation }: ListeTicketProp) {
     const contexte: ContexteProp = useContext(Contexte);
 
     return (
-        <ModalProduit show={true} close={false} nom={"nom"} url={"url"} />
-        /* <GestureRecognizer
+        <GestureRecognizer
             style={{ flex: 1 }}
             onSwipeRight={() => navGauche(navigation)}
             onSwipeLeft={() => navDroite(navigation)}>
@@ -43,7 +42,7 @@ function ListeTicket({ route, navigation }: ListeTicketProp) {
                 <TicketListe></TicketListe>
             </SafeAreaView>
             <BarreNavigation indexe={3} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} />
-        </GestureRecognizer > */
+        </GestureRecognizer >
     );
 }
 

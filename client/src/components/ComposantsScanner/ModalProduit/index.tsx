@@ -2,13 +2,17 @@ import React from 'react';
 import { View, Button, TouchableOpacity, Image, TouchableWithoutFeedback, Text } from 'react-native';
 import styles from './styles';
 import Modal from 'react-native-modal';
+import { ajouter_produit_scan_put } from '../../../api'
 import { Icon } from 'react-native-elements'
 
-
+function ajoutProduit(codebarre: string) {
+    ajouter_produit_scan_put(codebarre);
+}
 
 export interface Propriete {
     show: boolean,
     close: any,
+    codebarre: string,
     url: string,
     nom: string,
 }
@@ -43,7 +47,7 @@ function ModalProduit(props: Propriete) {
                                         {/* Test de l'image avec : source={require('../../../assets/fleche.png')*/}
                                     </View>
                                     <View style={styles.zoneBoutons}>
-                                        <TouchableOpacity style={styles.boutonOui} onPress={props.close}>
+                                        <TouchableOpacity style={styles.boutonOui} onPress={() => ajoutProduit(props.codebarre)}>
                                             <Text style={styles.texteBouton}>OUI</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity style={styles.boutonNon} onPress={props.close}>
