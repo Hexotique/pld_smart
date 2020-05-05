@@ -3,6 +3,12 @@ import { Text, View, SectionList } from 'react-native';
 import styles from './styles';
 import ListeDetailTicket from '../ListeDetailTicket';
 
+
+//A implémenter pour faire le lien avec le Back
+function supprimerTicket() { 
+}
+
+
 function Ticket() {
      return (
           <View style = {styles.conteneur_ticket}>

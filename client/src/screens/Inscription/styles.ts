@@ -16,17 +16,20 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: width,
         height: height,
-        backgroundColor:'#f629009d',
+        backgroundColor: '#f629009d',
     },
     titre: {
-        marginTop:100,
-        flex :1,
+        position: 'absolute',
+        left: 0,
+        right: 0
     },
 
     inscription: {
-        flex :4,
+        position: 'absolute',
+        left: 0,
+        right: 0
     },
-    
+
 
 });
 

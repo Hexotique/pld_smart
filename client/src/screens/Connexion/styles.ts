@@ -16,18 +16,26 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: width,
         height: height,
-        backgroundColor:'#f629009d',
+        backgroundColor: '#f629009d',
     },
     titre: {
-        flex :2,
+        position: 'absolute',
+        left: 0,
+        right: 0
     },
     connexion: {
-        flex :2,
+        position: 'absolute',
+        //bottom: 2 * height / 5,
+        left: 0,
+        right: 0
     },
     inscription: {
-        flex :2,
+        position: 'absolute',
+        //bottom: height / 5,
+        left: 0,
+        right: 0
     },
-    
+
 
 });
 

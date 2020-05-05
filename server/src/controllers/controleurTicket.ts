@@ -261,7 +261,7 @@ export const recuperer_tickets_get = async (req: Request, res: Response, next: N
     }
 }
 
-// Récupère tous les tickets d'un ticket
+// Récupère tous les détails d'un ticket
 // Nécessite : un id de ticket
 // Pas besoin de client car idTicket unique, les client dans le front ne peut accéder que à ses propres tickets
 export const recuperer_detail_ticket_get = async (req: Request, res: Response, next: NextFunction) => {
@@ -358,6 +358,7 @@ export const creerArticle = async (code: string) => {
         let nom_produit: string = produit.product.product_name_fr ? produit.product.product_name_fr : produit.product.product_name;
         let marque: string = produit.product.brands_tags[0] ? produit.product.brands_tags[0] : "";
         let poids: string = produit.product.quantity ? produit.product.quantity : "";
+        let url_im: string = produit.product.image_url ? produit.product.image_url : null;
         let nom_article: string;
 
         if (poids && marque === "") {
@@ -425,7 +426,12 @@ export const creerArticle = async (code: string) => {
             (await cate?.addProduit(prod[0]));
         }
 
+        if (!prod[0].url_image){
+            prod[0].setAttributes({url_image : url_im});
+        }
+
         await (prod[0].addArticle(art));
+        await (prod[0].save());
         const tmp_art = (await art.reload());
         return tmp_art;
 

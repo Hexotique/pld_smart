@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { Produit, GardeManger, Item, Client, Commerce, CategorieProduit, Article } from '../database/models';
 import { creerArticle } from './controleurTicket';
 import { Op } from 'sequelize';
+import { Json } from 'sequelize/types/lib/utils';
 
 interface Ajout {
     nomProduit: string;
@@ -94,6 +95,15 @@ export const ajouter_produit_scan_put = async (req: Request, res: Response, next
 }
 
 
+interface ProduitJson {
+    idProduit: string,
+    nom: string,
+    categorie : {
+        idCategorie : string,
+        nomCategorie : string
+    }
+}
+
 // Ajoute un produit au garde manger
 // Nécessite : un nom de produit
 //             une quantité
@@ -144,6 +154,31 @@ export const modifier_quantite_post = async (req: Request, res: Response, next: 
     }
 }
 
+// Supprime un produit du garde-manger
+// Nécessite : un id de produit
+export const supprimer_produit_delete = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log(req);
+        if (!req.params.idproduit) throw ('parametre idproduit manquant');
+        const idProduit: number = Number(req.params.idproduit);
+
+        let gardeManger: GardeManger = await (req.user as Client).getGardeManger();
+
+        await Item.destroy({
+            where: {
+                ProduitId: idProduit,
+                GardeMangerId : gardeManger.id
+            }
+        });
+
+        res.sendStatus(200);
+        console.log('ticket : ' + idProduit + ' supprimé du garde manger d\'id ' + gardeManger.id);
+    }
+    catch (error) {
+        next(error);
+    }
+}
+
 // Récupère le contenu du garde-manger
 export const recuperer_contenu_get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -185,6 +220,43 @@ export const recuperer_contenu_get = async (req: Request, res: Response, next: N
         }
         res.status(200).json(reponse);
 
+    }
+    catch (error) {
+        next(error);
+    }
+}
+
+// Récupère les produits en fonction de la recherche
+// Nécessite : une recherche
+export const recuperer_produits_recherche_get = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        //console.log(req);
+        if (!req.params.recherche) throw ('parametre recherche manquant');
+        const recherche : string = req.params.recherche;
+
+        let produits : any = {
+            "Produits" : []
+        }
+
+        const categoriesProduits = await CategorieProduit.findAll();
+
+        for (const categorie  of categoriesProduits) {
+            const produitsCategories = await categorie.getProduits();
+            for (const produit of produitsCategories ){
+                if(produit.nom.toLowerCase().startsWith(recherche.toLowerCase())){
+                    let produitJson : ProduitJson = {
+                        idProduit : produit.id.toString(),
+                        nom : produit.nom,
+                        categorie : {
+                            idCategorie : categorie.id.toString(),
+                            nomCategorie : categorie.nom
+                        }
+                    }
+                    produits.Produits.push(produitJson)
+                }
+            }
+        }
+        res.status(200).json(produits);
     }
     catch (error) {
         next(error);
