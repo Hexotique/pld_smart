@@ -45,11 +45,11 @@ function ModalProduit(props: Propriete) {
                                         <Text style={styles.nom}>{props.nom}</Text>
                                     </View>
                                     <View style={styles.zoneImage}>
-                                        <Image style={styles.image} resizeMode="contain" source={{ uri: props.url }}></Image>
+                                        <Image style={styles.image} resizeMode="contain" source={{uri: props.url }}></Image>
                                         {/* Test de l'image avec : source={require('../../../assets/fleche.png')*/}
                                     </View>
                                     <View style={styles.zoneBoutons}>
-                                        <TouchableOpacity style={styles.boutonOui} onPress={() => ajoutProduit(props.codebarre)}>
+                                        <TouchableOpacity style={styles.boutonOui} onPress={() => { ajoutProduit(props.codebarre); props.close(); }}>
                                             <Text style={styles.texteBouton}>OUI</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity style={styles.boutonNon} onPress={props.close}>
