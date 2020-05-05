@@ -53,7 +53,7 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
                                 <View style={styles.bouttons}>
                                     <View style={styles.supprimerModal}>
                                         <TouchableOpacity onPress={supprimerTicket}>
-                                            <Text style={styles.boutonSuppr}>  SUPPPPPRIMER  </Text>
+                                            <Text style={styles.boutonSuppr}>  SUPRIMER  </Text>
                                         </TouchableOpacity>
                                     </View>
                                     <View style={styles.fermerModal}>
