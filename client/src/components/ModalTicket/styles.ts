@@ -13,18 +13,28 @@ const styles = StyleSheet.create({
           marginTop: 22,
           
      },
-
+     bouttons: {
+          flexDirection: "row",
+     },
+     supprimerModal:{
+          flexDirection: "row",
+          flex:0.6,
+          paddingLeft: 10,
+     },
      fermerModal: {
           flexDirection: "row",
+          flex:0.4,
           justifyContent: "flex-end",
           paddingRight: 10,
      },
-
      iconeCroix: {
           height: 30,
           width: 30,
      },
-     
+     boutonSuppr: {
+          backgroundColor: "white",
+          borderRadius : 7,
+     },
      modalConteneur: {
           backgroundColor: "#e5e5e5",
           flex: 0.8,
