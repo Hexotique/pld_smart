@@ -31,15 +31,31 @@ function ModalProduit(props: Propriete) {
                                         <Image style={styles.iconeCroix} source={require("../../../assets/close.png")} />
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-                                    <Text>{props.nom}</Text>
-                                    <Image style={{ flex: 1 }} source={{ uri: props.url }}></Image>
+                                <View style={styles.contenu}>
+                                    <View style={styles.zoneQuestion}>
+                                        <Text style={styles.question}>      Souhaitez-vous ajouter {"\n"} ce produit au garde manger ?</Text>
+                                    </View>
+                                    <View style={styles.zoneNom}>
+                                        <Text style={styles.nom}>{props.nom}</Text>
+                                    </View>
+                                    <View style={styles.zoneImage}>
+                                        <Image style={styles.image} resizeMode="contain" source={{ uri: props.url }}></Image>
+                                        {/* Test de l'image avec : source={require('../../../assets/fleche.png')*/}
+                                    </View>
+                                    <View style={styles.zoneBoutons}>
+                                        <TouchableOpacity style={styles.boutonOui} onPress={props.close}>
+                                            <Text style={styles.texteBouton}>OUI</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.boutonNon} onPress={props.close}>
+                                            <Text style={styles.texteBouton}>NON</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
                 </TouchableOpacity>
-            </Modal>
+            </Modal >
 
 
             : null

@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import TicketListe from "../../components/ListeTickets/ListeTicket";
 import { ListeTicketProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
 import { ContexteProp, Contexte } from '../../contexte'
+import ModalProduit from '../../components/ComposantsScanner/ModalProduit'
 
 const dataTicket = [
     {
@@ -32,7 +33,8 @@ function ListeTicket({ route, navigation }: ListeTicketProp) {
     const contexte: ContexteProp = useContext(Contexte);
 
     return (
-        <GestureRecognizer
+        <ModalProduit show={true} close={false} nom={"nom"} url={"url"} />
+        /* <GestureRecognizer
             style={{ flex: 1 }}
             onSwipeRight={() => navGauche(navigation)}
             onSwipeLeft={() => navDroite(navigation)}>
@@ -41,7 +43,7 @@ function ListeTicket({ route, navigation }: ListeTicketProp) {
                 <TicketListe></TicketListe>
             </SafeAreaView>
             <BarreNavigation indexe={3} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} />
-        </GestureRecognizer >
+        </GestureRecognizer > */
     );
 }
 
