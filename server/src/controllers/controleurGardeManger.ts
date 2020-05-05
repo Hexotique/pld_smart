@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Produit, GardeManger, Item, Client, Commerce, CategorieProduit } from '../database/models';
+import { Json } from 'sequelize/types/lib/utils';
 
 interface Ajout {
     nomProduit: string;
@@ -35,6 +36,15 @@ interface GardeMangerJson {
     idGardeManger: string,
     idClient: string,
     items: Array<ItemGardeMangerJson>
+}
+
+interface ProduitJson {
+    idProduit: string,
+    nom: string,
+    categorie : {
+        idCategorie : string,
+        nomCategorie : string
+    }
 }
 
 // Ajoute un produit au garde manger
@@ -128,6 +138,43 @@ export const recuperer_contenu_get = async (req: Request, res: Response, next: N
         }
         res.status(200).json(reponse);
 
+    }
+    catch (error) {
+        next(error);
+    }
+}
+
+// Récupère les produits en fonction de la recherche
+// Nécessite : une recherche
+export const recuperer_produits_recherche_get = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        //console.log(req);
+        if (!req.params.recherche) throw ('parametre recherche manquant');
+        const recherche : string = req.params.recherche;
+
+        let produits : any = {
+            "Produits" : []
+        }
+
+        const categoriesProduits = await CategorieProduit.findAll();
+
+        for (const categorie  of categoriesProduits) {
+            const produitsCategories = await categorie.getProduits();
+            for (const produit of produitsCategories ){
+                if(produit.nom.toLowerCase().startsWith(recherche.toLowerCase())){
+                    let produitJson : ProduitJson = {
+                        idProduit : produit.id.toString(),
+                        nom : produit.nom,
+                        categorie : {
+                            idCategorie : categorie.id.toString(),
+                            nomCategorie : categorie.nom
+                        }
+                    }
+                    produits.Produits.push(produitJson)
+                }
+            }
+        }
+        res.status(200).json(produits);
     }
     catch (error) {
         next(error);
