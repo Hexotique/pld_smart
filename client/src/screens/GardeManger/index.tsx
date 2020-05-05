@@ -3,7 +3,13 @@ import React, { useContext, useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import GardeMangerListe from '../../components/GardeManger/GardeMangerListe';
-import { recupererContenuGardeMangerGet, GardeMangerJson, itemGardeMangerJson } from '../../api';
+import { recupererContenuGardeMangerGet,
+        modifier_quantite_post,
+        GardeMangerJson,
+        ModificationJson,
+        itemGardeMangerJson, 
+        recuperer_produits_get,
+        Produits} from '../../api';
 import { GardeMangerProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
@@ -27,7 +33,6 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
             const tableauItems: Array<itemGardeMangerJson> | undefined = itemMapState.get(nomCategorie);
             if (tableauItems) {
                 const indexASupprimer: number = tableauItems.findIndex((item: itemGardeMangerJson) => item.idItem === idItem);
-                console.log(indexASupprimer);
                 if (indexASupprimer !== undefined) {
                     tableauItems.splice(indexASupprimer, 1);
                     modifications.set(idItem, 0);
@@ -61,6 +66,7 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
     
 
     useEffect(() => {
+        console.log("chargement garde manger");
         recupererContenuGardeMangerGet()
             .then((data: GardeMangerJson) => {
                 const itemMap: Map<String, Array<itemGardeMangerJson>> = new Map<String, Array<itemGardeMangerJson>>();
@@ -84,6 +90,10 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
             }).catch((error) => {
                 console.error(error);
             });
+        recuperer_produits_get()
+            .then((produits: Produits) => {
+                console.log(produits);
+            })
     }, []);
 
     return (
@@ -109,13 +119,25 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
 
 function actionCentre(nav: any) {
     nav.navigate('Scanner');
+    mettreAJourBack();
 }
 
 const navGauche = (nav: any) => {
     nav.navigate('ListeTicket');
+    mettreAJourBack();
 }
 const navDroite = (nav: any) => {
-    nav.navigate('ListeCourse')
+    nav.navigate('ListeCourse');
+    mettreAJourBack();
+}
+
+const mettreAJourBack = () => {
+    console.log("mise à jour du back");
+    const modificationsJson: ModificationJson = {modifications: []};
+    modifications.forEach((quantite, idItem) => {
+        modificationsJson.modifications.push({idItem: idItem, quantite: quantite});
+    })
+    modifier_quantite_post(modificationsJson);
 }
 
 

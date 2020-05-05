@@ -29,13 +29,26 @@ export interface AjoutJson {
     ajouts: Array<Ajout>;
 }
 
-interface Modification {
-    idItem: number;
+export interface Modification {
+    idItem: string;
     quantite: number;
 }
 
-interface ModificationJson {
+export interface ModificationJson {
     modifications: Array<Modification>;
+}
+
+export interface Produits {
+    produits: Array<Produit>
+}
+
+export interface Produit {
+    idProduit: string,
+    nom: string,
+    categorie: {
+        idCategorie: string, 
+        nomCategorie: string
+    }
 }
 
 //Json pour la liste des tickets
@@ -80,6 +93,7 @@ export interface Client {
     prenom?: string,
     token?: string
 }
+
 
 // Méthode pour générer les requètes
 
@@ -135,6 +149,18 @@ export function modifier_quantite_post(modifications: ModificationJson) {
             console.error(error);
         });
 
+}
+
+export function recuperer_produits_get(): Promise<Produits> {
+    const url: RequestInfo = `${APIBaseURL}/garde-manger/recuperer-produits`;
+    return _setHTTPMethod(url, 'GET')
+        .then((response) => {
+            return response.json();
+        })
+        .catch((error) => {
+            console.log(error);
+            console.error(error);
+        });   
 }
 
 // Interactions OFF
