@@ -3,9 +3,11 @@ import { Text, View, Image, PanResponder, Animated, Dimensions, Easing, Touchabl
 import styles from './styles';
 import TitrePage from '../TitrePage';
 import Modal from 'react-native-modal';
+import QRCode from 'react-qr-code';
 
 import { Contexte } from '../../../contexte';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { HeaderBackground } from '@react-navigation/stack';
 
 const guide_de_style = require('../../../assets/guide_de_style.json');
 
@@ -174,14 +176,21 @@ function Header(prop: Propriete) {
             <View style={styles.ligne2}>
                 <TitrePage couleur={couleur} titre={titrePage} />
             </View>
-            <Modal 
-                isVisible={modalVisible} 
-                backdropColor="grey" 
+            <Modal
+                isVisible={modalVisible}
+                backdropColor="grey"
                 onBackButtonPress={() => setModalVisible(false)}
                 onBackdropPress={() => setModalVisible(false)}
             >
-                <View style={{backgroundColor: 'white'}}>
-                    <Text>hi</Text>
+                <View style={{
+                    padding: 30,
+                    backgroundColor: 'white',
+                    alignItems: 'center',
+                    borderRadius: 20
+                }}>
+                    <Contexte.Consumer>
+                        {contexte => <QRCode value={contexte.token} size={300} />}
+                    </Contexte.Consumer>
                 </View>
             </Modal>
         </View>

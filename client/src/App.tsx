@@ -157,7 +157,8 @@ export default function App() {
             deconnexion, // déconnexion basique, faut peut être sortir le token du cache ?
             inscription,
             email: "",
-            nomComplet: ""
+            nomComplet: "",
+            token: ""
         }),
         []
     );
@@ -169,7 +170,7 @@ export default function App() {
                 <Image style={{ height: 100, width: 100 }} source={require('./assets/logo.png')}></Image>
             </View>
             :
-            <Contexte.Provider value={{ ...authContext, email: state.email, nomComplet: state.nomComplet }}>
+            <Contexte.Provider value={{ ...authContext, email: state.email, nomComplet: state.nomComplet, token: state.token }}>
                 <NavigationContainer>
                     <Tab.Navigator screenOptions={{ tabBarVisible: false }}>
                         {state.token ?
