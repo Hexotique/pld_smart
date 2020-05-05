@@ -31,20 +31,21 @@ export default function App() {
             console.log(prevState);
             switch (action.type) {
                 //Au lancement de l'app pour récupérer le token dans le cach de l'app
-                case 'RESTORE_TOKEN':
+                case 'RESTORE_CLIENT':
                     return {
                         ...prevState,
                         email: action.email,
-                        nomComplet: `${action.prenom} ${action.nom}`,
+                        nomComplet: action.nomComplet,
                         token: action.token,
-                        chargement: false,
+                        deconnecte: false,
+                        chargement: false
                     };
                 //A la connexion ou l'inscription ou au premier démarage de l'app
                 case 'SIGN_IN':
                     return {
                         ...prevState,
                         email: action.email,
-                        nomComplet: `${action.prenom} ${action.nom}`,
+                        nomComplet: action.nomComplet,
                         token: action.token,
                         deconnecte: false
                     };
@@ -69,16 +70,30 @@ export default function App() {
         }
     );
 
+    const setClient = async (client: any) => {
+        try {
+            await AsyncStorage.setItem("email", client.email);
+            await AsyncStorage.setItem("nomComplet", client. nomComplet);
+            await AsyncStorage.setItem("token", client.token);
+        } catch(e) {
+            console.error(e);
+        }
+    }
+
+    const getClient = async () => {
+        try {
+            const email = await AsyncStorage.getItem("email");
+            const nomComplet = await AsyncStorage.getItem("nomComplet");
+            const token = await AsyncStorage.getItem("token");
+            updateState({ type: 'RESTORE_TOKEN', email, nomComplet, token });
+        } catch(e) {
+            console.error(e);
+        }
+    }
+
     // Quand on lance l'app ça s'exécute de manière asynchrone
     useEffect(() => {
-        AsyncStorage.getItem('Token') //Le cture dutoken dans le cache de l'app, renvoie null si absent
-            .then((token) => {
-                updateState({ type: 'RESTORE_TOKEN', tokenUtilisateur: token });
-                console.log(token);
-            })
-            .catch((e) => {
-                console.log('impossible de restaurer le token');
-            })
+        getClient();
     }, []);
 
     const connexion = async (nouveauClient: Client) => {
@@ -89,7 +104,13 @@ export default function App() {
                     Toast.show('connexion impossible', Toast.SHORT);
                     Vibration.vibrate([0, 80, 80, 80])
                 } else {
-                    updateState({ type: 'SIGN_IN', ...client });
+                    const nouveauClient = {
+                        email: client.email,
+                        nomComplet: `${client.prenom} ${client.nom}`,
+                        token: client.token
+                    }
+                    updateState({ type: 'SIGN_IN',  nouveauClient });
+                    setClient(nouveauClient);
                 }
             })
             .catch((error) => {
@@ -141,7 +162,7 @@ export default function App() {
 
     // Rendu de l'app
     return (
-        <Contexte.Provider value={{...authContext, email: state.email, nomComplet: state.nomComplet }}>
+        <Contexte.Provider value={{ ...authContext, email: state.email, nomComplet: state.nomComplet }}>
             <NavigationContainer>
                 <Tab.Navigator screenOptions={{ tabBarVisible: false }}>
                     {state.token ?
