@@ -4,7 +4,7 @@ import { json } from 'body-parser';
 import { Json } from 'sequelize/types/lib/utils';
 import sequelize, { Op } from 'sequelize';
 // 
-
+const fetch = require("node-fetch");
 
 interface DonneesMagasin {
     idCommerce: number;
@@ -426,8 +426,8 @@ export const creerArticle = async (code: string) => {
             (await cate?.addProduit(prod[0]));
         }
 
-        if (!prod[0].url_image){
-            prod[0].setAttributes({url_image : url_im});
+        if (!prod[0].url_image) {
+            prod[0].setAttributes({ url_image: url_im });
         }
 
         await (prod[0].addArticle(art));
