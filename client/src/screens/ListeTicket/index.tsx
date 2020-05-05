@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { SafeAreaView } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
-import TicketListe from "../../components/ListeTickets/ListeTicket";
+import TicketListe from "../../components/ComposantsVueTickets/ListeTickets/ListeTicket";
 import { ListeTicketProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
