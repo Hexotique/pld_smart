@@ -47,7 +47,7 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
             onSwipeLeft={() => { navDroite(navigation) }}>
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                 <Header indexe={1} />
-                <View style={{ flex: 85 }}>
+                <View style={{ flex: 90 }}>
                     <TextInput
                         style={{
                             height: 50,

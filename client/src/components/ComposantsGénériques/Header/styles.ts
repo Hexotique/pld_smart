@@ -5,10 +5,9 @@ const rem: number = entireScreenWidth / 380;
 
 const styles = StyleSheet.create({
     conteneur_entete: {
-        flex:15,
         flexDirection: 'column',
         backgroundColor: 'white',
-        //height: '9%',
+        height: entireScreenWidth / 4,
         marginBottom: 10 * rem,
         zIndex: 10
     },
@@ -50,11 +49,25 @@ const styles = StyleSheet.create({
     },
     profil: {
         position: 'absolute',
-        backgroundColor: 'white', 
         width: entireScreenWidth,
         zIndex: 5,
         elevation: 3
-    }
+    },
+    logo: {
+        height: 27 * rem,
+        width: 32 * rem
+    },
+    triangle: {
+        width: 0,
+        height: 0,
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderLeftWidth: 8 * rem,
+        borderRightWidth: 8 * rem,
+        borderTopWidth: 14 * rem,
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent'
+      },
 });
 
 export default styles;

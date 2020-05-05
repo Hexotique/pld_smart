@@ -1,9 +1,11 @@
-import React from 'react';
-import { Text, View, Image, PanResponder, Animated, Dimensions, Easing } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, Image, PanResponder, Animated, Dimensions, Easing, TouchableOpacity } from 'react-native';
 import styles from './styles';
-import BoutonTriangle from '../BoutonTriangle';
-import Logo from '../Logo';
 import TitrePage from '../TitrePage';
+import Modal from 'react-native-modal';
+
+import { Contexte } from '../../../contexte';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const guide_de_style = require('../../../assets/guide_de_style.json');
 
@@ -12,6 +14,8 @@ interface Propriete {
 }
 
 function Header(prop: Propriete) {
+    const [modalVisible, setModalVisible] = useState(false);
+
     let couleur: string;
     let titrePage: string;
     let fonction: any;
@@ -42,21 +46,11 @@ function Header(prop: Propriete) {
 
     const HAUTEUR_ECRAN = Dimensions.get('window').height;
     const SEUIL_MVT = HAUTEUR_ECRAN / 35;
-    const SEUIL_VSN = HAUTEUR_ECRAN / 34;
-    const SEUIL_ACT = HAUTEUR_ECRAN / 4;
+    const SEUIL_ACT = HAUTEUR_ECRAN / 34;
 
     const position = new Animated.ValueXY({ x: 0, y: 0 });
 
-    const ouvetureComplet = () => {
-        Animated.timing(position, {
-            toValue: { x: 0, y: HAUTEUR_ECRAN / 2 },
-            duration: DUREE_ANIM,
-            easing: Easing.out(Easing.quad),
-            useNativeDriver: false
-        }).start();
-    }
-
-    const semiOuverture = () => {
+    const ouverture = () => {
         Animated.timing(position, {
             toValue: { x: 0, y: HAUTEUR_ECRAN / 10 },
             duration: DUREE_ANIM,
@@ -82,16 +76,14 @@ function Header(prop: Propriete) {
             position.setValue({ x: 0, y: 0 });
         },
         onPanResponderMove: (evt, geste) => {
-            if (geste.dy >= SEUIL_MVT) {
+            if (geste.dy >= SEUIL_MVT && geste.dy <= HAUTEUR_ECRAN / 4) {
                 position.setValue({ x: 0, y: geste.dy - SEUIL_MVT });
-            } 
+            }
         },
         onPanResponderRelease: (evt, geste) => {
             position.flattenOffset();
             if (geste.dy >= SEUIL_ACT) {
-                ouvetureComplet();
-            } else if (geste.dy >= SEUIL_VSN) {
-                semiOuverture();
+                ouverture();
             } else {
                 initPosition();
             }
@@ -112,26 +104,86 @@ function Header(prop: Propriete) {
         return { height };
     }
 
+    const fondTransStyle = () => {
+        const backgroundColor = position.y.interpolate({
+            inputRange: [0, 70],
+            outputRange: ['rgb(255,255,255)', couleur]
+        });
+
+        return { backgroundColor };
+    }
+
+    const couleurTransStyle = () => {
+        const color = position.y.interpolate({
+            inputRange: [0, 70],
+            outputRange: [couleur, 'rgba(255,255,255,1)']
+        });
+        return { color };
+    }
+
+    const rotateStyle = () => {
+        const rotate = position.y.interpolate({
+            inputRange: [0, 70],
+            outputRange: ['0deg', '180deg']
+        });
+        return { transform: [{ rotate }] };
+    }
+
     return (
         <View style={styles.conteneur_entete}>
-            <Animated.View style={[styles.profil, profilPropStyle()]}>
-                <Text>hola c'est moi</Text>
-            </Animated.View>
+            <Contexte.Consumer>
+                {contexte =>
+                    <Animated.View style={[styles.profil, profilPropStyle(), fondTransStyle()]}>
+                        <View style={{
+                            flex: 20,
+                            flexDirection: 'row'
+                        }}>
+                            <View style={{ flex: 14, paddingTop: 5, paddingLeft: 10 }}>
+                                <Text style={{ fontFamily: 'Comfortaa-Regular', color: 'white' }}>{contexte.nomComplet}</Text>
+                                <Text style={{ fontFamily: 'Comfortaa-Regular', color: 'white' }}>{contexte.email}</Text>
+                            </View>
+                            <TouchableOpacity style={{ flex: 3 }} onPress={() => setModalVisible(true)}>
+                                <Icon name="qrcode" size={50} color="white" />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ flex: 3 }} onPress={contexte.deconnexion}>
+                                <Icon name="logout" size={50} color="white" />
+                            </TouchableOpacity>
+                        </View>
+                    </Animated.View>
+                }
+            </Contexte.Consumer>
             <Animated.View
-                style={[styles.ligne1, position.getLayout()]}
+                style={[styles.ligne1, position.getLayout(), fondTransStyle()]}
                 {...panResponder.panHandlers}
             >
                 <View style={styles.conteneur_infos_app}>
-                    <Logo couleur={couleur} />
-                    <Text style={[styles.nom_app, { color: couleur }]}>{nomApp}</Text>
+                    <Animated.Image
+                        style={[styles.logo, { tintColor: couleurTransStyle().color }]}
+                        source={require('../../../assets/logo.png')}
+                    />
+                    <Animated.Text style={[styles.nom_app, couleurTransStyle()]}>{nomApp}</Animated.Text>
                 </View>
                 <View style={styles.conteneur_boutton_triangle}>
-                    <BoutonTriangle couleur={couleur} rotation={'180deg'} fonction={() => { console.log('Boutton pressé'); }} />
+                    <Animated.View style={[
+                        styles.triangle,
+                        { borderTopColor: couleurTransStyle().color },
+                        rotateStyle()
+                    ]} />
                 </View>
             </Animated.View>
             <View style={styles.ligne2}>
                 <TitrePage couleur={couleur} titre={titrePage} />
             </View>
+            <Modal 
+                isVisible={modalVisible} 
+                backdropColor="grey" 
+                onBackButtonPress={() => setModalVisible(false)}
+                onBackdropPress={() => setModalVisible(false)}
+            >
+                <View style={{backgroundColor: 'white'}}>
+                    <Text>hi</Text>
+                </View>
+            </Modal>
         </View>
     );
 }
