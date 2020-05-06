@@ -26,14 +26,13 @@ function ScannerCodeBarre() {
     const [code, setCode] = useState('');
 
     const _codeBarreLu = (donnees: DonneesCodeBarre) => {
-        console.log(donnees.data);
         setCode(donnees.data as string);
-        console.log("code depuis scanner " + code);
         setReconnaitreCode(false);
         recupererProduitViaCodeBarre(donnees.data)
             .then((res) => {
                 setArtiCleScanne([res.product.product_name, res.product.image_url]);
                 setMontrerModal(true);
+                console.log('je suis ouvert');
             }).catch((error) => {
                 console.log(error);
                 setMontrerModal(false);
