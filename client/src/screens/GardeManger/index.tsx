@@ -20,8 +20,6 @@ import BarreNavigation from '../../components/ComposantsGénériques/BarreNaviga
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { ContexteProp, Contexte } from '../../contexte';
 
-const modifications: Map<string, number> = new Map<string, number>();
-
 
 type GardeMangerProps = {
     navigation: BottomTabNavigationProp<RootStackParamList, "GardeManger">;
@@ -38,35 +36,59 @@ function GardeManger(props: GardeMangerProps) {
     const [chargement, setChargement] = useState(false);
 
     const enleveItem = (nomCategorie: string, idItem: string) => {
+        // Rendu front
+        console.log(`suppression item: ${idItem}`);
         setItemMapState(itemMapState => {
             const tableauItems: Array<itemGardeMangerJson> | undefined = itemMapState.get(nomCategorie);
             if (tableauItems) {
                 const indexASupprimer: number = tableauItems.findIndex((item: itemGardeMangerJson) => item.idItem === idItem);
                 if (indexASupprimer !== undefined) {
                     tableauItems.splice(indexASupprimer, 1);
-                    modifications.set(idItem, 0);
                 }
             }
 
             return itemMapState;
         });
         setRafraichirFlatList(!rafraichirFlatList);
+        // Mise à jour back
+        const modificationsJson: ModificationJson = {
+            modifications: [
+                {
+                    idItem: idItem,
+                    quantite: 0
+                }
+            ]
+        }
+        modifier_quantite_post(modificationsJson);
     }
 
     const modifieQuantite = (nomCategorie: string, idItem: string, typeOperation: string) => {
+        console.log(`modification quantité item: ${idItem}`);
+        // Rendu front
+        let nouvelleQuantite: number = 0;
         setItemMapState(itemMapState => {
             const tableauItems: Array<itemGardeMangerJson> | undefined = itemMapState.get(nomCategorie);
             if (tableauItems) {
                 const indexASupprimer: number = tableauItems.findIndex((item: itemGardeMangerJson) => item.idItem === idItem);
                 if (indexASupprimer !== undefined) {
-                    if (typeOperation === '-' && tableauItems[indexASupprimer].quantite > 0) tableauItems[indexASupprimer].quantite--;
-                    else if (typeOperation === '+') tableauItems[indexASupprimer].quantite++;
-                    modifications.set(idItem, tableauItems[indexASupprimer].quantite);
+                    if (typeOperation === '-' && tableauItems[indexASupprimer].quantite > 0) tableauItems[indexASupprimer].quantite --;
+                    else if (typeOperation === '+') tableauItems[indexASupprimer].quantite ++;
+                    nouvelleQuantite = tableauItems[indexASupprimer].quantite;
                 }
             }
             return itemMapState;
         });
         setRafraichirFlatList(!rafraichirFlatList);
+        // Mise à jour back
+        const modificationsJson: ModificationJson = {
+            modifications: [
+                {
+                    idItem: idItem,
+                    quantite: nouvelleQuantite
+                }
+            ]
+        }
+        modifier_quantite_post(modificationsJson);
     }
 
     const ajouteProduit = (produit: Produit) => {
@@ -167,30 +189,17 @@ function GardeManger(props: GardeMangerProps) {
 
 const actionCentre = (nav: any) => {
     nav.navigate('Scanner');
-    mettreAJourBack();
 }
 
 const navGauche = (nav: any) => {
     nav.navigate('ListeTicket');
-    mettreAJourBack();
 }
 
 const navDroite = (nav: any) => {
     nav.navigate('ListeCourse');
-    mettreAJourBack();
 }
 
-const mettreAJourBack = () => {
-    if (modifications.size > 0) {
-        console.log("mise à jour du back");
-        const modificationsJson: ModificationJson = { modifications: [] };
-        modifications.forEach((quantite, idItem) => {
-            modificationsJson.modifications.push({ idItem: idItem, quantite: quantite });
-        });
-        modifications.clear();
-        modifier_quantite_post(modificationsJson);
-    }
-}
+
 
 export default GardeManger;
 

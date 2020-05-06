@@ -17,7 +17,7 @@ function ItemListe(props: PropsWithChildren<ItemListeProps>) {
     const SEUIL_VSN = LARGEUR_ECRAN / 7;
     const SEUIL_ACT = LARGEUR_ECRAN / 4;
 
-    const DUREE_ANIM = 350;
+    const DUREE_ANIM = 100;
 
     const position = new Animated.ValueXY({ x: 0, y: 0 });
 

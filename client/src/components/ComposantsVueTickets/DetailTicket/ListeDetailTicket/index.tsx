@@ -13,7 +13,6 @@ interface Propriete {
 
 function ListeDetailTicket(props: Propriete) {
 
-     console.log(props.achatsMap);
      return (
           <View>
                <FlatList
