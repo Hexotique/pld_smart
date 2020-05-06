@@ -40,14 +40,12 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
     }
 
     const modifStorage = async () => {
-        setChargement(true);
         try {
             await AsyncStorage.setItem("listeCourse", JSON.stringify(listeItems));
             await AsyncStorage.setItem("setItems", JSON.stringify(Array.from(setItems)));
         } catch (e) {
             console.error(e);
         }
-        setChargement(false);
     }
 
     useEffect(() => {
