@@ -4,8 +4,8 @@ import { json } from 'body-parser';
 import { Json } from 'sequelize/types/lib/utils';
 import sequelize, { Op } from 'sequelize';
 import { ajout_achat_regulier } from './controleurAchatRegulier';
-// import { ajout_achat_regulier } from './controleurAchatRegulier';
-// 
+
+const fetch = require("node-fetch");
 
 
 interface DonneesMagasin {
@@ -133,12 +133,10 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         const produits: Array<Produit> = await Promise.all(produitsPromises);
 
         // Ajout aux achats régulier du client
-        
-        ajout_achat_regulier(client.id, new Set (produits));
+        await ajout_achat_regulier(client.id, new Set (produits));
 
         // Création du ticket
         const ticket: Ticket = await Ticket.create({ date_achat: new Date(), montant: montant });
-
 
         // Tableaux qui vont check que les relations ticket/achat/article sont bien réalisées en base
         const achatsAjoutesDansArticle: Array<Promise<void>> = new Array<Promise<void>>();

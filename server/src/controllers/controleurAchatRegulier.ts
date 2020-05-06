@@ -169,6 +169,7 @@ export const recuperer_liste_course = async (req: Request, res: Response, next: 
         console.log(req);
 
         const client = req.user as Client;
+        await clean_achat_regulier(client.id);
 
         const achatsReguliersClient = await AchatRegulier.findAll({
             where: {
