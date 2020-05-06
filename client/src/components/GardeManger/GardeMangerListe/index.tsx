@@ -24,18 +24,26 @@ function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
     const [listeRechercheProduits, setListeRechercheProduits] = useState(new Array<any>());
     const [query, setQuery] = useState('');
 
+    const [produitSelectionne, setProduitSelectionne] = useState(false);
+
     const trouverProduits = (query: string) => {
         //method called everytime when we change the value of the input
-        const listeProduitsTemp: any[] = [];
+        let listeProduitsTemp: any[] = [];
         if (query === '') {
           //if the query is null then return blank
-          return [];
+          setListeRechercheProduits(listeProduitsTemp);
+          return;
         }
         
         props.nomsProduits.forEach((nomProduit, idProduit) => {
             //making a case insensitive regular expression to get similar value from the list of products
             const regex = new RegExp(`${query.trim()}`, 'i');
-            if (nomProduit.search(regex) >=0) listeProduitsTemp.push({nom: nomProduit}); 
+            if (nomProduit.search(regex) >=0) listeProduitsTemp.push({nom: nomProduit});
+            if (comp(nomProduit, query)) {
+                listeProduitsTemp = [];
+                setProduitSelectionne(true);
+                return;
+            }
         })
         
         //return the filtered film array according the query from the input
@@ -72,7 +80,7 @@ function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
                     autoCapitalize="none"
                     autoCorrect={false}
                     defaultValue={query}
-                    data={listeRechercheProduits}
+                    data={query.length > 0 ? listeRechercheProduits: []}
                     placeholder="Ajouter un item"
                     renderItem={({item, i}: any) => (
                         <View style={{flexDirection: "row", height: 45, justifyContent: "center", alignItems: "center"}}>

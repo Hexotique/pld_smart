@@ -4,13 +4,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 90,
     },
+
+    // Zone de texte et liste autocomplétée
     ajoutProduit: {
         flex: 1,
         backgroundColor: "transparent",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        zIndex: 999,
+        zIndex: 2,
     },
 
     ajoutProduitConteneur: {
@@ -30,13 +32,15 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         margin: 0,
         padding: 0,
-        zIndex: 9
+        zIndex: 3
     },
 
     ajoutProduitTexte: {
         textAlign: "center",
         borderWidth: 0
     },
+
+    // Liste du garde manger
 
     listeGardeManger: {
         position: "absolute",
