@@ -183,7 +183,7 @@ export default function App() {
     return (
         state.chargement ?
             <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
-                <Image style={{ height: 100, width: 100 }} source={require('./assets/logo.png')}></Image>
+                <Image style={{ height: 100, width: 100 }} source={require('./assets/load.gif')}></Image>
             </View>
             :
             <Contexte.Provider value={{ ...authContext, email: state.email, nomComplet: state.nomComplet, token: state.token }}>
