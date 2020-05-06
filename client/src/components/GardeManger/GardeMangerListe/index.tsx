@@ -1,4 +1,4 @@
-import React, { useState, useEffect, PropsWithChildren } from 'react';
+import React, { useState, PropsWithChildren } from 'react';
 import { View, FlatList, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import Autocomplete from 'react-native-autocomplete-input';
@@ -7,6 +7,7 @@ import { itemGardeMangerJson, Produit } from '../../../api'
 import styles from './styles';
 
 import ItemListe from '../../ItemListe';
+import { Alerte } from '../../../components/ComposantsGénériques/Alerte';
 
 type GardeMangerListeProps = {
     categories: Array<String>,
@@ -22,8 +23,8 @@ function GardeMangerListe(props: PropsWithChildren<GardeMangerListeProps>) {
 
     const [listeRechercheProduits, setListeRechercheProduits] = useState(new Array<Produit>());
     const [query, setQuery] = useState('');
-
-
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selProduit, setSelProduit] = useState<Produit>({idProduit: "", nom: "", categorie: { idCategorie: "", nomCategorie: ""}});
 
     const trouverProduits = (query: string) => {
         //method called everytime when we change the value of the input
@@ -43,29 +44,6 @@ function GardeMangerListe(props: PropsWithChildren<GardeMangerListeProps>) {
         //return the filtered film array according the query from the input
         setListeRechercheProduits(listeProduitsTemp);
     }
-
-    const ajouteProduit = (produit: Produit) => {
-        Alert.alert(
-            "Ajout produit",
-            `Etes-vous sûr de vouloir ajouter : ${produit.nom} à votre garde manger ?`,
-            [
-                {
-                    text: 'Oui',
-                    onPress: () => {
-                        // Ajout du produit en front
-                        props.ajouteProduit(produit);
-                        setQuery('');
-                    }
-                },
-                {
-                    text: 'Annuler',
-                    style: "cancel"
-                }
-            ]
-        );
-        
-    }
-
 
     const boutonSupprimer = (
         <React.Fragment>
@@ -98,7 +76,10 @@ function GardeMangerListe(props: PropsWithChildren<GardeMangerListeProps>) {
                     placeholder="Ajouter un item"
                     renderItem={({item}: any) => (
                         <View style={{flexDirection: "row", height: 45, justifyContent: "center", alignItems: "center"}}>
-                            <TouchableOpacity onPress={()=>ajouteProduit(item)}>
+                            <TouchableOpacity onPress={() => {
+                                setSelProduit(item);
+                                setModalVisible(true)}
+                            }>
                                 <Text>{item.nom}</Text>
                             </TouchableOpacity>
                         </View>
@@ -154,7 +135,18 @@ function GardeMangerListe(props: PropsWithChildren<GardeMangerListeProps>) {
                     }
                 />
             </View>
-            
+            <Alerte
+                visible={modalVisible}
+                setVisible={setModalVisible}
+                texte={`Etes-vous sûr de vouloir ajouter : ${(selProduit as Produit).nom} à votre garde manger ?`}
+                couleur='rgba(217,31,31,1)'
+                funcValide={() => {
+                    props.ajouteProduit(selProduit);
+                    setQuery('');
+                    setModalVisible(false);
+                }}
+                funcAnnule={() => setModalVisible(false)}
+            />            
         </View >
     );
 }

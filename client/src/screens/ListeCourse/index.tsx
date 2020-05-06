@@ -7,17 +7,15 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
 import { TextInput } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
-import Modal from 'react-native-modal';
+import { Alerte } from '../../components/ComposantsGénériques/Alerte';
 
 import { achat_regulier_get } from '../../api';
-import BoutonRond from '../../components/ComposantsGénériques/BoutonRond';
-import { ContexteProp, Contexte } from 'src/contexte';
+
+import { ContexteProp, Contexte } from '../../contexte';
 
 
 function ListeCourse({ route, navigation }: ListeCourseProp) {
-
     const contexte: ContexteProp = useContext(Contexte);
-
     const [listeRec, setListeRec] = useState([""]);
     const [modalVisible, setModalVisible] = useState(false);
     const [texteAjout, setTexteAjout] = useState("");
@@ -149,38 +147,14 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
                     boutonCentre={() => setModalVisible(true)}
                 />
             </GestureRecognizer>
-            <Modal
-                isVisible={modalVisible}
-                backdropColor="grey"
-                onBackButtonPress={() => setModalVisible(false)}
-                onBackdropPress={() => setModalVisible(false)}
-            >
-                <View style={{
-                    padding: 30,
-                    backgroundColor: 'white',
-                    alignItems: 'center',
-                    borderRadius: 20,
-                    elevation: 5
-                }}>
-                    <Text style={{
-                        padding: 20,
-                        textAlign: 'center',
-                        color: 'rgba(217,31,31,1)',
-                        fontFamily: 'Comfortaa-Bold'
-                    }}>
-                        Nous avons établi des recommandations basées sur vos achats réguliers. Voulez-vous les ajouter à la liste de courses ?
-                    </Text>
-                    <View style={{
-                        flexDirection: "row",
-                        justifyContent: "space-evenly",
-                        alignItems: 'center',
-                        width: Dimensions.get("screen").width
-                    }}>
-                        <BoutonRond icon={'check'} couleur={'rgba(217,31,31,1)'} rayon={50} fonction={recHandler} />
-                        <BoutonRond icon={'close'} couleur={'rgba(217,31,31,1)'} rayon={50} fonction={() => setModalVisible(false)} />
-                    </View>
-                </View>
-            </Modal>
+            <Alerte
+                visible={modalVisible}
+                setVisible={setModalVisible}
+                texte="Nous avons établi des recommandations basées sur vos achats réguliers. Voulez-vous les ajouter à la liste de courses ?"
+                couleur='rgba(217,31,31,1)'
+                funcValide={recHandler}
+                funcAnnule={() => setModalVisible(false)}
+            />
         </React.Fragment>
     );
 }
