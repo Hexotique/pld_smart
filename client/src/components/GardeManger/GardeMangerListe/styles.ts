@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
         flex: 1,
         position: "absolute",
-        top: 45,
+        top: 0,
         left: 0,
         borderWidth: 0,
         margin: 0,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
     listeGardeManger: {
         position: "absolute",
-        top: 90,
+        top: 45,
         left: 0,
         bottom: 0,
         width: Dimensions.get('window').width,
