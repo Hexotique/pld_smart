@@ -231,7 +231,6 @@ export const recuperer_contenu_get = async (req: Request, res: Response, next: N
 export const recuperer_produits_get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log(req);
-        const recherche : string = req.params.recherche;
 
         let produits : any = {
             "Produits" : []

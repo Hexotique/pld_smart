@@ -21,7 +21,6 @@ export const inscription_client_put = async (req: Request, res: Response, next: 
                 mdp: bcrypt.hashSync(req.body.mdp, bcrypt.genSaltSync(8))
             });
             await nouvelUtilisateur.createGardeManger();
-            await nouvelUtilisateur.createListe();
             const token = jwt.sign({ id: nouvelUtilisateur.id, email: nouvelUtilisateur.email }, process.env.SECRET_CODE as string);
             res.status(201).json({
                 email: nouvelUtilisateur.email,
