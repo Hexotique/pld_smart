@@ -1,5 +1,5 @@
 import React, { useState, useEffect, PropsWithChildren } from 'react';
-import { View, FlatList, Text, Image, TouchableOpacity } from 'react-native';
+import { View, FlatList, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 import Item from '../GardeMangerItem'
@@ -24,7 +24,7 @@ function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
     const [listeRechercheProduits, setListeRechercheProduits] = useState(new Array<any>());
     const [query, setQuery] = useState('');
 
-    const [produitSelectionne, setProduitSelectionne] = useState(false);
+
 
     const trouverProduits = (query: string) => {
         //method called everytime when we change the value of the input
@@ -39,17 +39,33 @@ function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
             //making a case insensitive regular expression to get similar value from the list of products
             const regex = new RegExp(`${query.trim()}`, 'i');
             if (nomProduit.search(regex) >=0) listeProduitsTemp.push({nom: nomProduit});
-            if (comp(nomProduit, query)) {
-                listeProduitsTemp = [];
-                setProduitSelectionne(true);
-                return;
-            }
         })
         
         //return the filtered film array according the query from the input
         setListeRechercheProduits(listeProduitsTemp);
         console.log("produits trouvés: " + listeRechercheProduits);
-      }
+    }
+
+    const ajouteProduit = (nomProduit: string, idProduit: string) => {
+        Alert.alert(
+            "Ajout produit",
+            `Etes-vous sûr de vouloir ajouter : ${nomProduit} à votre garde manger ?`,
+            [
+                {
+                    text: 'Oui',
+                    onPress: () => {
+                        console.log('ajout produit : ' + nomProduit);
+                        setQuery('');
+                    }
+                },
+                {
+                    text: 'Annuler',
+                    style: "cancel"
+                }
+            ]
+        );
+        
+    }
 
     
     const comp = (a: any, b: any) => a.toLowerCase().trim() === b.toLowerCase().trim();
@@ -71,7 +87,7 @@ function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.ajoutProduit}>
+            <View style={[styles.ajoutProduit, {zIndex: (query.length === 0 ? 1 : 2)}]}>
                 <Autocomplete
                     inputContainerStyle={styles.ajoutProduitConteneur}
                     containerStyle={styles.ajoutProduitAutocompletion}
@@ -84,14 +100,14 @@ function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
                     placeholder="Ajouter un item"
                     renderItem={({item, i}: any) => (
                         <View style={{flexDirection: "row", height: 45, justifyContent: "center", alignItems: "center"}}>
-                            <TouchableOpacity onPress={() => {setQuery(item.nom)}}>
+                            <TouchableOpacity onPress={()=>ajouteProduit(item.nom, item.id)}>
                                 <Text>{item.nom}</Text>
                             </TouchableOpacity>
                         </View>
                     )}
                 />
             </View>
-            <View style={styles.listeGardeManger}>
+            <View style={[styles.listeGardeManger, {zIndex: (query.length === 0 ? 2 : 1)}]}>
                 <FlatList
                     extraData={props.rafraichirFlatList}
                     contentContainerStyle={{ paddingBottom: 140 }}

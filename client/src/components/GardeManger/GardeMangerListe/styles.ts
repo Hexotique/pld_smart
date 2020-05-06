@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        zIndex: 2,
     },
 
     ajoutProduitConteneur: {
@@ -32,7 +31,6 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         margin: 0,
         padding: 0,
-        zIndex: 3
     },
 
     ajoutProduitTexte: {
@@ -47,7 +45,6 @@ const styles = StyleSheet.create({
         top: 90,
         left: 0,
         width: Dimensions.get('window').width,
-        zIndex: 1
     },
 
     vueItem: {

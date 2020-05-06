@@ -1,6 +1,6 @@
 
 import React, { useContext, useState, useEffect } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, Alert } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import GardeMangerListe from '../../components/GardeManger/GardeMangerListe';
 import { recupererContenuGardeMangerGet,
@@ -17,6 +17,7 @@ import BarreNavigation from '../../components/ComposantsGénériques/BarreNaviga
 import { ContexteProp, Contexte } from '../../contexte'
 
 const modifications: Map<string, number> = new Map<string, number>();
+const ajouts: Map<string, string> = new Map<string, string>();
 
 function GardeManger({ route, navigation }: GardeMangerProp) {
 
@@ -64,9 +65,8 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
         console.log(modifications);
         setRafraichirFlatList(!rafraichirFlatList);
     }
-    
-    
 
+    
     useEffect(() => {
         console.log("chargement garde manger");
         recupererContenuGardeMangerGet()
