@@ -1,25 +1,34 @@
-
+import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp, createStackNavigator } from '@react-navigation/stack';
 
 type RootStackParamList = {
-    Accueil: undefined;
+    Connexion: undefined;
+    Inscription: undefined;
     GardeManger: undefined;
     ListeCourse: undefined;
     ListeTicket: undefined;
-    TicketDetail: undefined;     
+    Scanner: undefined;
+    Profile: undefined;
 }
 
-type AccueilRouteProp = RouteProp<RootStackParamList, 'Accueil'>;
-type AccueilNavigationProp = StackNavigationProp<RootStackParamList, 'Accueil'>;
+type ConnexionRouteProp = RouteProp<RootStackParamList, 'Connexion'>;
+type ConnexionNavigationProp = BottomTabNavigationProp<RootStackParamList, 'Connexion'>;
 
-export type AccueilProp = {
-    route: AccueilRouteProp;
-    navigation: AccueilNavigationProp;
+export type ConnexionProp = {
+    route: ConnexionRouteProp;
+    navigation: ConnexionNavigationProp;
+}
+
+type InscriptionRouteProp = RouteProp<RootStackParamList, 'Inscription'>;
+type InscriptionNavigationProp = BottomTabNavigationProp<RootStackParamList, 'Inscription'>;
+
+export type InscriptionProp = {
+    route: InscriptionRouteProp;
+    navigation: InscriptionNavigationProp;
 }
 
 type GardeMangerRouteProp = RouteProp<RootStackParamList, 'GardeManger'>;
-type GardeMangerNavigationProp = StackNavigationProp<RootStackParamList, 'GardeManger'>;
+type GardeMangerNavigationProp = BottomTabNavigationProp<RootStackParamList, 'GardeManger'>;
 
 export type GardeMangerProp = {
     route: GardeMangerRouteProp;
@@ -27,7 +36,7 @@ export type GardeMangerProp = {
 }
 
 type ListeCourseRouteProp = RouteProp<RootStackParamList, 'ListeCourse'>;
-type ListeCourseNavigationProp = StackNavigationProp<RootStackParamList, 'ListeCourse'>;
+type ListeCourseNavigationProp = BottomTabNavigationProp<RootStackParamList, 'ListeCourse'>;
 
 export type ListeCourseProp = {
     route: ListeCourseRouteProp;
@@ -35,19 +44,19 @@ export type ListeCourseProp = {
 }
 
 type ListeTicketRouteProp = RouteProp<RootStackParamList, 'ListeTicket'>;
-type ListeTicketNavigationProp = StackNavigationProp<RootStackParamList, 'ListeTicket'>;
+type ListeTicketNavigationProp = BottomTabNavigationProp<RootStackParamList, 'ListeTicket'>;
 
 export type ListeTicketProp = {
     route: ListeTicketRouteProp;
     navigation: ListeTicketNavigationProp;
 }
 
-type TicketDetailRouteProp = RouteProp<RootStackParamList, 'TicketDetail'>;
-type TicketDetailNavigationProp = StackNavigationProp<RootStackParamList, 'TicketDetail'>;
+type ScannerRouteProp = RouteProp<RootStackParamList, 'Scanner'>;
+type ScannerNavigationProp = BottomTabNavigationProp<RootStackParamList, 'Scanner'>;
 
-export type TicketDetailProp = {
-    route: TicketDetailRouteProp;
-    navigation: TicketDetailNavigationProp;
+export type ScannerProp = {
+    route: ScannerRouteProp;
+    navigation: ScannerNavigationProp;
 }
 
-export const Stack = createStackNavigator<RootStackParamList>();
+export const Tab = createBottomTabNavigator<RootStackParamList>();

@@ -77,6 +77,10 @@ target 'client' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
   target 'clientTests' do
     inherit! :complete
     # Pods for testing

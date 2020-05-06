@@ -1,43 +1,64 @@
-import React from 'react';
-import { View, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, Text } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
-import GardeMangerJson from '../../../../gardemanger.json'
 import Item from '../GardeMangerItem'
-import Categorie from '../../ComposantsGénériques/CategorieListeRetractable'
+import Categorie from '../../ComposantsGénériques/CategorieListeRetractable';
+import { recupererContenuGardeMangerGet, GardeMangerJson, itemGardeMangerJson } from '../../../api'
+import { TextInput } from 'react-native-gesture-handler';
+import styles from './styles';
 
 function GardeMangerListe() {
-    const itemMap: Map<String, Array<any>> = new Map<String, Array<any>>();
-    GardeMangerJson.GardeManger.items.forEach((item: any) => {
-        if (!itemMap.has(item.produit.categorieproduit.nom)) {
-            const itemList: Array<any> = [];
-            itemList.push(item);
-            itemMap.set(item.produit.categorieproduit.nom, itemList);
-        } else {
-            const itemMapGet = itemMap.get(item.produit.categorieproduit.nom);
-            if (itemMapGet) {
-                itemMapGet.push(item);
-            }
-        }
-    });
-    const keyArray: Array<String> = Array.from(itemMap.keys());
-    console.log(itemMap);
+    const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
+    const [itemMapState, setItemMapState] = useState(new Map<String, Array<itemGardeMangerJson>>());
+    const [enableScroll, setEnableScroll] = useState(true);
+    useEffect(() => {
+        recupererContenuGardeMangerGet()
+            .then((data: GardeMangerJson) => {
+                const itemMap: Map<String, Array<itemGardeMangerJson>> = new Map<String, Array<itemGardeMangerJson>>();
+                data.items.forEach((item: itemGardeMangerJson) => {
+                    if (!itemMap.has(item.produit.categorie.nomCategorie)) {
+                        const itemList: Array<itemGardeMangerJson> = [];
+                        itemList.push(item);
+                        itemMap.set(item.produit.categorie.nomCategorie, itemList);
+                    } else {
+                        const itemMapGet = itemMap.get(item.produit.categorie.nomCategorie);
+                        if (itemMapGet) {
+                            itemMapGet.push(item);
+                        }
+                    }
+                });
+                const keyArray: Array<String> = Array.from(itemMap.keys());
+
+                setKeyArrayState(keyArray);
+                setItemMapState(itemMap);
+
+            }).catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+
     return (
-        <View>
+        <View style={styles.container}>
+            <View style={styles.ajoutProduit}>
+                <TextInput placeholder="Ajoutez un item" style={styles.ajoutProduitTexte}></TextInput>
+            </View>
             <FlatList
-                data         = {keyArray}
-                keyExtractor = {(itemKey) => itemKey.toString()}
-                renderItem   = {({ item }) =>
+                contentContainerStyle={{ paddingBottom: 140 }}
+                data={keyArrayState}
+                keyExtractor={(itemKey) => itemKey.toString()}
+                renderItem={({ item }) =>
                     <View>
                         <Collapse>
                             <CollapseHeader>
-                                <Categorie item = {item}></Categorie>
+                                <Categorie item = {item} couleur="#f3a993"></Categorie>
                             </CollapseHeader>
                             <CollapseBody>
                                 <FlatList
-                                    data         = {itemMap.get(item)}
-                                    keyExtractor = {(itemValue) => itemValue.id_item.toString()}
-                                    renderItem   = {({ item }) =>
-                                        <Item item = {item}></Item>
+                                    data={itemMapState.get(item)}
+                                    keyExtractor={(itemValue) => itemValue.idItem.toString()}
+                                    renderItem={({ item }) =>
+                                        <Item item={item} toggleScroll={setEnableScroll}></Item>
                                     }
                                 />
                             </CollapseBody>
@@ -45,7 +66,7 @@ function GardeMangerListe() {
                     </View>
                 }
             />
-        </View>
+        </View >
     );
 }
 

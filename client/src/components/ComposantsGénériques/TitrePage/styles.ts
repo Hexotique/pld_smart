@@ -1,29 +1,43 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const entireScreenWidth: number = Dimensions.get('window').width;
+const rem: number = entireScreenWidth / 380;
 
 const styles = StyleSheet.create({
     container: {
-        marginTop:20,
-        marginBottom: 20,
+        marginTop: 5 * rem,
+        marginBottom: 5 * rem,
+        height: 30 * rem,
         flexDirection: 'row',
-        paddingLeft: 30,
-        // justifyContent: 'space-evenly',
+        justifyContent: "flex-end",
+        alignContent: "center"
     },
+
+    conteneurTitre: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        width: 290 * rem,
+        height: 30 * rem,
+        alignContent: "center",
+        borderTopLeftRadius: 15 * rem,
+        borderBottomLeftRadius: 15 * rem,
+    },
+
     titre: {
-        flex : 6,
-        fontWeight: "500",
-        color: "black",
-        fontSize: 25,
-        fontFamily: "Impact",
+        //fontWeight: "700",
+        marginRight: 20,
+        color: "white",
+        fontSize: 18 * rem,
+        fontFamily: "Comfortaa-Bold",
         textAlign: "center",
+        justifyContent: "center"
     },
-    imageContainer: {
-        flex: 2,
-    },
-    image: {
-        height: 30,
-        width: 30,
-        marginBottom: 3,
-    },
+
+    bande: {
+        backgroundColor: "white",
+        width: 6 * rem,
+        marginRight: 6*rem
+    }
 });
 
 export default styles;

@@ -1,0 +1,25 @@
+{
+    "Couleurs": {
+        "Fraise": "rgba(217,31,31,1)",
+        "Banane": "#fbbd4c",
+        "Peche": "#ec7552"
+    },
+    "Polices": {
+        "NomApp": "",
+        "TitrePage": ""
+    },
+    "Titres": {
+        "NomApp": "Pot d'Yaourt",
+        "Vue_Tickets": "Mes Tickets de Caisse",
+        "Vue_Garde_Manger": "Mon Garde Manger",
+        "Vue_Liste_Courses": "Ma Liste de Courses"
+    },
+    "Icones": {
+        "Garde_Manger": "fridge",
+        "Liste_Courses": "playlist-check",
+        "Tickets": "qrcode",
+        "QR":"qrcode",
+        "Flash_On":"flashlight",
+        "Flash_Off":"flashlight-off"
+    }
+}

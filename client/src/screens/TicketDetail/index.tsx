@@ -10,7 +10,7 @@ import styles from './styles';
 
 function TicketDetail({ route, navigation }: TicketDetailProp) {
      
-	 const [montrerModal, setMontrerModal] = useState(false);
+/* 	 const [montrerModal, setMontrerModal] = useState(false);
 
      const onCloseHandler = () => {
           setMontrerModal(false);
@@ -29,7 +29,7 @@ function TicketDetail({ route, navigation }: TicketDetailProp) {
 
 
           </View>
-     );
+     ); */
 };
 
 
