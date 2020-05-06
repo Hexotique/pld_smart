@@ -10,7 +10,7 @@ import { init_model_item, Item } from './Item';
 import { init_model_gardemanger, GardeManger } from './GardeManger';
 import { init_model_commerce, Commerce } from './Commerce';
 import { init_model_groupe, Groupe } from './Groupe';
-import { init_model_liste, Liste } from './Liste';
+import { init_model_achatregulier, AchatRegulier } from './AchatRegulier';
 
 const init_models = (sequelize: Sequelize) => {
 
@@ -24,7 +24,7 @@ const init_models = (sequelize: Sequelize) => {
     init_model_gardemanger(sequelize);
     init_model_commerce(sequelize);
     init_model_groupe(sequelize);
-    init_model_liste(sequelize);
+    init_model_achatregulier(sequelize);
 
     Groupe.hasMany(Commerce, { as: "commerces" });
 
@@ -40,12 +40,10 @@ const init_models = (sequelize: Sequelize) => {
     GardeManger.hasMany(Item, { as: 'items' });
     Produit.hasMany(Item, { as: 'items' });
 
-    Liste.belongsToMany(Produit, { through: 'Course' });
-    Produit.belongsToMany(Liste, { through: 'Course' });
+    Produit.hasMany(AchatRegulier, { as: 'achatsregulier' });
+    Client.hasMany(AchatRegulier, { as: 'achatsregulier' });
 
     Client.hasMany(Ticket, { as: "tickets" });
-
-    Client.hasOne(Liste);
 
     Client.hasOne(GardeManger);
 
@@ -63,5 +61,5 @@ export { Commerce } from './Commerce';
 export { Groupe } from './Groupe';
 export { Item } from './Item';
 export { Achat } from './Achat';
-export { Liste } from './Liste';
+export { AchatRegulier } from './AchatRegulier';
 
