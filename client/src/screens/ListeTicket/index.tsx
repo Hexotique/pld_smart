@@ -17,6 +17,7 @@ function ListeTicket({ navigation }: ListeTicketProp) {
     const [chargement, setChargement] = useState(false);
 
     function chargerTickets() {
+        console.log("chargement liste tickets");
         setChargement(true);
         recupererContenuListeTicketGet()
             .then((data: ListeTickets) => {
@@ -35,8 +36,6 @@ function ListeTicket({ navigation }: ListeTicketProp) {
         const unsubscribe = navigation.addListener('focus', chargerTickets);
         return unsubscribe;
     }, [navigation]);
-
-    useEffect(chargerTickets, []);
 
     const supprimerTicket = (id: string) => {
         setTicketMapState((prevState) => {

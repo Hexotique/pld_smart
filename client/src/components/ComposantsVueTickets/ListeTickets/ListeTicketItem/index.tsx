@@ -39,8 +39,6 @@ function Item({ prix, commerce, date, idTicket, supprimerTicket }: any) {
                 });
                 const categoriesArray: Array<String> = Array.from(achatsMap.keys());
 
-                console.log(achatsMap);
-
                 setCategoriesArrayState(categoriesArray);
                 setAchatsMapState(achatsMap);
 

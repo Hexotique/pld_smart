@@ -16,7 +16,6 @@ interface Propriete {
 
 function Ticket(props: Propriete) {
 
-     console.log(props.achatsMap);
      return (
           <View style={styles.conteneur_ticket}>
                <View style={styles.entete}>

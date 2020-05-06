@@ -114,7 +114,6 @@ function _setHTTPMethod(url: RequestInfo, httpMethod: string, body?: any): Promi
         }
     };
     if (body) {
-        console.log(JSON.stringify(body));
         httpOptions.body = JSON.stringify(body);
     }
     console.log("request sent : " + url);
