@@ -1,9 +1,6 @@
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp, createStackNavigator } from '@react-navigation/stack';
 
-import  GardeManger  from '../../screens/GardeManger';
-import  Scanner  from '../../screens/Scanner';
-
 type RootStackGardeMangerParamListe = {
     GardeManger: undefined;
     Scanner: undefined;

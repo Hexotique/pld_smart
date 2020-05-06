@@ -1,9 +1,8 @@
 import React from 'react';
-import { Alert, View, Button, TouchableOpacity, Image, TouchableWithoutFeedback, Text, Vibration } from 'react-native';
+import { Alert, View, TouchableOpacity, Image, TouchableWithoutFeedback, Text, Vibration } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import styles from './styles';
 import Modal from 'react-native-modal';
-import { Icon } from 'react-native-elements'
 import { supprimer_ticket_delete } from '../../../../api';
 
 

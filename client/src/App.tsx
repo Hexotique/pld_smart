@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { View, Image, Vibration, Platform, ToastAndroid } from 'react-native';
+import { View, Image, Vibration } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import { StatusBar } from 'react-native';
 

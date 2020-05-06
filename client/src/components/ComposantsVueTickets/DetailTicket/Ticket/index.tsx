@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, SectionList } from 'react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
 import styles from './styles';
 import ListeDetailTicket from '../ListeDetailTicket';
-import { recupererContenuDetailTicketGet, Achat, DetailTicket } from '../../../../api'
+import { Achat } from '../../../../api'
 
 interface Propriete {
      idTicket: number,
@@ -17,8 +17,6 @@ interface Propriete {
 function Ticket(props: Propriete) {
 
      console.log(props.achatsMap);
-     
-
      return (
           <View style={styles.conteneur_ticket}>
                <View style={styles.entete}>

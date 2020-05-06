@@ -1,14 +1,15 @@
 import React, { useContext, useEffect } from 'react';
-import { View, ImageBackground, Text, Dimensions, Animated, Easing, Keyboard, KeyboardEvent } from 'react-native';
-import { InscriptionProp } from '../../navigator'
+import { View, ImageBackground, Dimensions, Animated, Easing, Keyboard, KeyboardEvent } from 'react-native';
 import InscriptionChamps from "../../components/Inscription/InscriptionChamps"
 import InscriptionTitre from "../../components/Inscription/InscriptionTitre"
 import styles from './styles';
 import { ContexteProp, Contexte } from '../../contexte'
 
 
-function Connexion({ route, navigation }: InscriptionProp) {
+function Inscription() {
+
     const contexte: ContexteProp = useContext(Contexte);
+    
     const { width, height } = Dimensions.get('window');
 
     const bottomPositionTitre = new Animated.Value(4 * height / 5);
@@ -81,4 +82,4 @@ function Connexion({ route, navigation }: InscriptionProp) {
     );
 }
 
-export default Connexion;
+export default Inscription;

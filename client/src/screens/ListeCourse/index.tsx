@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, Text, NativeSyntheticEvent, TextInputSubmitEditingEventData, View, AppState, Dimensions } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { SafeAreaView, Text, NativeSyntheticEvent, TextInputSubmitEditingEventData, View, Dimensions } from 'react-native';
 import ListeGlissable from '../../components/ListeGlissable';
 import Header from '../../components/ComposantsGénériques/Header';
 import { ListeCourseProp } from "../../navigator";
@@ -11,10 +11,13 @@ import Modal from 'react-native-modal';
 
 import { achat_regulier_get } from '../../api';
 import BoutonRond from '../../components/ComposantsGénériques/BoutonRond';
+import { ContexteProp, Contexte } from 'src/contexte';
 
 
 function ListeCourse({ route, navigation }: ListeCourseProp) {
-    //const contexte: ContexteProp = useContext(Contexte);
+
+    const contexte: ContexteProp = useContext(Contexte);
+
     const [listeRec, setListeRec] = useState([""]);
     const [modalVisible, setModalVisible] = useState(false);
     const [texteAjout, setTexteAjout] = useState("");
@@ -44,8 +47,6 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
     }
 
     useEffect(() => {
-        //AsyncStorage.removeItem("listeCourse");
-        //AsyncStorage.removeItem("setItems");
         recupStorage();
         achat_regulier_get().then((response) => {
             let tempListe: Array<string> = [];

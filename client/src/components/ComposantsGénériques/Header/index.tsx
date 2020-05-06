@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Image, PanResponder, Animated, Dimensions, Easing, TouchableOpacity } from 'react-native';
+import { Text, View, PanResponder, Animated, Dimensions, Easing, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import TitrePage from '../TitrePage';
 import Modal from 'react-native-modal';
@@ -7,7 +7,6 @@ import QRCode from 'react-qr-code';
 
 import { Contexte } from '../../../contexte';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { HeaderBackground } from '@react-navigation/stack';
 
 const guide_de_style = require('../../../assets/guide_de_style.json');
 

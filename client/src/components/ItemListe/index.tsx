@@ -1,7 +1,6 @@
-import React, { useRef, useMemo, PropsWithChildren } from 'react';
-import { Animated, Dimensions, TouchableOpacity, Easing, PanResponder, Text, View } from 'react-native';
+import React, { PropsWithChildren } from 'react';
+import { Animated, Dimensions, Easing, PanResponder, Text, View } from 'react-native';
 import styles from './styles';
-import { CheckBox } from 'react-native-elements';
 
 type ItemListeProps = {
     permetDefile: Function;

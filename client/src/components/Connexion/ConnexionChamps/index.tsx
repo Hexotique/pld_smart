@@ -1,13 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Keyboard, KeyboardEvent } from 'react-native';
+import React, { useContext } from 'react';
+import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import styles from './styles';
 import { Contexte, ContexteProp } from '../../../contexte';
 
-interface Proprite {
-    fonction: any,
-}
 
-function ConnexionChamps(props: Proprite) {
+function ConnexionChamps() {
     const contexte: ContexteProp = useContext(Contexte);
     let champsSaisie = Array<any>();
 

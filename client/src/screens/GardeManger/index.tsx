@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { SafeAreaView } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import GardeMangerListe from '../../components/GardeManger/GardeMangerListe';
@@ -16,6 +16,7 @@ import { RootStackParamList } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { ContexteProp, Contexte } from 'src/contexte';
 
 const modifications: Map<string, number> = new Map<string, number>();
 
@@ -25,6 +26,8 @@ type GardeMangerProps = {
 }
 
 function GardeManger(props: GardeMangerProps) {
+
+    const contexte: ContexteProp = useContext(Contexte);
 
     const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
     const [itemMapState, setItemMapState] = useState(new Map<String, Array<itemGardeMangerJson>>());
