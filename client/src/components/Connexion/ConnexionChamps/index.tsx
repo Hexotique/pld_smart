@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Vibration } from 'react-native';
 import styles from './styles';
 import { Contexte, ContexteProp } from '../../../contexte';
+import Toast from 'react-native-simple-toast';
 
 
 function ConnexionChamps() {
@@ -47,7 +48,17 @@ function ConnexionChamps() {
                 onSubmitEditing={() => { contexte.connexion({ email: valeurIdentifiant, mdp: valeurMdp }) }}
             />
 
-            <TouchableOpacity style={styles.bouton} onPress={() => { contexte.connexion({ email: valeurIdentifiant, mdp: valeurMdp }) }}>
+            <TouchableOpacity style={styles.bouton} onPress={() => {
+                if (valeurIdentifiant === '') {
+                    Toast.show('Email manquant', Toast.SHORT)
+                    Vibration.vibrate([0, 80, 80, 80])
+                } else if (valeurMdp === '') {
+                    Toast.show('Mot de passe manquant', Toast.SHORT)
+                    Vibration.vibrate([0, 80, 80, 80])
+                } else {
+                    contexte.connexion({ email: valeurIdentifiant, mdp: valeurMdp })
+                }
+            }}>
                 <Text style={styles.texteBouton}>CONNEXION</Text>
             </TouchableOpacity>
 
