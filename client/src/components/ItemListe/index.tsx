@@ -10,7 +10,6 @@ type ItemListeProps = {
     gaucheHandler?: Function;
     droiteHandler?: Function;
     enleveItem: Function;
-    checked: boolean;
 };
 
 function ItemListe(props: PropsWithChildren<ItemListeProps>) {

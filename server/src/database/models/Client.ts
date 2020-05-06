@@ -1,7 +1,7 @@
 import { Sequelize, Model, DataTypes, HasManyGetAssociationsMixin, HasManyCreateAssociationMixin, HasOneGetAssociationMixin, HasOneSetAssociationMixin, HasOneCreateAssociationMixin, HasManyAddAssociationMixin, HasManySetAssociationsMixin, HasManyRemoveAssociationMixin, BelongsToGetAssociationMixin, BelongsToCreateAssociationMixin, BelongsToSetAssociationMixin } from 'sequelize';
 import { Ticket } from './Ticket';
 import { GardeManger } from './GardeManger';
-import { Liste } from './Liste';
+import { AchatRegulier } from './AchatRegulier';
 
 export class Client extends Model {
     public id!: number;
@@ -23,9 +23,10 @@ export class Client extends Model {
     public setGardeManger!: HasOneSetAssociationMixin<GardeManger, number>;
     public createGardeManger!: HasOneCreateAssociationMixin<GardeManger>;
 
-    public createListe!: HasOneCreateAssociationMixin<Liste>;
-    public setListe!: HasOneSetAssociationMixin<Liste, number>;
-    public getListe!: HasOneGetAssociationMixin<Liste>;
+    public createAchatRegulier!: HasManyCreateAssociationMixin<AchatRegulier>;
+    public getAchatsRegulier!: HasManyGetAssociationsMixin<AchatRegulier>;
+    public addAchatRegulier!: HasManyAddAssociationMixin<AchatRegulier, number>;
+    public removeAchatRegulier!: HasManyRemoveAssociationMixin<AchatRegulier, number>;
 
 }
 
