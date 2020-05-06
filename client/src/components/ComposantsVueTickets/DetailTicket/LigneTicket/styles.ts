@@ -1,20 +1,22 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
+const taille = Dimensions.get('window').width / 40;
+
 const styles = StyleSheet.create({
 
     vueItem: {
-          borderTopWidth: 1,
-          borderTopColor: '#b3b3b3',
-          height: 45,
-          flexDirection  : "row",
-          paddingLeft    : 10,
-          paddingRight: 10,
-          justifyContent : 'flex-start',
-          alignItems     : 'center',
-          backgroundColor: 'white',
+        borderTopWidth: 1,
+        borderTopColor: '#b3b3b3',
+        height: 45,
+        flexDirection: "row",
+        paddingLeft: 10,
+        paddingRight: 10,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: 'white',
 
     },
-    
+
 
     nomItemConteneur: {
         flexDirection: "row",
@@ -24,21 +26,22 @@ const styles = StyleSheet.create({
     nomItem: {
         fontFamily: "Comfortaa",
         color: '#434343',
-        fontWeight: "bold"
+        fontWeight: "bold",
+        fontSize: taille
     },
 
     quantiteItem: {
-        flex      : 1,
+        flex: 1,
         fontFamily: "Comfortaa",
         textAlign: "center"
     },
 
     prixItem: {
-     flex      : 1,
-     fontFamily: "Comfortaa",
-     textAlign: "center"
- },
- 
+        flex: 1,
+        fontFamily: "Comfortaa",
+        textAlign: "center"
+    },
+
 
 });
 

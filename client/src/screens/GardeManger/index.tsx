@@ -143,7 +143,7 @@ function GardeManger(props: GardeMangerProps) {
                 {chargement ?
                     (<>
                         <View style={{ flex: 90, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
-                            <Image style={{ height: 100, width: 100 }} source={require('../../assets/load.gif')}></Image>
+                            <Image style={{ width: '40%', resizeMode: 'contain', marginBottom: '20%' }} source={require('../../assets/load.gif')}></Image>
                         </View>
                     </>) : (<>
                         <GardeMangerListe
@@ -181,13 +181,15 @@ const navDroite = (nav: any) => {
 }
 
 const mettreAJourBack = () => {
-    console.log("mise à jour du back");
-    const modificationsJson: ModificationJson = { modifications: [] };
-    modifications.forEach((quantite, idItem) => {
-        modificationsJson.modifications.push({ idItem: idItem, quantite: quantite });
-    });
-    modifications.clear();
-    modifier_quantite_post(modificationsJson);
+    if (modifications.size > 0) {
+        console.log("mise à jour du back");
+        const modificationsJson: ModificationJson = { modifications: [] };
+        modifications.forEach((quantite, idItem) => {
+            modificationsJson.modifications.push({ idItem: idItem, quantite: quantite });
+        });
+        modifications.clear();
+        modifier_quantite_post(modificationsJson);
+    }
 }
 
 export default GardeManger;
