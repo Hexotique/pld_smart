@@ -128,9 +128,9 @@ export function recupererContenuGardeMangerGet(): Promise<GardeMangerJson> {
         });
 }
 
-export function ajouter_produit_alamano_put(ajouts: AjoutJson) {
+export function ajouter_produit_alamano_put(ajouts: AjoutJson): Promise<any> {
     const url: RequestInfo = `${APIBaseURL}/garde-manger/ajouter-produit-alamano`;
-    _setHTTPMethod(url, 'PUT', ajouts)
+    return _setHTTPMethod(url, 'PUT', ajouts)
         .then((response) => {
             // Je sais pas si on fait un truc
         })

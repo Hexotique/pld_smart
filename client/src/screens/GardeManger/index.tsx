@@ -10,7 +10,9 @@ import { recupererContenuGardeMangerGet,
         itemGardeMangerJson, 
         recuperer_produits_get,
         Produits,
-        Produit} from '../../api';
+        Produit,
+        ajouter_produit_alamano_put,
+        AjoutJson} from '../../api';
 import { GardeMangerProp } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
@@ -21,13 +23,13 @@ const ajouts: Map<string, string> = new Map<string, string>();
 
 function GardeManger({ route, navigation }: GardeMangerProp) {
 
+    
 
     const contexte: ContexteProp = useContext(Contexte);
-
     const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
     const [itemMapState, setItemMapState] = useState(new Map<String, Array<itemGardeMangerJson>>());
     const [rafraichirFlatList, setRafraichirFlatList] = useState(false);
-    const [nomsProduits, setNomsProduits] = useState(new Map<string, string>());
+    const [produits, setProduits] = useState(new Map<string, Produit>());
 
     
 
@@ -66,8 +68,21 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
         setRafraichirFlatList(!rafraichirFlatList);
     }
 
-    
-    useEffect(() => {
+    const ajouteProduit = (produit: Produit) => {
+        const ajouts: AjoutJson = {
+            ajouts: [
+                {
+                    nomProduit: produit.nom,
+                    quantite: 1
+                }
+            ]
+        }
+        ajouter_produit_alamano_put(ajouts).then(() => {
+            chargerGardeManger();
+        })
+    }
+
+    const chargerGardeManger = ()=>{
         console.log("chargement garde manger");
         recupererContenuGardeMangerGet()
             .then((data: GardeMangerJson) => {
@@ -85,24 +100,36 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
                     }
                 });
                 const keyArray: Array<String> = Array.from(itemMap.keys());
-
+    
                 setKeyArrayState(keyArray);
                 setItemMapState(itemMap);
-
+    
             }).catch((error) => {
                 console.error(error);
             });
-
-        recuperer_produits_get()
-            .then((produits: Produits) => {
-                console.log(produits);
-                produits.Produits.forEach((produit: Produit) => {
-                    setNomsProduits(nomsProduits => nomsProduits.set(produit.idProduit, produit.nom));
+    
+        }
+        
+        const recupererProduitsBDD = () => {
+            recuperer_produits_get()
+                .then((produits: Produits) => {
+                    console.log(produits);
+                    produits.Produits.forEach((produit: Produit) => {
+                        setProduits(produits => produits.set(produit.idProduit, produit));
+                    })
+                }).catch(error => {
+                    console.error(error);
                 })
-            }).catch(error => {
-                console.error(error);
-            })
-    }, []);
+    }
+
+    
+    React.useEffect(() => {
+        recupererProduitsBDD();
+        const unsubscribe = navigation.addListener('focus', () => {
+            chargerGardeManger();
+        });
+        return unsubscribe;
+      }, [navigation]);
 
     return (
         <GestureRecognizer
@@ -113,11 +140,12 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
                 <Header indexe={2} />
                 <GardeMangerListe 
                     categories={keyArrayState}
-                    itemMap={itemMapState}
+                    itemMap={itemMapState}  
                     enleveItem = {enleveItem}
                     rafraichirFlatList={rafraichirFlatList}
                     modifieQuantite={modifieQuantite}
-                    nomsProduits={nomsProduits}
+                    produits={produits}
+                    ajouteProduit={ajouteProduit}
                 >
                 </GardeMangerListe>
             </SafeAreaView>

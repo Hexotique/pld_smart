@@ -4,7 +4,7 @@ import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react
 import Autocomplete from 'react-native-autocomplete-input';
 import Item from '../GardeMangerItem'
 import Categorie from '../../ComposantsGénériques/CategorieListeRetractable';
-import { recupererContenuGardeMangerGet, GardeMangerJson, itemGardeMangerJson, modifier_quantite_post } from '../../../api'
+import { recupererContenuGardeMangerGet, GardeMangerJson, itemGardeMangerJson, modifier_quantite_post, Produit } from '../../../api'
 import { TextInput } from 'react-native-gesture-handler';
 import styles from './styles';
 
@@ -16,29 +16,30 @@ type ItemListeProps = {
     enleveItem: Function,
     modifieQuantite: Function,
     rafraichirFlatList: boolean,
-    nomsProduits: Map<string, string>
+    produits: Map<string, Produit>,
+    ajouteProduit: Function
 };
 
 function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
 
-    const [listeRechercheProduits, setListeRechercheProduits] = useState(new Array<any>());
+    const [listeRechercheProduits, setListeRechercheProduits] = useState(new Array<Produit>());
     const [query, setQuery] = useState('');
 
 
 
     const trouverProduits = (query: string) => {
         //method called everytime when we change the value of the input
-        let listeProduitsTemp: any[] = [];
+        let listeProduitsTemp: Array<Produit> = [];
         if (query === '') {
           //if the query is null then return blank
           setListeRechercheProduits(listeProduitsTemp);
           return;
         }
         
-        props.nomsProduits.forEach((nomProduit, idProduit) => {
+        props.produits.forEach((produit, idProduit) => {
             //making a case insensitive regular expression to get similar value from the list of products
             const regex = new RegExp(`${query.trim()}`, 'i');
-            if (nomProduit.search(regex) >=0) listeProduitsTemp.push({nom: nomProduit});
+            if (produit.nom.search(regex) >=0) listeProduitsTemp.push(produit);
         })
         
         //return the filtered film array according the query from the input
@@ -46,15 +47,17 @@ function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
         console.log("produits trouvés: " + listeRechercheProduits);
     }
 
-    const ajouteProduit = (nomProduit: string, idProduit: string) => {
+    const ajouteProduit = (produit: Produit) => {
         Alert.alert(
             "Ajout produit",
-            `Etes-vous sûr de vouloir ajouter : ${nomProduit} à votre garde manger ?`,
+            `Etes-vous sûr de vouloir ajouter : ${produit.nom} à votre garde manger ?`,
             [
                 {
                     text: 'Oui',
                     onPress: () => {
-                        console.log('ajout produit : ' + nomProduit);
+                        // Ajout du produit en front
+                        console.log(`ajout produit : ${produit.nom}`);
+                        props.ajouteProduit(produit);
                         setQuery('');
                     }
                 },
@@ -67,8 +70,6 @@ function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
         
     }
 
-    
-    const comp = (a: any, b: any) => a.toLowerCase().trim() === b.toLowerCase().trim();
 
     const boutonSupprimer = (
         <React.Fragment>
@@ -100,7 +101,7 @@ function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
                     placeholder="Ajouter un item"
                     renderItem={({item, i}: any) => (
                         <View style={{flexDirection: "row", height: 45, justifyContent: "center", alignItems: "center"}}>
-                            <TouchableOpacity onPress={()=>ajouteProduit(item.nom, item.id)}>
+                            <TouchableOpacity onPress={()=>ajouteProduit(item)}>
                                 <Text>{item.nom}</Text>
                             </TouchableOpacity>
                         </View>

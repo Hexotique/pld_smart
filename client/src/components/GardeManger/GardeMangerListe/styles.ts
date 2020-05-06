@@ -44,7 +44,9 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 90,
         left: 0,
+        bottom: 0,
         width: Dimensions.get('window').width,
+        
     },
 
     vueItem: {
