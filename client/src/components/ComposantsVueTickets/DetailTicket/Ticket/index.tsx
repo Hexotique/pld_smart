@@ -17,34 +17,7 @@ interface Propriete {
 function Ticket(props: Propriete) {
 
      console.log(props.achatsMap);
-     /*const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
-     const [itemMapState, setItemMapState] = useState(new Map<String, Array<Achat>>());
-     const [enableScroll, setEnableScroll] = useState(true);
-     useEffect(() => {
-          recupererContenuDetailTicketGet()
-               .then((data: DetailTicket) => {
-                    const itemMap: Map<String, Array<Achat>> = new Map<String, Array<Achat>>();
-                    data.donneesTicket.achats.forEach((item: Achat) => {
-                         if (!itemMap.has(item.nomCategorieProduit)) {
-                              const itemList: Array<Achat> = [];
-                              itemList.push(item);
-                              itemMap.set(item.nomCategorieProduit, itemList);
-                         } else {
-                              const itemMapGet = itemMap.get(item.nomCategorieProduit);
-                              if (itemMapGet) {
-                                   itemMapGet.push(item);
-                              }
-                         }
-                    });
-                    const keyArray: Array<String> = Array.from(itemMap.keys());
-
-                    setKeyArrayState(keyArray);
-                    setItemMapState(itemMap);
-
-               }).catch((error) => {
-                    console.error(error);
-               });
-     }, []);*/
+     
 
      return (
           <View style={styles.conteneur_ticket}>

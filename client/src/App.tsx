@@ -4,6 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View, Image, Vibration, Platform, ToastAndroid } from 'react-native';
 import Toast from 'react-native-simple-toast';
+import { StatusBar } from 'react-native';
+
+
 
 import { Tab } from './navigator';
 import { Contexte, ContexteProp } from './contexte';
@@ -20,6 +23,9 @@ type action = {
     type: string;
     [key: string]: any;
 }
+
+StatusBar.setBackgroundColor('white');
+StatusBar.setBarStyle('dark-content');
 
 export default function App() {
 
@@ -171,6 +177,7 @@ export default function App() {
             <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
                 <Image style={{ height: 100, width: 100 }} source={require('./assets/logo.png')}></Image>
             </View>
+<<<<<<< HEAD
             :
             <Contexte.Provider value={{ ...authContext, email: state.email, nomComplet: state.nomComplet, token: state.token }}>
                 <NavigationContainer>
@@ -193,5 +200,35 @@ export default function App() {
                     </Tab.Navigator>
                 </NavigationContainer>
             </Contexte.Provider>
+=======
+        )
+    }
+
+    // Rendu de l'app
+    return (
+        <Contexte.Provider value={{ ...authContext, email: state.email, nomComplet: state.nomComplet }}>
+            <NavigationContainer>
+                <Tab.Navigator  screenOptions={{ tabBarVisible: false }}>
+                    {state.token ?
+                        (<>
+                            {/*Ecrans accessibles quand le token est chargé donc quand on est connecté*/}
+                            <Tab.Screen name='GardeManger' component={GardeManger} />
+                            <Tab.Screen name='ListeCourse' component={ListeCourse} />
+                            <Tab.Screen name='ListeTicket' component={ListeTicket} />
+                            <Tab.Screen name='Scanner' component={Scanner} />
+                        </>
+                        ) : (<>
+                            {/*Ecrans accessibles quand le token n'est pas chargé donc quand on est déconnecté*/}
+                            <Tab.Screen name='Connexion' component={Connexion} />
+                            <Tab.Screen name='Inscription' component={Inscription} />
+                        </>
+                        )
+                    }
+                </Tab.Navigator>
+            </NavigationContainer>
+        </Contexte.Provider>
+
+
+>>>>>>> b47a9d1e6f7cef3d62ee9b2cc08fb5986cb4aebc
     );
 }

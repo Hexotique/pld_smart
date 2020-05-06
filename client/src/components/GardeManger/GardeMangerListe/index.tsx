@@ -1,71 +1,163 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text } from 'react-native';
+import React, { useState, useEffect, PropsWithChildren } from 'react';
+import { View, FlatList, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native';
+import Autocomplete from 'react-native-autocomplete-input';
 import Item from '../GardeMangerItem'
 import Categorie from '../../ComposantsGénériques/CategorieListeRetractable';
-import { recupererContenuGardeMangerGet, GardeMangerJson, itemGardeMangerJson } from '../../../api'
+import { recupererContenuGardeMangerGet, GardeMangerJson, itemGardeMangerJson, modifier_quantite_post, Produit } from '../../../api'
 import { TextInput } from 'react-native-gesture-handler';
 import styles from './styles';
 
-function GardeMangerListe() {
-    const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
-    const [itemMapState, setItemMapState] = useState(new Map<String, Array<itemGardeMangerJson>>());
-    const [enableScroll, setEnableScroll] = useState(true);
-    useEffect(() => {
-        recupererContenuGardeMangerGet()
-            .then((data: GardeMangerJson) => {
-                const itemMap: Map<String, Array<itemGardeMangerJson>> = new Map<String, Array<itemGardeMangerJson>>();
-                data.items.forEach((item: itemGardeMangerJson) => {
-                    if (!itemMap.has(item.produit.categorie.nomCategorie)) {
-                        const itemList: Array<itemGardeMangerJson> = [];
-                        itemList.push(item);
-                        itemMap.set(item.produit.categorie.nomCategorie, itemList);
-                    } else {
-                        const itemMapGet = itemMap.get(item.produit.categorie.nomCategorie);
-                        if (itemMapGet) {
-                            itemMapGet.push(item);
-                        }
+import ItemListe from '../../ItemListe';
+
+type ItemListeProps = {
+    categories: Array<String>,
+    itemMap: Map<String, Array<itemGardeMangerJson>>,
+    enleveItem: Function,
+    modifieQuantite: Function,
+    rafraichirFlatList: boolean,
+    produits: Map<string, Produit>,
+    ajouteProduit: Function
+};
+
+function GardeMangerListe(props: PropsWithChildren<ItemListeProps>) {
+
+    const [listeRechercheProduits, setListeRechercheProduits] = useState(new Array<Produit>());
+    const [query, setQuery] = useState('');
+
+
+
+    const trouverProduits = (query: string) => {
+        //method called everytime when we change the value of the input
+        let listeProduitsTemp: Array<Produit> = [];
+        if (query === '') {
+          //if the query is null then return blank
+          setListeRechercheProduits(listeProduitsTemp);
+          return;
+        }
+        
+        props.produits.forEach((produit, idProduit) => {
+            //making a case insensitive regular expression to get similar value from the list of products
+            const regex = new RegExp(`${query.trim()}`, 'i');
+            if (produit.nom.search(regex) >=0) listeProduitsTemp.push(produit);
+        })
+        
+        //return the filtered film array according the query from the input
+        setListeRechercheProduits(listeProduitsTemp);
+        console.log("produits trouvés: " + listeRechercheProduits);
+    }
+
+    const ajouteProduit = (produit: Produit) => {
+        Alert.alert(
+            "Ajout produit",
+            `Etes-vous sûr de vouloir ajouter : ${produit.nom} à votre garde manger ?`,
+            [
+                {
+                    text: 'Oui',
+                    onPress: () => {
+                        // Ajout du produit en front
+                        console.log(`ajout produit : ${produit.nom}`);
+                        props.ajouteProduit(produit);
+                        setQuery('');
                     }
-                });
-                const keyArray: Array<String> = Array.from(itemMap.keys());
+                },
+                {
+                    text: 'Annuler',
+                    style: "cancel"
+                }
+            ]
+        );
+        
+    }
 
-                setKeyArrayState(keyArray);
-                setItemMapState(itemMap);
 
-            }).catch((error) => {
-                console.error(error);
-            });
-    }, []);
-
+    const boutonSupprimer = (
+        <React.Fragment>
+            <Text
+                numberOfLines={1}
+                ellipsizeMode='clip'
+                style={{
+                    color: 'white',
+                    fontWeight: 'bold',
+                    fontFamily: 'Sans Serif'
+                }}
+            >
+                SUPPRIMER
+            </Text>
+        </React.Fragment>);
 
     return (
         <View style={styles.container}>
-            <View style={styles.ajoutProduit}>
-                <TextInput placeholder="Ajoutez un item" style={styles.ajoutProduitTexte}></TextInput>
+            <View style={[styles.ajoutProduit, {zIndex: (query.length === 0 ? 1 : 2)}]}>
+                <Autocomplete
+                    inputContainerStyle={styles.ajoutProduitConteneur}
+                    containerStyle={styles.ajoutProduitAutocompletion}
+                    style={styles.ajoutProduitTexte}
+                    onChangeText={(text: string) => {setQuery(text); trouverProduits(query)}}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    defaultValue={query}
+                    data={query.length > 0 ? listeRechercheProduits: []}
+                    placeholder="Ajouter un item"
+                    renderItem={({item, i}: any) => (
+                        <View style={{flexDirection: "row", height: 45, justifyContent: "center", alignItems: "center"}}>
+                            <TouchableOpacity onPress={()=>ajouteProduit(item)}>
+                                <Text>{item.nom}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                />
             </View>
-            <FlatList
-                contentContainerStyle={{ paddingBottom: 140 }}
-                data={keyArrayState}
-                keyExtractor={(itemKey) => itemKey.toString()}
-                renderItem={({ item }) =>
-                    <View>
-                        <Collapse>
-                            <CollapseHeader>
-                                <Categorie item = {item} couleur="#f3a993"></Categorie>
-                            </CollapseHeader>
-                            <CollapseBody>
-                                <FlatList
-                                    data={itemMapState.get(item)}
-                                    keyExtractor={(itemValue) => itemValue.idItem.toString()}
-                                    renderItem={({ item }) =>
-                                        <Item item={item} toggleScroll={setEnableScroll}></Item>
-                                    }
-                                />
-                            </CollapseBody>
-                        </Collapse>
-                    </View>
-                }
-            />
+            <View style={[styles.listeGardeManger, {zIndex: (query.length === 0 ? 2 : 1)}]}>
+                <FlatList
+                    extraData={props.rafraichirFlatList}
+                    contentContainerStyle={{ paddingBottom: 140 }}
+                    data={props.categories}
+                    keyExtractor={(itemValue) => itemValue.toString()}
+                    renderItem={({ item }) =>
+                        <View>
+                            <Collapse>
+                                <CollapseHeader>
+                                    <Categorie item={item} couleur="#f3a993"></Categorie>
+                                </CollapseHeader>
+                                <CollapseBody>
+                                    <FlatList
+                                        extraData={props.rafraichirFlatList}
+                                        data={props.itemMap.get(item)}
+                                        keyExtractor={(itemValue) => itemValue.idItem}
+                                        renderItem={({ item }) =>
+                                            <ItemListe
+                                                permetDefile={() => {}}
+                                                enleveItem={() => {props.enleveItem(item.produit.categorie.nomCategorie, item.idItem)}}
+                                                droite={boutonSupprimer}
+                                            >
+                                                <View style={styles.vueItem}>
+                                                    <View style={styles.nomItemConteneur}>
+                                                        <Text style={styles.nomItem}>{item.produit.nom}</Text>
+                                                    </View>
+
+                                                    <View style={styles.changerQuantite}>
+                                                        <TouchableOpacity style={styles.boutonQuantite} onPress={() =>props.modifieQuantite(item.produit.categorie.nomCategorie, item.idItem, '-')}>
+                                                            <Image style={styles.icon} source={require('../../../assets/moins-icon.png')} />
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                    <Text style={styles.quantiteItem}>{item.quantite}</Text>
+                                                    <View style={styles.changerQuantite} >
+                                                        <TouchableOpacity style={styles.boutonQuantite} onPress={() => props.modifieQuantite(item.produit.categorie.nomCategorie, item.idItem, '+')}>
+                                                            <Image style={styles.icon} source={require('../../../assets/plus-icon.png')} />
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                </View>
+                                            </ItemListe>
+                                        }
+                                    />
+                                </CollapseBody>
+                            </Collapse>
+                        </View>
+                    }
+                />
+            </View>
+            
         </View >
     );
 }

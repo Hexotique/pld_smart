@@ -283,9 +283,9 @@ const ajouter = async (ajout: Ajout, gardemanger: GardeManger) => {
 // Prend en paramètre : un garde manger à modifier
 //                      une modification a effectuer
 const modifier = async (modification: Modification, gardeManger: GardeManger) => {
-
+    console.log(modification);
     if (!modification.idItem) throw ('parametre idItem manquant'); // check la présence de l'id dans la requête
-    if (!modification.quantite) throw ('parametre quantité manquant'); //check la présence de la quantité dans la requête
+    if (modification.quantite===null) throw ('parametre quantité manquant'); //check la présence de la quantité dans la requête
     const quantite: number = Number(modification.quantite);
     const item = await Item.findByPk(modification.idItem) as Item;
     if (item === null) throw ('item inexistant dans la BDD'); // Check que l'item existe bien dans la BDD

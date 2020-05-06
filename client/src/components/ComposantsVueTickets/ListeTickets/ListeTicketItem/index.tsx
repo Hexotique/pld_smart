@@ -8,8 +8,7 @@ import ListeDetailTicket from '../../DetailTicket/ListeDetailTicket';
 //import Dialog from 'react-native';
 //import DialogContent from 'react-native';
 
-
-function Item({ prix, commerce, date, idTicket }: any) {
+function Item({ prix, commerce, date, idTicket, supprimerTicket }: any) {
 
     const [montrerModal, setMontrerModal] = useState(false);
     const [CategoriesArrayState, setCategoriesArrayState] = useState(new Array<String>());
@@ -57,7 +56,7 @@ function Item({ prix, commerce, date, idTicket }: any) {
                 </View>
             </TouchableOpacity>
 
-            <ModalTicket id={idTicket} show={montrerModal} close={onCloseHandler}>
+            <ModalTicket supprimerTicket={supprimerTicket} id={idTicket} show={montrerModal} close={onCloseHandler}>
                 <Ticket
                     idTicket={idTicket}
                     groupe={commerce}
