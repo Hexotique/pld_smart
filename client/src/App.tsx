@@ -156,7 +156,7 @@ export default function App() {
                         nomComplet: `${client.prenom} ${client.nom}`,
                         token: client.token
                     }
-                    updateState({ type: 'SIGN_IN', ...client });
+                    updateState({ type: 'SIGN_IN', ...nouveauClient });
                     setClient(nouveauClient);
                 }
             })

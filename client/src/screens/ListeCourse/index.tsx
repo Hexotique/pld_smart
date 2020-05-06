@@ -49,14 +49,19 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
     }
 
     useEffect(() => {
-        recupStorage();
-        achat_regulier_get().then((response) => {
-            let tempListe: Array<string> = [];
-            response.ListeCourse.forEach((element: any) => {
-                tempListe.push(element.nom);
-            });
-            setListeRec(tempListe);
+        return navigation.addListener('focus', () => {
+            achat_regulier_get().then((response) => {
+                let tempListe: Array<string> = [];
+                response.ListeCourse.forEach((element: any) => {
+                    tempListe.push(element.nom);
+                });
+                setListeRec(tempListe);
+            })
         });
+    }, [navigation]);
+
+    useEffect(() => {
+        recupStorage();
     }, []);
 
     useEffect(() => {
