@@ -5,8 +5,8 @@ import { Json } from 'sequelize/types/lib/utils';
 import sequelize, { Op } from 'sequelize';
 import { ajout_achat_regulier } from './controleurAchatRegulier';
 
-const fetch = require("node-fetch");
 
+const fetch = require("node-fetch");
 
 interface DonneesMagasin {
     idCommerce: number;
