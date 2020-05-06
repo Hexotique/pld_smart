@@ -1,7 +1,6 @@
-import React, { useRef, useMemo, PropsWithChildren } from 'react';
-import { Animated, Dimensions, TouchableOpacity, Easing, PanResponder, Text, View } from 'react-native';
+import React, { PropsWithChildren } from 'react';
+import { Animated, Dimensions, Easing, PanResponder, Text, View } from 'react-native';
 import styles from './styles';
-import { CheckBox } from 'react-native-elements';
 
 type ItemListeProps = {
     permetDefile: Function;
@@ -10,7 +9,6 @@ type ItemListeProps = {
     gaucheHandler?: Function;
     droiteHandler?: Function;
     enleveItem: Function;
-    checked: boolean;
 };
 
 function ItemListe(props: PropsWithChildren<ItemListeProps>) {
@@ -19,7 +17,7 @@ function ItemListe(props: PropsWithChildren<ItemListeProps>) {
     const SEUIL_VSN = LARGEUR_ECRAN / 7;
     const SEUIL_ACT = LARGEUR_ECRAN / 4;
 
-    const DUREE_ANIM = 350;
+    const DUREE_ANIM = 100;
 
     const position = new Animated.ValueXY({ x: 0, y: 0 });
 

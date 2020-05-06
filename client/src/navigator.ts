@@ -1,7 +1,7 @@
 import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp } from '@react-navigation/native';
 
-type RootStackParamList = {
+export type RootStackParamList = {
     Connexion: undefined;
     Inscription: undefined;
     GardeManger: undefined;

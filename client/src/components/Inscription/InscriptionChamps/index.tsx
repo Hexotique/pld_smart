@@ -1,7 +1,9 @@
-import React, { useContext, Component } from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import React, { useContext } from 'react';
+import { View, TextInput, TouchableOpacity, Text, Vibration } from 'react-native';
 import styles from './styles';
 import { Contexte, ContexteProp } from '../../../contexte';
+import Toast from 'react-native-simple-toast';
+
 
 
 function InscriptionChamps() {
@@ -74,7 +76,29 @@ function InscriptionChamps() {
                 onSubmitEditing={() => { contexte.inscription({ email: valeurIdentifiant, mdp: valeurMdp, nom: valeurNom, prenom: valeurPrenom }) }}
             />
 
-            <TouchableOpacity style={styles.bouton} onPress={() => { contexte.inscription({ email: valeurIdentifiant, mdp: valeurMdp, nom: valeurNom, prenom: valeurPrenom }) }}>
+            <TouchableOpacity style={styles.bouton} onPress={() => {
+                if (valeurIdentifiant === '') {
+                    Toast.show('Email manquant', Toast.SHORT)
+                    Vibration.vibrate([0, 80, 80, 80])
+                } else if (valeurMdp === '') {
+                    Toast.show('Mot de passe manquant', Toast.SHORT)
+                    Vibration.vibrate([0, 80, 80, 80])
+                } else if (valeurNom === '') {
+                    Toast.show('Nom manquant', Toast.SHORT)
+                    Vibration.vibrate([0, 80, 80, 80])
+                } else if (valeurPrenom === '') {
+                    Toast.show('Prenom manquant', Toast.SHORT)
+                    Vibration.vibrate([0, 80, 80, 80])
+                } else if (!valeurIdentifiant.includes('@')) {
+                    Toast.show('mail invalide', Toast.SHORT)
+                    Vibration.vibrate([0, 80, 80, 80])
+                } else if (valeurMdp.length < 6) {
+                    Toast.show('mot de passe trop court, 6 charactères minimum', Toast.SHORT)
+                    Vibration.vibrate([0, 80, 80, 80])
+                } else {
+                    contexte.inscription({ email: valeurIdentifiant, mdp: valeurMdp, nom: valeurNom, prenom: valeurPrenom })
+                }
+            }}>
                 <Text style={styles.texteBouton}>VALIDER</Text>
             </TouchableOpacity>
 

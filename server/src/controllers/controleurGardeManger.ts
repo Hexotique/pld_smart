@@ -98,9 +98,9 @@ export const ajouter_produit_scan_put = async (req: Request, res: Response, next
 interface ProduitJson {
     idProduit: string,
     nom: string,
-    categorie : {
-        idCategorie : string,
-        nomCategorie : string
+    categorie: {
+        idCategorie: string,
+        nomCategorie: string
     }
 }
 
@@ -167,7 +167,7 @@ export const supprimer_produit_delete = async (req: Request, res: Response, next
         await Item.destroy({
             where: {
                 ProduitId: idProduit,
-                GardeMangerId : gardeManger.id
+                GardeMangerId: gardeManger.id
             }
         });
 
@@ -232,24 +232,24 @@ export const recuperer_produits_get = async (req: Request, res: Response, next: 
     try {
         console.log(req);
 
-        let produits : any = {
-            "Produits" : []
+        let produits: any = {
+            "Produits": []
         }
 
         const categoriesProduits = await CategorieProduit.findAll();
 
-        for (const categorie  of categoriesProduits) {
+        for (const categorie of categoriesProduits) {
             const produitsCategories = await categorie.getProduits();
-            for (const produit of produitsCategories ){
-                    let produitJson : ProduitJson = {
-                        idProduit : produit.id.toString(),
-                        nom : produit.nom,
-                        categorie : {
-                            idCategorie : categorie.id.toString(),
-                            nomCategorie : categorie.nom
-                        }
+            for (const produit of produitsCategories) {
+                let produitJson: ProduitJson = {
+                    idProduit: produit.id.toString(),
+                    nom: produit.nom,
+                    categorie: {
+                        idCategorie: categorie.id.toString(),
+                        nomCategorie: categorie.nom
                     }
-                    produits.Produits.push(produitJson)
+                }
+                produits.Produits.push(produitJson)
             }
         }
         res.status(200).json(produits);
@@ -271,11 +271,31 @@ const ajouter = async (ajout: Ajout, gardemanger: GardeManger) => {
     const quantiteProd: number = ajout.quantite as number;
 
     // Vérification de l'existence du produit dans la BDD et création s'il n'existe pas
-    const resultat = await Produit.findOrCreate({ where: { nom: nomProduit }, defaults: { nom: nomProduit } });
+    const resultat = await Produit.findOrCreate({
+        where: {
+            nom: nomProduit
+        },
+        defaults: {
+            nom: nomProduit
+        }
+    });
     const produit = resultat[0];
-    const item = await Item.create({ quantite: quantiteProd });
-    await gardemanger.addItem(item);
-    await produit.addItem(item);
+    const itemResult = await Item.findOrCreate({
+        where: {
+            [Op.and]: [
+                { ProduitId: produit.id },
+                { GardeMangerId: gardemanger.id }
+            ]
+        }, defaults: {
+            ProduitId: produit.id,
+            GardeMangerId: gardemanger.id,
+            quantite: quantiteProd
+        }
+    });
+    if (!itemResult[1]) {
+        itemResult[0].quantite += 1;
+        await itemResult[0].save();
+    }
     console.log('produit : ' + nomProduit + 'ajouté au garder-manger (quantite : ' + quantiteProd + ')');
 }
 
@@ -283,9 +303,9 @@ const ajouter = async (ajout: Ajout, gardemanger: GardeManger) => {
 // Prend en paramètre : un garde manger à modifier
 //                      une modification a effectuer
 const modifier = async (modification: Modification, gardeManger: GardeManger) => {
-
+    console.log(modification);
     if (!modification.idItem) throw ('parametre idItem manquant'); // check la présence de l'id dans la requête
-    if (!modification.quantite) throw ('parametre quantité manquant'); //check la présence de la quantité dans la requête
+    if (modification.quantite === null) throw ('parametre quantité manquant'); //check la présence de la quantité dans la requête
     const quantite: number = Number(modification.quantite);
     const item = await Item.findByPk(modification.idItem) as Item;
     if (item === null) throw ('item inexistant dans la BDD'); // Check que l'item existe bien dans la BDD

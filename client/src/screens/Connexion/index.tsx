@@ -1,18 +1,17 @@
 import React, { useContext, useEffect } from 'react';
-import { View, ImageBackground, Text, Keyboard, KeyboardEvent, Animated, Dimensions, Easing } from 'react-native';
+import { View, ImageBackground, Keyboard, KeyboardEvent, Animated, Dimensions, Easing } from 'react-native';
 import { ConnexionProp } from '../../navigator'
 import ConnexionChamps from "../../components/Connexion/ConnexionChamps"
 import ConnexionTitre from "../../components/Connexion/ConnexionTitre"
 import Inscription from "../../components/Connexion/Inscription"
 import styles from './styles';
-import { useNavigation } from '@react-navigation/native';
 import { ContexteProp, Contexte } from '../../contexte'
 
-function Connexion({ route, navigation }: ConnexionProp) {
-
-    const { width, height } = Dimensions.get('window');
+function Connexion({ navigation }: ConnexionProp) {
 
     const contexte: ContexteProp = useContext(Contexte);
+
+    const { width, height } = Dimensions.get('window');
 
     const bottomPositionTitre = new Animated.Value(4 * height / 5);
     const bottomPositionConnexion = new Animated.Value(2 * height / 5);
@@ -94,7 +93,7 @@ function Connexion({ route, navigation }: ConnexionProp) {
 
     return (
         <View style={{ flex: 1 }}>
-            <ImageBackground source={require('../../assets/fond-connexion.png')} style={styles.fondImage} >
+            <ImageBackground source={require('../../assets/fond-connexion.jpg')} style={styles.fondImage} >
             </ImageBackground>
             <View style={styles.fondTransparent}></View>
             <Animated.View style={[styles.titre, { bottom: bottomPositionTitre }]}><ConnexionTitre></ConnexionTitre></Animated.View>

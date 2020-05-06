@@ -8,18 +8,20 @@ import ListeDetailTicket from '../../DetailTicket/ListeDetailTicket';
 //import Dialog from 'react-native';
 //import DialogContent from 'react-native';
 
-
-function Item({ prix, commerce, date, idTicket }: any) {
+function Item({ prix, commerce, date, idTicket, supprimerTicket }: any) {
 
     const [montrerModal, setMontrerModal] = useState(false);
     const [CategoriesArrayState, setCategoriesArrayState] = useState(new Array<String>());
     const [achatsMapState, setAchatsMapState] = useState(new Map<String, Array<Achat>>());
+    const [chargement, setChargement] = useState(false)
 
     const onCloseHandler = () => {
         setMontrerModal(false);
     }
 
     const onOpenHandler = () => {
+        setMontrerModal(true);
+        setChargement(true);
         recupererContenuDetailTicketGet(idTicket)
             .then((ticket: DetailTicket) => {
                 const achatsMap: Map<String, Array<Achat>> = new Map<String, Array<Achat>>();
@@ -37,11 +39,10 @@ function Item({ prix, commerce, date, idTicket }: any) {
                 });
                 const categoriesArray: Array<String> = Array.from(achatsMap.keys());
 
-                console.log(achatsMap);
-
                 setCategoriesArrayState(categoriesArray);
                 setAchatsMapState(achatsMap);
-                setMontrerModal(true);
+
+                setChargement(false);
             }).catch((error) => {
                 console.error(error);
             });
@@ -57,7 +58,7 @@ function Item({ prix, commerce, date, idTicket }: any) {
                 </View>
             </TouchableOpacity>
 
-            <ModalTicket id={idTicket} show={montrerModal} close={onCloseHandler}>
+            <ModalTicket supprimerTicket={supprimerTicket} id={idTicket} show={montrerModal} chargement={chargement} close={onCloseHandler}>
                 <Ticket
                     idTicket={idTicket}
                     groupe={commerce}

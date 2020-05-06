@@ -1,6 +1,12 @@
-import { userToken, APIBaseURL } from './configApi';
+import { APIBaseURL } from './configApi';
 
 //Json pour le garde manger 
+
+var userToken: string = "";
+
+export function setToken(token: string) {
+    userToken = token;
+}
 
 export interface itemGardeMangerJson {
     idItem: string,
@@ -29,13 +35,26 @@ export interface AjoutJson {
     ajouts: Array<Ajout>;
 }
 
-interface Modification {
-    idItem: number;
+export interface Modification {
+    idItem: string;
     quantite: number;
 }
 
-interface ModificationJson {
+export interface ModificationJson {
     modifications: Array<Modification>;
+}
+
+export interface Produits {
+    Produits: Array<Produit>
+}
+
+export interface Produit {
+    idProduit: string,
+    nom: string,
+    categorie: {
+        idCategorie: string, 
+        nomCategorie: string
+    }
 }
 
 //Json pour la liste des tickets
@@ -82,6 +101,7 @@ export interface Client {
     token?: string
 }
 
+
 // Méthode pour générer les requètes
 
 function _setHTTPMethod(url: RequestInfo, httpMethod: string, body?: any): Promise<Response> {
@@ -113,9 +133,9 @@ export function recupererContenuGardeMangerGet(): Promise<GardeMangerJson> {
         });
 }
 
-export function ajouter_produit_alamano_put(ajouts: AjoutJson) {
+export function ajouter_produit_alamano_put(ajouts: AjoutJson): Promise<any> {
     const url: RequestInfo = `${APIBaseURL}/garde-manger/ajouter-produit-alamano`;
-    _setHTTPMethod(url, 'PUT', ajouts)
+    return _setHTTPMethod(url, 'PUT', ajouts)
         .then((response) => {
             // Je sais pas si on fait un truc
         })
@@ -149,13 +169,26 @@ export function modifier_quantite_post(modifications: ModificationJson) {
     const url: RequestInfo = `${APIBaseURL}/garde-manger/modifier-quantite`;
     _setHTTPMethod(url, 'POST', modifications)
         .then((response) => {
-            // Je sais pas si on fait un truc
+            console.log(response.status);
         })
+        .then((data: any) => console.log(data))
         .catch((error) => {
             console.log(error);
             console.error(error);
         });
 
+}
+
+export function recuperer_produits_get(): Promise<Produits> {
+    const url: RequestInfo = `${APIBaseURL}/garde-manger/recuperer-produits`;
+    return _setHTTPMethod(url, 'GET')
+        .then((response) => {
+            return response.json();
+        })
+        .catch((error) => {
+            console.log(error);
+            console.error(error);
+        });   
 }
 
 // Interactions OFF
@@ -209,9 +242,9 @@ export function recupererContenuDetailTicketGet(idTicket: number): Promise<Detai
         });
 }
 
-export function supprimer_ticket_delete(idTicket: number) {
+export function supprimer_ticket_delete(idTicket: number): Promise<Boolean | void> {
     const url: RequestInfo = `${APIBaseURL}/ticket/supprimer-ticket/${idTicket}`;
-    _setHTTPMethod(url, 'DELETE')
+    return _setHTTPMethod(url, 'DELETE')
         .then((response) => {
             switch (response.status) {
                 case 200: //succès
@@ -280,7 +313,19 @@ export function inscription_client_put(client: Client): Promise<Client> {
         });
 }
 
-
-
-
-
+export async function achat_regulier_get() {
+    const url: RequestInfo = `${APIBaseURL}/achat-regulier/recuperer`;
+    try {
+        const response = await _setHTTPMethod(url, 'GET');
+        console.log('res : ' + response.status);
+        switch (response.status) {
+            case 200: //succès
+                return response.json();
+            default:
+                return null;
+        }
+    }
+    catch (error) {
+        console.error(error);
+    }
+}

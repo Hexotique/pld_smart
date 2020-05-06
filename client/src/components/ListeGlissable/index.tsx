@@ -39,8 +39,6 @@ function ListeGlissable(props: ListeGlissableProps) {
             permetDefile={() => {}}
             enleveItem={() => props.enleveItem(item.id)}
             droite={props.droite}
-            checked={item.checked}
-
         >
             <View style={{
                 flex: 1,
@@ -70,7 +68,7 @@ function ListeGlissable(props: ListeGlissableProps) {
     )
 
     return (
-        <View>
+        <View style={{ flex: 90 }}>
             <ScrollView contentContainerStyle={{ paddingBottom: 140 }}>
                 {renderItems()}
             </ScrollView>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Button } from 'react-native-elements'
 import styles from './styles';
 
 interface Propriete {

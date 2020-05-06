@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, Button, TouchableOpacity, Image, TouchableWithoutFeedback, Text } from 'react-native';
+import { View, TouchableOpacity, Image, TouchableWithoutFeedback, Text } from 'react-native';
 import styles from './styles';
 import Modal from 'react-native-modal';
 import { ajouter_produit_scan_put } from '../../../api'
-import { Icon } from 'react-native-elements'
-import Ticket from 'src/components/ComposantsVueTickets/DetailTicket/Ticket';
+
 
 function ajoutProduit(codebarre: string) {
     ajouter_produit_scan_put(codebarre);

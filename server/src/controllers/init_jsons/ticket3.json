@@ -1,0 +1,34 @@
+{
+    "donneesMagasin": {
+        "idCommerce": "1"
+    },
+    "donneesClient": {
+        "idClient": "1"
+    },
+    "donneesTicket": {
+        "achats": [
+
+            {
+                "codeBarre": "7613036024419",
+                "quantite": "2",
+                "prix": "4"
+            },
+            {
+                "codeBarre": "7613036761420",
+                "quantite": "5",
+                "prix": "3"
+            },
+            {
+                "codeBarre": "3307130803004",
+                "quantite": "1",
+                "prix": "2"
+            },
+            {
+                "codeBarre": "3451790988677 ",
+                "quantite": "4",
+                "prix": "1.5"
+            }
+
+        ]
+    }
+}

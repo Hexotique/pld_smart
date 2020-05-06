@@ -6,6 +6,7 @@ export type ContexteProp = {
     inscription: any;
     email: string;
     nomComplet: string;
+    token: string;
 }
 
 export const Contexte = createContext(<ContexteProp>({}));
