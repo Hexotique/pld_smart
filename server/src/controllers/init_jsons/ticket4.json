@@ -1,0 +1,99 @@
+{
+    "donneesMagasin": {
+        "idCommerce": "1"
+    },
+    "donneesClient": {
+        "idClient": "1"
+    },
+    "donneesTicket": {
+        "achats": [
+
+         
+            {
+                "codeBarre": "8000500037560",
+                "quantite": "1",
+                "prix": "2.5"
+            },
+            {
+                "codeBarre": "7613036024419",
+                "quantite": "1",
+                "prix": "4"
+            },
+            {
+                "codeBarre": "7613036761420",
+                "quantite": "2",
+                "prix": "3"
+            },
+            {
+                "codeBarre": "3307130803004",
+                "quantite": "1",
+                "prix": "2"
+            },
+            {
+                "codeBarre": "3564700309575 ",
+                "quantite": "1",
+                "prix": "3"
+            },
+            {
+                "codeBarre": "8715700423913 ",
+                "quantite": "1",
+                "prix": "2.5"
+            },
+            {
+                "codeBarre": "8715700421353 ",
+                "quantite": "3",
+                "prix": "3"
+            },
+            {
+                "codeBarre": "3038359007651 ",
+                "quantite": "1",
+                "prix": "3"
+            },
+            {
+                "codeBarre": "3451790988677 ",
+                "quantite": "1",
+                "prix": "1.5"
+            },
+            {
+                "codeBarre": "3155251205500 ",
+                "quantite": "1",
+                "prix": "2"
+            },
+            {
+                "codeBarre": "3252210390014 ",
+                "quantite": "2",
+                "prix": "1"
+            },
+            {
+                "codeBarre": "3533631572006 ",
+                "quantite": "1",
+                "prix": "1.3"
+            },
+            {
+                "codeBarre": "3248340054063 ",
+                "quantite": "1",
+                "prix": "1"
+            },
+            {
+                "codeBarre": "3068320114453 ",
+                "quantite": "1",
+                "prix": "1"
+            },
+            {
+                "codeBarre": "3228886048436 ",
+                "quantite": "5",
+                "prix": "2"
+            },
+            {
+                "codeBarre": "3088545004001 ",
+                "quantite": "2",
+                "prix": "1.5"
+            },
+            {
+                "codeBarre": "3012992421005 ",
+                "quantite": "1",
+                "prix": "30"
+            }
+        ]
+    }
+}
