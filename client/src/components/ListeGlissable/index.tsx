@@ -39,8 +39,6 @@ function ListeGlissable(props: ListeGlissableProps) {
             permetDefile={() => {}}
             enleveItem={() => props.enleveItem(item.id)}
             droite={props.droite}
-            checked={item.checked}
-
         >
             <View style={{
                 flex: 1,

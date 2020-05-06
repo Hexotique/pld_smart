@@ -18,7 +18,7 @@ import { RootStackParamList } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { ContexteProp, Contexte } from 'src/contexte';
+import { ContexteProp, Contexte } from '../../contexte';
 
 const modifications: Map<string, number> = new Map<string, number>();
 
