@@ -3,10 +3,15 @@ import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategoriePro
 import { json } from 'body-parser';
 import { Json } from 'sequelize/types/lib/utils';
 import sequelize, { Op } from 'sequelize';
+<<<<<<< HEAD
 import { ajout_achat_regulier } from './controleurAchatRegulier';
 
 const fetch = require("node-fetch");
 
+=======
+// 
+const fetch = require("node-fetch");
+>>>>>>> 1122a8c31f856bf75c29be58c232efb2f06d311d
 
 interface DonneesMagasin {
     idCommerce: number;
@@ -43,7 +48,7 @@ const retirer_AchatArticle_null = async (achats: Array<Achat>, articles: Array<A
             achat_tmp.destroy();
         }
     }
-  
+
 }
 
 // Crée un ticket
@@ -120,7 +125,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
                 quantites.push(achats[index].quantite);
             }
         }
-        
+
         //On enlève tous les achats qui sont null et leur articles associés
         await retirer_AchatArticle_null(achats, articles);
         
@@ -234,7 +239,7 @@ export const recuperer_tickets_get = async (req: Request, res: Response, next: N
 
         let message: any;
         Json: message = {
-            "Tickets": [ 
+            "Tickets": [
 
             ]
 
@@ -343,7 +348,6 @@ export const creerArticle = async (code: string) => {
     const url = `https://fr.openfoodfacts.org/api/v0/product/${code}.json`;
 
     try {
-
         const response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -430,8 +434,8 @@ export const creerArticle = async (code: string) => {
             (await cate?.addProduit(prod[0]));
         }
 
-        if (!prod[0].url_image){
-            prod[0].setAttributes({url_image : url_im});
+        if (!prod[0].url_image) {
+            prod[0].setAttributes({ url_image: url_im });
         }
 
         await (prod[0].addArticle(art));
