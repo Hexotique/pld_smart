@@ -6,24 +6,24 @@ const styles = StyleSheet.create({
      container: {
           flex: 1
      },
-     
+
      vueCentre: {
           flex: 1,
           justifyContent: "center",
           marginTop: 22,
-          
+
      },
      bouttons: {
           flexDirection: "row",
      },
-     supprimerModal:{
+     supprimerModal: {
           flexDirection: "row",
-          flex:0.6,
+          flex: 0.6,
           paddingLeft: 10,
      },
      fermerModal: {
           flexDirection: "row",
-          flex:0.4,
+          flex: 0.4,
           justifyContent: "flex-end",
           paddingRight: 10,
      },
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
      },
      boutonSuppr: {
           backgroundColor: "white",
-          borderRadius : 7,
+          borderRadius: 7,
      },
      modalConteneur: {
           backgroundColor: "#e5e5e5",

@@ -94,7 +94,7 @@ function Connexion({ route, navigation }: ConnexionProp) {
 
     return (
         <View style={{ flex: 1 }}>
-            <ImageBackground source={require('../../assets/fond-connexion.png')} style={styles.fondImage} >
+            <ImageBackground source={require('../../assets/fond-connexion.jpg')} style={styles.fondImage} >
             </ImageBackground>
             <View style={styles.fondTransparent}></View>
             <Animated.View style={[styles.titre, { bottom: bottomPositionTitre }]}><ConnexionTitre></ConnexionTitre></Animated.View>
