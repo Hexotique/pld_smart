@@ -1,6 +1,5 @@
-
-import React, { useContext, useState, useEffect } from 'react';
-import { SafeAreaView, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import GardeMangerListe from '../../components/GardeManger/GardeMangerListe';
 import { recupererContenuGardeMangerGet,
@@ -13,25 +12,24 @@ import { recupererContenuGardeMangerGet,
         Produit,
         ajouter_produit_alamano_put,
         AjoutJson} from '../../api';
-import { GardeMangerProp } from "../../navigator";
+import { RootStackParamList } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
-import { ContexteProp, Contexte } from '../../contexte'
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 const modifications: Map<string, number> = new Map<string, number>();
-const ajouts: Map<string, string> = new Map<string, string>();
 
-function GardeManger({ route, navigation }: GardeMangerProp) {
 
-    
+type GardeMangerProps = {
+    navigation: BottomTabNavigationProp<RootStackParamList, "GardeManger">;
+}
 
-    const contexte: ContexteProp = useContext(Contexte);
+function GardeManger(props: GardeMangerProps) {
+
     const [keyArrayState, setKeyArrayState] = useState(new Array<String>());
     const [itemMapState, setItemMapState] = useState(new Map<String, Array<itemGardeMangerJson>>());
     const [rafraichirFlatList, setRafraichirFlatList] = useState(false);
     const [produits, setProduits] = useState(new Map<string, Produit>());
-
-    
 
     const enleveItem = (nomCategorie: string, idItem: string) => {
         setItemMapState(itemMapState => {
@@ -46,7 +44,6 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
 
             return itemMapState;
         });
-        console.log(modifications);
         setRafraichirFlatList(!rafraichirFlatList);
     }
 
@@ -55,7 +52,6 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
             const tableauItems: Array<itemGardeMangerJson> | undefined = itemMapState.get(nomCategorie);
             if (tableauItems) {
                 const indexASupprimer: number = tableauItems.findIndex((item: itemGardeMangerJson) => item.idItem === idItem);
-                console.log(indexASupprimer);
                 if (indexASupprimer !== undefined) {
                     if(typeOperation === '-' && tableauItems[indexASupprimer].quantite > 0) tableauItems[indexASupprimer].quantite--;
                     else if(typeOperation === '+') tableauItems[indexASupprimer].quantite++;
@@ -64,11 +60,11 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
             }
             return itemMapState;
         });
-        console.log(modifications);
         setRafraichirFlatList(!rafraichirFlatList);
     }
 
     const ajouteProduit = (produit: Produit) => {
+        console.log(`ajout produit : ${produit.nom}`);
         const ajouts: AjoutJson = {
             ajouts: [
                 {
@@ -108,33 +104,32 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
                 console.error(error);
             });
     
-        }
+    }
         
-        const recupererProduitsBDD = () => {
-            recuperer_produits_get()
-                .then((produits: Produits) => {
-                    console.log(produits);
-                    produits.Produits.forEach((produit: Produit) => {
-                        setProduits(produits => produits.set(produit.idProduit, produit));
-                    })
-                }).catch(error => {
-                    console.error(error);
+    const recupererProduitsBDD = () => {
+        console.log('chargement liste de produits');
+        recuperer_produits_get()
+            .then((produits: Produits) => {
+                produits.Produits.forEach((produit: Produit) => {
+                    setProduits(produits => produits.set(produit.idProduit, produit));
                 })
+            }).catch(error => {
+                console.error(error);
+            })
     }
 
-    
     React.useEffect(() => {
         recupererProduitsBDD();
-        const unsubscribe = navigation.addListener('focus', () => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
             chargerGardeManger();
         });
         return unsubscribe;
-      }, [navigation]);
+      }, [props.navigation]);
 
     return (
         <GestureRecognizer
-            onSwipeRight={() => navGauche(navigation)}
-            onSwipeLeft={() => navDroite(navigation)}
+            onSwipeRight={() => navGauche(props.navigation)}
+            onSwipeLeft={() => navDroite(props.navigation)}
             style={{ flex: 1 }}>
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                 <Header indexe={2} />
@@ -149,12 +144,12 @@ function GardeManger({ route, navigation }: GardeMangerProp) {
                 >
                 </GardeMangerListe>
             </SafeAreaView>
-            <BarreNavigation indexe={2} navGauche={() => navGauche(navigation)} navDroite={() => navDroite(navigation)} boutonCentre={() => { actionCentre(navigation) }} />
+            <BarreNavigation indexe={2} navGauche={() => navGauche(props.navigation)} navDroite={() => navDroite(props.navigation)} boutonCentre={() => { actionCentre(props.navigation) }} />
         </GestureRecognizer>
     );
 }
 
-function actionCentre(nav: any) {
+const actionCentre = (nav: any) => {
     nav.navigate('Scanner');
     mettreAJourBack();
 }
@@ -163,6 +158,7 @@ const navGauche = (nav: any) => {
     nav.navigate('ListeTicket');
     mettreAJourBack();
 }
+
 const navDroite = (nav: any) => {
     nav.navigate('ListeCourse');
     mettreAJourBack();
@@ -175,11 +171,8 @@ const mettreAJourBack = () => {
         modificationsJson.modifications.push({idItem: idItem, quantite: quantite});
     });
     modifications.clear();
-    console.log(modificationsJson);
     modifier_quantite_post(modificationsJson);
 }
-
-
 
 export default GardeManger;
 
