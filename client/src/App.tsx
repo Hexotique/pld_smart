@@ -4,6 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View, Image, Vibration, Platform, ToastAndroid } from 'react-native';
 import Toast from 'react-native-simple-toast';
+import { StatusBar } from 'react-native';
+
+
 
 import { Tab } from './navigator';
 import { Contexte, ContexteProp } from './contexte';
@@ -20,6 +23,9 @@ type action = {
     type: string;
     [key: string]: any;
 }
+
+StatusBar.setBackgroundColor('white');
+StatusBar.setBarStyle('dark-content');
 
 export default function App() {
 
@@ -141,7 +147,7 @@ export default function App() {
 
     // Rendu de l'app
     return (
-        <Contexte.Provider value={{...authContext, email: state.email, nomComplet: state.nomComplet }}>
+        <Contexte.Provider value={{ ...authContext, email: state.email, nomComplet: state.nomComplet }}>
             <NavigationContainer>
                 <Tab.Navigator screenOptions={{ tabBarVisible: false }}>
                     {state.token ?
