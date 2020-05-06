@@ -1,8 +1,11 @@
-import React from 'react';
-import { FlatList, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { FlatList, View, Dimensions } from 'react-native';
 import Item from "../ListeTicketItem";
 import styles from './styles';
+import { recupererContenuListeTicketGet, ListeTickets, Ticket } from '../../../../api'
 
+//Décommenter quand on a besoin de beaucoup de tickets pour gérer le style (plus simple)
+/*
 const dataTicket = [
     {
         "id": "89375",
@@ -161,24 +164,39 @@ const dataTicket = [
         "date": "20/12/2020"
     },
 
-]
+]*/
+
+interface Propriete {
+    ticketArray: Array<Ticket>;
+    supprimerTicket: any;
+}
 
 
-function TicketListe() {
+function TicketListe(props: Propriete) {
     return (
         <View style={styles.liste}>
             <View >
                 <FlatList
                     contentContainerStyle={{ paddingBottom: 140 }}
-                    data={dataTicket}
+                    data={props.ticketArray}
+                    keyExtractor={(itemValue) => itemValue.idTicket.toString()}
                     horizontal={false}
                     numColumns={3}
-                    keyExtractor={(item, index) => item + index.toString()}
+                    renderItem={({ item }) => <Item
+                        supprimerTicket={() => props.supprimerTicket(item.idTicket)}
+                        idTicket={item.idTicket}
+                        prix={Math.round(Number(item.montant) * 100) / 100}
+                        commerce={item.nomGroupe}
+                        date={(item.date.substring(8, 10)).concat('/', item.date.substring(5, 7)).concat('/', item.date.substring(0, 4))}
+                    />
+                    //Avant le lien avec le back : (plus simple de décommenter si c'est pour gérer le style)
+                    /*data={dataTicket}
+                    keyExtractor={(item, index) => item + index.toString()}                    
                     renderItem={({ item }) => <Item
                         prix={item.prix}
                         commerce={item.commerce}
                         date={item.date}
-                    />}
+                    />*/}
                 />
 
             </View>

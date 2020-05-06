@@ -3,8 +3,10 @@ import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategoriePro
 import { json } from 'body-parser';
 import { Json } from 'sequelize/types/lib/utils';
 import sequelize, { Op } from 'sequelize';
-// 
+import { ajout_achat_regulier } from './controleurAchatRegulier';
 
+
+const fetch = require("node-fetch");
 
 interface DonneesMagasin {
     idCommerce: number;
@@ -41,7 +43,7 @@ const retirer_AchatArticle_null = async (achats: Array<Achat>, articles: Array<A
             achat_tmp.destroy();
         }
     }
-  
+
 }
 
 // Crée un ticket
@@ -118,10 +120,10 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
                 quantites.push(achats[index].quantite);
             }
         }
-        
+
         //On enlève tous les achats qui sont null et leur articles associés
         await retirer_AchatArticle_null(achats, articles);
-       
+        
         // récupération des produits associés à chaque article
         const produitsPromises: Array<Promise<Produit>> = new Array<Promise<Produit>>();
         for (const article of articles) {
@@ -130,9 +132,11 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         }
         const produits: Array<Produit> = await Promise.all(produitsPromises);
 
+        // Ajout aux achats régulier du client
+        await ajout_achat_regulier(client.id, new Set (produits));
+
         // Création du ticket
         const ticket: Ticket = await Ticket.create({ date_achat: new Date(), montant: montant });
-
 
         // Tableaux qui vont check que les relations ticket/achat/article sont bien réalisées en base
         const achatsAjoutesDansArticle: Array<Promise<void>> = new Array<Promise<void>>();
@@ -230,7 +234,7 @@ export const recuperer_tickets_get = async (req: Request, res: Response, next: N
 
         let message: any;
         Json: message = {
-            "Tickets": [ 
+            "Tickets": [
 
             ]
 
@@ -261,7 +265,7 @@ export const recuperer_tickets_get = async (req: Request, res: Response, next: N
     }
 }
 
-// Récupère tous les tickets d'un ticket
+// Récupère tous les détails d'un ticket
 // Nécessite : un id de ticket
 // Pas besoin de client car idTicket unique, les client dans le front ne peut accéder que à ses propres tickets
 export const recuperer_detail_ticket_get = async (req: Request, res: Response, next: NextFunction) => {
@@ -339,7 +343,6 @@ export const creerArticle = async (code: string) => {
     const url = `https://fr.openfoodfacts.org/api/v0/product/${code}.json`;
 
     try {
-
         const response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -358,6 +361,7 @@ export const creerArticle = async (code: string) => {
         let nom_produit: string = produit.product.product_name_fr ? produit.product.product_name_fr : produit.product.product_name;
         let marque: string = produit.product.brands_tags[0] ? produit.product.brands_tags[0] : "";
         let poids: string = produit.product.quantity ? produit.product.quantity : "";
+        let url_im: string = produit.product.image_url ? produit.product.image_url : null;
         let nom_article: string;
 
         if (poids && marque === "") {
@@ -425,7 +429,12 @@ export const creerArticle = async (code: string) => {
             (await cate?.addProduit(prod[0]));
         }
 
+        if (!prod[0].url_image) {
+            prod[0].setAttributes({ url_image: url_im });
+        }
+
         await (prod[0].addArticle(art));
+        await (prod[0].save());
         const tmp_art = (await art.reload());
         return tmp_art;
 

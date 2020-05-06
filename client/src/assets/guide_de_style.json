@@ -1,8 +1,8 @@
 {
     "Couleurs": {
-        "Fraise": "#d91f1fff",
-        "Banane": "#fbbd4cff",
-        "Peche": "#ec7552ff"
+        "Fraise": "rgba(217,31,31,1)",
+        "Banane": "#fbbd4c",
+        "Peche": "#ec7552"
     },
     "Polices": {
         "NomApp": "",

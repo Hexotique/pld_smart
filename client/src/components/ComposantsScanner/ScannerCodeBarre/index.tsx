@@ -23,15 +23,24 @@ function ScannerCodeBarre() {
     const [reconnaitreCode, setReconnaitreCode] = useState(true);
     const [articleScanne, setArtiCleScanne] = useState(['non reconnu', '../../assets/Flag_Blank.png'])
     const [montrerModal, setMontrerModal] = useState(false);
+    const [code, setCode] = useState('');
 
     const _codeBarreLu = (donnees: DonneesCodeBarre) => {
-        console.log(donnees.data);
+        setCode(donnees.data as string);
         setReconnaitreCode(false);
         recupererProduitViaCodeBarre(donnees.data)
             .then((res) => {
-                setArtiCleScanne([res.product.product_name, res.product.image_small_url]);
+                setArtiCleScanne([res.product.product_name, res.product.image_url]);
                 setMontrerModal(true);
+                console.log('je suis ouvert');
+            }).catch((error) => {
+                console.log(error);
+                setMontrerModal(false);
+                setReconnaitreCode(true);
+                setArtiCleScanne(['non reconnu', '../../assets/Flag_Blank.png']);
+                setMontrerModal(false);
             });
+
         //Alert.alert("data : " + donnees.data + "\nrawData : " + donnees.rawData + "\ntype : " + donnees.type);
     }
 
@@ -48,7 +57,7 @@ function ScannerCodeBarre() {
                 style={styles.rond}
                 onPress={() => { setflahAllume(!flashAllume) }}
             >
-                <Icon name={flashAllume ? iconOff : iconOn} size={rayon / 1.5} color={'#474747ff'} />
+                <Icon style={{ transform: [{ rotateZ: '45deg' }] }} name={flashAllume ? iconOff : iconOn} size={rayon / 1.5} color={'#474747ff'} />
             </TouchableHighlight>
             <RNCamera
                 style={styles.affichage}
@@ -58,7 +67,7 @@ function ScannerCodeBarre() {
                 flashMode={flashAllume ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
             >
             </RNCamera>
-            <ModalProduit show={montrerModal} close={onCloseHandler} nom={articleScanne[0]} url={articleScanne[1]} />
+            <ModalProduit show={montrerModal} close={onCloseHandler} nom={articleScanne[0]} url={articleScanne[1]} codebarre={code} />
         </View>
     );
 }
