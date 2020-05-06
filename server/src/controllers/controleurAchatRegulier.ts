@@ -1,5 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { Client, Produit, AchatRegulier } from '../database/models';
+import { Op } from 'sequelize';
+
+const NB_ELEMENTS_INTERVALLE: number = 10;
+const COEFFICIENT_CAP_MAX: number = 6;
+const COEFFICIENT_CAP_MIN: number = 3;
+const MARGE_MOYENNE : number = 1/3;
 
 interface Ajout {
     nomProduit: string
@@ -26,53 +32,183 @@ interface ListeCoursesJson {
     produits: Array<ProduitListeJson>
 }
 
-// Ajoute un produit à la liste de course
-// Nécessite : un nom de produit
-export const produit_ajouter_put = async (req: Request, res: Response, next: NextFunction) => {
+interface AchatRegulierJson {
+    nom?: string
+}
+
+interface ListeCourseJson {
+    ListeCourse: Array<AchatRegulierJson>
+}
+
+// Ajout les achatsrégulier
+// Nécessite :  un id client
+//              les produits associé aux achats
+ export const ajout_achat_regulier = async (idclient: number, produits: Set<Produit>) => {
+
     try {
-        console.log(req.body);
-        const reqAjouts: AjoutJson = req.body;
-        if (!reqAjouts.ajouts || reqAjouts.ajouts.length == 0) throw ('Rien à ajouter');//check la présence d'jouts à effectuer dans la requête
+        for (const produit of produits) {
+            const result = await AchatRegulier.findOrCreate({
+                where: {
+                    [Op.and]: [
+                        { ClientId: idclient },
+                        { ProduitId: produit.id }
+                    ]
+                },
+                defaults: {
+                    ClientId: idclient,
+                    ProduitId: produit.id,
+                    coefficient: 1,
+                    intervales: "",
+                    moyenne: 0,
+                    ecart_type: 0,
+                    date_dernier_achat: new Date()
+                }
+            });
+            const achatregulier = result[0];
 
-        // let listeCourse: Liste = await (req.user as Client).getListe();
+            //Si ce produit a déjà été acheté
+            if (!result[1]) {
+                let diff = Math.abs(Date.now() - achatregulier.date_dernier_achat.getTime());
+                let intervale: number = Math.round(Math.ceil(diff / (1000 * 3600 * 24)));
 
-        // for (const ajout of reqAjouts.ajouts) {
-        //     await ajouter(ajout.nomProduit, listeCourse);
-        // }
-        res.sendStatus(200);
+                let intervales: Array<number> = achatregulier.intervales.split(',').map(Number);
+                intervales.push(intervale);
+
+                if (achatregulier.intervales === "") { // cas de bord pour enlever le 0 qui est créé lors de la conversion string to Array
+                    intervales.shift();
+                }
+
+                //si on a aumoins 2 intervales <--> 3 achats
+                if (intervales.length >= 2) {
+                    if (intervales.length  > NB_ELEMENTS_INTERVALLE) {
+                        intervales.shift();
+                    }
+
+                    const moyenne = intervales.reduce((nbPrecedent, nbActuel) => nbPrecedent + nbActuel, 0) / achatregulier.intervales.length;
+                    let ecart: number = 0;
+
+                    //si moyenne, pas à 0, on calcule  l'écart type
+                    if (moyenne) {
+                        ecart = Math.sqrt(intervales.map(x => Math.pow(x - moyenne, 2)).reduce((a, b) => a + b) / achatregulier.intervales.length);
+                    }
+
+                    if (achatregulier.coefficient <= COEFFICIENT_CAP_MAX) {
+                        achatregulier.coefficient++;
+                    }
+
+                    achatregulier.moyenne = moyenne;
+                    achatregulier.ecart_type = ecart;
+                }
+
+                achatregulier.date_dernier_achat = new Date();
+                achatregulier.intervales = intervales.join(',');
+
+                await achatregulier.save();
+
+
+            }
+        }
     }
     catch (error) {
-        next(error);
+
     }
 }
 
-// Supprime un produit à la liste de course
-// Nécessite : un id de produit
-export const produit_supprimer_delete = async (req: Request, res: Response, next: NextFunction) => {
+
+// Nettoyage des achatsréguliers
+// Nécessite :  un id client
+export const clean_achat_regulier = async (idclient: number) => {
+
     try {
-        console.log(req.body);
-        const reqSuppression: SuppressionJson = req.body;
-        if (!reqSuppression.suppressions || reqSuppression.suppressions.length == 0) throw ('Rien à supprimer');//check la présence de suppressions à effectuer dans la requête
+        const achatsReguliersClient = await AchatRegulier.findAll({
+            where: {
+                ClientId: idclient
+            }
+        });
 
-        // let listeCourse: Liste = await (req.user as Client).getListe();
+        for (const achatRegulier of achatsReguliersClient) {
+            let intervales: Array<number> = achatRegulier.intervales.split(',').map(Number);    
+            let diff = Math.abs(Date.now() - achatRegulier.updatedAt.getTime());
+            let intervale: number = Math.round(Math.ceil(diff / (1000 * 3600 * 24)));
+            let difference_ponderee = 1;
 
-        // for (const suppression of reqSuppression.suppressions) {
-        //     await supprimer(suppression.idProduit, listeCourse);
-        // }
-        res.sendStatus(200);
+            if (achatRegulier.moyenne) {
+                difference_ponderee = (intervale - achatRegulier.moyenne) / achatRegulier.moyenne;
+            }
+
+            // Si aumoins deux intervalles
+            // Si l'écart est suffisament grand, on considère qu'il faut nettoyer les achats
+            if (intervales.length > 2 && difference_ponderee > 3/7) {
+                achatRegulier.coefficient > 0 ? achatRegulier.coefficient-- : 0;
+                intervales.shift();
+                achatRegulier.intervales = intervales.join(',');
+
+                if (intervales.length <= 2) {
+                    achatRegulier.moyenne = 0;
+                    achatRegulier.ecart_type = 0;
+                }
+
+                await achatRegulier.save();
+            }
+
+            // Si au plus deux intervales et dernier achat datant de plus de 70 jours, on efface 
+            else if (intervales.length <= 2 && intervale > 70) {
+                achatRegulier.destroy();
+            }
+        }
+        
+
+    } catch (error) {
+
     }
-    catch (error) {
-        next(error);
-    }
+
 }
 
-// Récupère la liste de courses avec le nom des produits qu'elle contient
-export const recuperer_get = async (req: Request, res: Response, next: NextFunction) => {
+export const recuperer_liste_course = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log(req);
-        res.status(200).json("TODO");
-    }
-    catch (error) {
+
+        const client = req.user as Client;
+
+        const achatsReguliersClient = await AchatRegulier.findAll({
+            where: {
+                [Op.and]: {
+                    ClientId: client.id
+                }
+            }
+        });
+
+        const reponse: ListeCourseJson = {
+            ListeCourse: []
+        }
+
+        for (const achatRegulier of achatsReguliersClient) {
+
+            let diff = Math.abs(Date.now() - achatRegulier.date_dernier_achat.getTime());
+            let intervale: number = Math.round(Math.ceil(diff / (1000 * 3600 * 24)));
+            let difference_ponderee = 1;
+            let ecart = 1;
+
+            if (achatRegulier.moyenne) {
+                difference_ponderee = Math.abs(achatRegulier.moyenne - intervale) / achatRegulier.moyenne;
+                ecart = achatRegulier.ecart_type/achatRegulier.moyenne;
+            }
+
+            if (achatRegulier.coefficient >= COEFFICIENT_CAP_MIN
+                && difference_ponderee < MARGE_MOYENNE && ecart < 0.3 ) { 
+
+                const produitAssocie: Produit | null = await Produit.findByPk(Number(achatRegulier.get("ProduitId")))
+                const achatJson: AchatRegulierJson = {
+                    nom: produitAssocie?.nom
+                }
+                reponse.ListeCourse.push(achatJson)
+            }
+        }
+        res.status(200).json(reponse);
+
+    } catch (error) {
         next(error);
     }
-}
+} 
+
+

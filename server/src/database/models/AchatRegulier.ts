@@ -5,16 +5,14 @@ import { Client } from "./Client";
 export class AchatRegulier extends Model {
     public id!: number;
     public coefficient!: number;
-    public intervales!: Array<number>;
-    public moyenne! : number;
+    public intervales!: string;
+    public moyenne!: number;
+    public ecart_type!: number; 
     public date_dernier_achat! : Date;
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 
-    // public getProduits!: HasManyGetAssociationsMixin<Produit>;
-    // public addProduit!: HasManyAddAssociationMixin<Produit, number>;
-    // public removeProduit!: HasManyRemoveAssociationMixin<Produit, number>;
 
 }
 
@@ -28,19 +26,23 @@ export const init_model_achatregulier = (sequelize: Sequelize) => {
             },
             coefficient: {
                 type: DataTypes.INTEGER,
-                allowNull: false
+                // allowNull: false
             },
             intervales: {
-                type: DataTypes.ARRAY(DataTypes.INTEGER),
-                allowNull: false
+                type: DataTypes.STRING,
+                // allowNull: false
             },
             moyenne: {
                 type: DataTypes.FLOAT,
-                allowNull: false
+                // allowNull: false
+            },
+            ecart_type: {
+                type: DataTypes.FLOAT,
+                // allowNull: false
             },
             date_dernier_achat: {
                 type: DataTypes.DATE,
-                allowNull: false
+                // allowNull: false
             }
         },
         {

@@ -3,6 +3,8 @@ import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategoriePro
 import { json } from 'body-parser';
 import { Json } from 'sequelize/types/lib/utils';
 import sequelize, { Op } from 'sequelize';
+import { ajout_achat_regulier } from './controleurAchatRegulier';
+// import { ajout_achat_regulier } from './controleurAchatRegulier';
 // 
 
 
@@ -121,7 +123,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         
         //On enlève tous les achats qui sont null et leur articles associés
         await retirer_AchatArticle_null(achats, articles);
-       
+        
         // récupération des produits associés à chaque article
         const produitsPromises: Array<Promise<Produit>> = new Array<Promise<Produit>>();
         for (const article of articles) {
@@ -129,6 +131,10 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
             produitsPromises.push(Produit.findByPk(article.get('ProduitId') as number));
         }
         const produits: Array<Produit> = await Promise.all(produitsPromises);
+
+        // Ajout aux achats régulier du client
+        
+        ajout_achat_regulier(client.id, new Set (produits));
 
         // Création du ticket
         const ticket: Ticket = await Ticket.create({ date_achat: new Date(), montant: montant });
