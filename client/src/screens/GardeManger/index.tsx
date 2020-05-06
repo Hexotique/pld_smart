@@ -181,13 +181,15 @@ const navDroite = (nav: any) => {
 }
 
 const mettreAJourBack = () => {
-    console.log("mise à jour du back");
-    const modificationsJson: ModificationJson = { modifications: [] };
-    modifications.forEach((quantite, idItem) => {
-        modificationsJson.modifications.push({ idItem: idItem, quantite: quantite });
-    });
-    modifications.clear();
-    modifier_quantite_post(modificationsJson);
+    if (modifications.size > 0) {
+        console.log("mise à jour du back");
+        const modificationsJson: ModificationJson = { modifications: [] };
+        modifications.forEach((quantite, idItem) => {
+            modificationsJson.modifications.push({ idItem: idItem, quantite: quantite });
+        });
+        modifications.clear();
+        modifier_quantite_post(modificationsJson);
+    }
 }
 
 export default GardeManger;

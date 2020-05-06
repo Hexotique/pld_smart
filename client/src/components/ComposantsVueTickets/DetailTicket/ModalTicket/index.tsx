@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, View, TouchableOpacity, Image, TouchableWithoutFeedback, Text, Vibration } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import styles from './styles';
 import Modal from 'react-native-modal';
 import { supprimer_ticket_delete } from '../../../../api';
 
+import { Alerte } from '../../../ComposantsGénériques/Alerte';
 
 
 export interface ModalTicketProps {
@@ -16,41 +17,24 @@ export interface ModalTicketProps {
 }
 
 function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
+    const [visible, setVisible] = useState(false);
 
-    const controlerSuppressionTicket = () => {
-        Alert.alert(
-            "Suppression du ticket",
-            "Etes-vous sûr de vouloir supprimer ce ticket ? Cette action est définitive.",
-            [
-                {
-                    text: 'Oui',
-                    onPress: () => {
-                        console.log('suppression ticket : ' + props.id);
-                        supprimer_ticket_delete(props.id)
-                            .then((succes) => {
-                                if (succes) {
-                                    props.supprimerTicket();
-                                    props.close()
-                                } else {
-                                    Toast.show('nous n\'avons pas pu effectuer la suppression', Toast.SHORT);
-                                    Vibration.vibrate([0, 80, 80, 80]);
-                                }
-                            })
-                            .catch((e) => {
-                                console.log(e);
-                                console.error(e);
-                            });
-                    }
-                },
-                {
-                    text: 'Annuler',
-                    onPress: () => {
-                        console.log("Annuler suppression ticket");
-                    },
-                    style: "cancel"
+    const supprimerTicket = () => {
+        console.log('suppression ticket : ' + props.id);
+        supprimer_ticket_delete(props.id)
+            .then((succes) => {
+                if (succes) {
+                    props.close();
+                    props.supprimerTicket();
+                } else {
+                    Toast.show('nous n\'avons pas pu effectuer la suppression', Toast.SHORT);
+                    Vibration.vibrate([0, 80, 80, 80]);
                 }
-            ]
-        );
+            })
+            .catch((e) => {
+                console.log(e);
+                console.error(e);
+            });
     }
 
     return (
@@ -67,8 +51,8 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
                             <View style={styles.modalConteneur}>
                                 <View style={styles.bouttons}>
                                     <View style={styles.supprimerModal}>
-                                        <TouchableOpacity onPress={controlerSuppressionTicket}>
-                                            <Text style={styles.boutonSuppr}>  SUPRIMER  </Text>
+                                        <TouchableOpacity onPress={() => setVisible(true)}>
+                                            <Text style={styles.boutonSuppr}>   SUPPRIMER   </Text>
                                         </TouchableOpacity>
                                     </View>
                                     <View style={styles.fermerModal}>
@@ -91,6 +75,17 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
                         </TouchableWithoutFeedback>
                     </View>
                 </TouchableOpacity >
+                <Alerte
+                    visible={visible}
+                    setVisible={setVisible}
+                    texte={"Etes-vous sûr de vouloir supprimer ce ticket ? Cette action est définitive."}
+                    couleur="#fbbd4c"
+                    funcValide={ () => {
+                        setVisible(false);
+                        supprimerTicket();
+                    }}
+                    funcAnnule={() => { setVisible(false) }}
+                />
             </Modal >
             : null
     );
