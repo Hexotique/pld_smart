@@ -1,17 +1,19 @@
 import React, { useState, useContext } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View, Image } from 'react-native';
 import Header from '../../components/ComposantsGénériques/Header';
 import GardeMangerListe from '../../components/GardeManger/GardeMangerListe';
-import { recupererContenuGardeMangerGet,
-        modifier_quantite_post,
-        GardeMangerJson,
-        ModificationJson,
-        itemGardeMangerJson, 
-        recuperer_produits_get,
-        Produits,
-        Produit,
-        ajouter_produit_alamano_put,
-        AjoutJson} from '../../api';
+import {
+    recupererContenuGardeMangerGet,
+    modifier_quantite_post,
+    GardeMangerJson,
+    ModificationJson,
+    itemGardeMangerJson,
+    recuperer_produits_get,
+    Produits,
+    Produit,
+    ajouter_produit_alamano_put,
+    AjoutJson
+} from '../../api';
 import { RootStackParamList } from "../../navigator";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import BarreNavigation from '../../components/ComposantsGénériques/BarreNavigation';
@@ -33,6 +35,7 @@ function GardeManger(props: GardeMangerProps) {
     const [itemMapState, setItemMapState] = useState(new Map<String, Array<itemGardeMangerJson>>());
     const [rafraichirFlatList, setRafraichirFlatList] = useState(false);
     const [produits, setProduits] = useState(new Map<string, Produit>());
+    const [chargement, setChargement] = useState(false);
 
     const enleveItem = (nomCategorie: string, idItem: string) => {
         setItemMapState(itemMapState => {
@@ -56,8 +59,8 @@ function GardeManger(props: GardeMangerProps) {
             if (tableauItems) {
                 const indexASupprimer: number = tableauItems.findIndex((item: itemGardeMangerJson) => item.idItem === idItem);
                 if (indexASupprimer !== undefined) {
-                    if(typeOperation === '-' && tableauItems[indexASupprimer].quantite > 0) tableauItems[indexASupprimer].quantite--;
-                    else if(typeOperation === '+') tableauItems[indexASupprimer].quantite++;
+                    if (typeOperation === '-' && tableauItems[indexASupprimer].quantite > 0) tableauItems[indexASupprimer].quantite--;
+                    else if (typeOperation === '+') tableauItems[indexASupprimer].quantite++;
                     modifications.set(idItem, tableauItems[indexASupprimer].quantite);
                 }
             }
@@ -81,8 +84,9 @@ function GardeManger(props: GardeMangerProps) {
         })
     }
 
-    const chargerGardeManger = ()=>{
+    const chargerGardeManger = () => {
         console.log("chargement garde manger");
+        setChargement(true);
         recupererContenuGardeMangerGet()
             .then((data: GardeMangerJson) => {
                 const itemMap: Map<String, Array<itemGardeMangerJson>> = new Map<String, Array<itemGardeMangerJson>>();
@@ -99,16 +103,16 @@ function GardeManger(props: GardeMangerProps) {
                     }
                 });
                 const keyArray: Array<String> = Array.from(itemMap.keys());
-    
+
                 setKeyArrayState(keyArray);
                 setItemMapState(itemMap);
-    
+                setChargement(false);
             }).catch((error) => {
                 console.error(error);
             });
-    
+
     }
-        
+
     const recupererProduitsBDD = () => {
         console.log('chargement liste de produits');
         recuperer_produits_get()
@@ -127,7 +131,7 @@ function GardeManger(props: GardeMangerProps) {
             chargerGardeManger();
         });
         return unsubscribe;
-      }, [props.navigation]);
+    }, [props.navigation]);
 
     return (
         <GestureRecognizer
@@ -136,16 +140,25 @@ function GardeManger(props: GardeMangerProps) {
             style={{ flex: 1 }}>
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                 <Header indexe={2} />
-                <GardeMangerListe 
-                    categories={keyArrayState}
-                    itemMap={itemMapState}  
-                    enleveItem = {enleveItem}
-                    rafraichirFlatList={rafraichirFlatList}
-                    modifieQuantite={modifieQuantite}
-                    produits={produits}
-                    ajouteProduit={ajouteProduit}
-                >
-                </GardeMangerListe>
+                {chargement ?
+                    (<>
+                        <View style={{ flex: 90, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
+                            <Image style={{ height: 100, width: 100 }} source={require('../../assets/load.gif')}></Image>
+                        </View>
+                    </>) : (<>
+                        <GardeMangerListe
+                            categories={keyArrayState}
+                            itemMap={itemMapState}
+                            enleveItem={enleveItem}
+                            rafraichirFlatList={rafraichirFlatList}
+                            modifieQuantite={modifieQuantite}
+                            produits={produits}
+                            ajouteProduit={ajouteProduit}
+                        >
+                        </GardeMangerListe>
+                    </>
+                    )
+                }
             </SafeAreaView>
             <BarreNavigation indexe={2} navGauche={() => navGauche(props.navigation)} navDroite={() => navDroite(props.navigation)} boutonCentre={() => { actionCentre(props.navigation) }} />
         </GestureRecognizer>
@@ -169,9 +182,9 @@ const navDroite = (nav: any) => {
 
 const mettreAJourBack = () => {
     console.log("mise à jour du back");
-    const modificationsJson: ModificationJson = {modifications: []};
+    const modificationsJson: ModificationJson = { modifications: [] };
     modifications.forEach((quantite, idItem) => {
-        modificationsJson.modifications.push({idItem: idItem, quantite: quantite});
+        modificationsJson.modifications.push({ idItem: idItem, quantite: quantite });
     });
     modifications.clear();
     modifier_quantite_post(modificationsJson);
