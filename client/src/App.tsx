@@ -7,7 +7,7 @@ import Toast from 'react-native-simple-toast';
 
 import { Tab } from './navigator';
 import { Contexte, ContexteProp } from './contexte';
-import { inscription_client_put, Client, connexion_client_post } from './api';
+import { inscription_client_put, Client, connexion_client_post, setToken } from './api';
 import GardeManger from "./screens/GardeManger";
 import ListeCourse from "./screens/ListeCourse";
 import ListeTicket from "./screens/ListeTicket";
@@ -49,6 +49,7 @@ export default function App() {
             switch (action.type) {
                 //Au lancement de l'app pour récupérer le token dans le cach de l'app
                 case 'RESTORE_CLIENT':
+                    setToken(action.token);
                     return {
                         ...prevState,
                         email: action.email,
@@ -58,6 +59,7 @@ export default function App() {
                     };
                 //A la connexion ou l'inscription ou au premier démarage de l'app
                 case 'SIGN_IN':
+                    setToken(action.token);
                     setClient({
                         email: action.email,
                         nomComplet: action.nomComplet,

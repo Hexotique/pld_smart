@@ -1,6 +1,12 @@
-import { userToken, APIBaseURL } from './configApi';
+import { APIBaseURL } from './configApi';
 
 //Json pour le garde manger 
+
+var userToken: string = "";
+
+export function setToken(token: string) {
+    userToken = token;
+}
 
 export interface itemGardeMangerJson {
     idItem: string,
@@ -280,7 +286,19 @@ export function inscription_client_put(client: Client): Promise<Client> {
         });
 }
 
-
-
-
-
+export async function achat_regulier_get() {
+    const url: RequestInfo = `${APIBaseURL}/achat-regulier/recuperer`;
+    try {
+        const response = await _setHTTPMethod(url, 'GET');
+        console.log('res : ' + response.status);
+        switch (response.status) {
+            case 200: //succès
+                return response.json();
+            default:
+                return null;
+        }
+    }
+    catch (error) {
+        console.error(error);
+    }
+}

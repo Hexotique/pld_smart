@@ -33,6 +33,7 @@ function BarreNavigation(props: Propriete) {
             icon1 = guide_de_style.Icones.Garde_Manger;
             icon2 = guide_de_style.Icones.Liste_Courses;
             icon3 = guide_de_style.Icones.Tickets;
+            f = props.boutonCentre;
             // fonction1 = () => { };
             // fonction2 = () => { };
             // fonction3 = () => { };

@@ -1,2 +1,2 @@
-export const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJndWlsaGVtLmhlcm1ldEBoZXhvdGlxdWUuY29tIiwiaWF0IjoxNTg4MjY2NTMxfQ.bwG2H6MDx_504E7ZthsgaYB9WQMgkSfQsh8UpuFlfuM";
+export const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJjaGFuZWxlLmpvdXJkYW5AaGV4b3RpcXVlLmNvbSIsImlhdCI6MTU4ODc2MDM2M30.zxQ7Q-AooUTNpePyGKgS4u6GTppg-xpReMTGweZJ__A";
 export const APIBaseURL = 'http://10.0.2.2:3000/api';
