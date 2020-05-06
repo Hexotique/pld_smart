@@ -151,7 +151,13 @@ export default function App() {
                     Toast.show('Inscription impossible', Toast.SHORT)
                     Vibration.vibrate([0, 80, 80, 80])
                 } else {
+                    const nouveauClient = {
+                        email: client.email,
+                        nomComplet: `${client.prenom} ${client.nom}`,
+                        token: client.token
+                    }
                     updateState({ type: 'SIGN_IN', ...client });
+                    setClient(nouveauClient);
                 }
             })
             .catch((error) => {
