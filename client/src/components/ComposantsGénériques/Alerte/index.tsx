@@ -31,7 +31,7 @@ export function Alerte(props: PropsWithChildren<AlerteProps>) {
                 <Text style={{
                     padding: 20,
                     textAlign: 'center',
-                    color: 'rgba(217,31,31,1)',
+                    color: props.couleur,
                     fontFamily: 'Comfortaa-Bold'
                 }}>
                     {props.texte}
