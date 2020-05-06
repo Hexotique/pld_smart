@@ -5,19 +5,23 @@ const rem: number = entireScreenWidth / 380;
 
 const styles = StyleSheet.create({
     conteneur_entete: {
-        flex: 10,
         flexDirection: 'column',
         backgroundColor: 'white',
-        paddingLeft: '2%',
-        //height: '9%',
-        marginBottom: 10 * rem
+        height: entireScreenWidth / 4,
+        marginBottom: 10 * rem,
+        zIndex: 10
     },
     ligne1: {
-        marginTop: 1 * rem,
-        marginRight: '7%',
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
+        backgroundColor: 'white',
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        elevation: 3,
+        zIndex: 100,
+        paddingLeft: 20 * rem,
+        paddingRight: 20 * rem
     },
     ligne2: {
         flex: 1,
@@ -29,8 +33,8 @@ const styles = StyleSheet.create({
         flex: 8,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: "flex-start"
-
+        justifyContent: "flex-start",
+        
     },
     conteneur_boutton_triangle: {
         flex: 2,
@@ -42,8 +46,28 @@ const styles = StyleSheet.create({
         //flex: 15,
         fontFamily: "Lobster-Regular",
         fontSize: 22 * rem,
-        
-    }
+    },
+    profil: {
+        position: 'absolute',
+        width: entireScreenWidth,
+        zIndex: 5,
+        elevation: 3
+    },
+    logo: {
+        height: 27 * rem,
+        width: 32 * rem
+    },
+    triangle: {
+        width: 0,
+        height: 0,
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderLeftWidth: 8 * rem,
+        borderRightWidth: 8 * rem,
+        borderTopWidth: 14 * rem,
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent'
+      },
 });
 
 export default styles;
