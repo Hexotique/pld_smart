@@ -9,6 +9,7 @@ import { supprimer_ticket_delete } from '../../../../api';
 
 export interface ModalTicketProps {
     show: boolean;
+    chargement: boolean;
     close: any;
     id: number;
     supprimerTicket: any;
@@ -76,7 +77,16 @@ function ModalTicket(props: React.PropsWithChildren<ModalTicketProps>) {
                                         </TouchableOpacity>
                                     </View>
                                 </View>
-                                {props.children}
+                                {props.chargement ?
+                                    (<>
+                                        <View style={{ flex: 1, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: "#e5e5e5" }}>
+                                            <Image style={{ width: '40%', resizeMode: 'contain', marginBottom: '20%', backgroundColor: "#e5e5e5", }} source={require('../../../../assets/load.gif')}></Image>
+                                        </View>
+                                    </>) : (<>
+                                        {props.children}
+                                    </>
+                                    )
+                                }
                             </View>
                         </TouchableWithoutFeedback>
                     </View>

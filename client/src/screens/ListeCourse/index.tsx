@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { SafeAreaView, Text, NativeSyntheticEvent, TextInputSubmitEditingEventData, View, Dimensions } from 'react-native';
+import { SafeAreaView, Text, NativeSyntheticEvent, TextInputSubmitEditingEventData, View, Dimensions, Image } from 'react-native';
 import ListeGlissable from '../../components/ListeGlissable';
 import Header from '../../components/ComposantsGénériques/Header';
 import { ListeCourseProp } from "../../navigator";
@@ -21,8 +21,10 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
     const [texteAjout, setTexteAjout] = useState("");
     const [setItems, setSetItems] = useState(new Set());
     const [listeItems, setListeItems] = useState([] as Array<{ id: string, checked: boolean }>);
+    const [chargement, setChargement] = useState(false);
 
     const recupStorage = async () => {
+        setChargement(true);
         try {
             const liste = await AsyncStorage.getItem("listeCourse");
             const set = await AsyncStorage.getItem("setItems");
@@ -33,15 +35,19 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
         } catch (e) {
             console.error(e);
         }
+        setChargement(false);
+
     }
 
     const modifStorage = async () => {
+        setChargement(true);
         try {
             await AsyncStorage.setItem("listeCourse", JSON.stringify(listeItems));
             await AsyncStorage.setItem("setItems", JSON.stringify(Array.from(setItems)));
         } catch (e) {
             console.error(e);
         }
+        setChargement(false);
     }
 
     useEffect(() => {
@@ -106,39 +112,48 @@ function ListeCourse({ route, navigation }: ListeCourseProp) {
                 onSwipeLeft={() => { navDroite(navigation) }}>
                 <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                     <Header indexe={1} />
-                    <View style={{ flex: 90 }}>
-                        <TextInput
-                            style={{
-                                height: 50,
-                                backgroundColor: "#fff2ee",
-                                textAlign: 'center'
-                            }}
-                            placeholder="Ajoutez un item..."
-                            value={texteAjout}
-                            onChangeText={setTexteAjout}
-                            onSubmitEditing={onSubmitHandler}
-                        />
-                        <ListeGlissable
-                            donnee={listeItems}
-                            setDonnee={setListeItems}
-                            enleveItem={enleveItem}
-                            droite={
-                                <React.Fragment>
-                                    <Text
-                                        numberOfLines={1}
-                                        ellipsizeMode='clip'
-                                        style={{
-                                            color: 'white',
-                                            fontWeight: 'bold',
-                                            fontFamily: 'Sans Serif'
-                                        }}
-                                    >
-                                        SUPPRIMER
+                    {chargement ?
+                        (<>
+                            <View style={{ flex: 90, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
+                                <Image style={{ width: '40%', resizeMode: 'contain', marginBottom: '20%' }} source={require('../../assets/load.gif')}></Image>
+                            </View>
+                        </>) : (<>
+                            <View style={{ flex: 90 }}>
+                                <TextInput
+                                    style={{
+                                        height: 50,
+                                        backgroundColor: "#fff2ee",
+                                        textAlign: 'center'
+                                    }}
+                                    placeholder="Ajoutez un item..."
+                                    value={texteAjout}
+                                    onChangeText={setTexteAjout}
+                                    onSubmitEditing={onSubmitHandler}
+                                />
+                                <ListeGlissable
+                                    donnee={listeItems}
+                                    setDonnee={setListeItems}
+                                    enleveItem={enleveItem}
+                                    droite={
+                                        <React.Fragment>
+                                            <Text
+                                                numberOfLines={1}
+                                                ellipsizeMode='clip'
+                                                style={{
+                                                    color: 'white',
+                                                    fontWeight: 'bold',
+                                                    fontFamily: 'Sans Serif'
+                                                }}
+                                            >
+                                                SUPPRIMER
                                 </Text>
-                                </React.Fragment>
-                            }
-                        />
-                    </View>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </View>
+                        </>
+                        )
+                    }
                 </SafeAreaView>
                 <BarreNavigation
                     navGauche={() => navGauche(navigation)}

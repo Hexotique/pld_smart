@@ -143,7 +143,7 @@ function GardeManger(props: GardeMangerProps) {
                 {chargement ?
                     (<>
                         <View style={{ flex: 90, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
-                            <Image style={{ height: 100, width: 100 }} source={require('../../assets/load.gif')}></Image>
+                            <Image style={{ width: '40%', resizeMode: 'contain', marginBottom: '20%' }} source={require('../../assets/load.gif')}></Image>
                         </View>
                     </>) : (<>
                         <GardeMangerListe
