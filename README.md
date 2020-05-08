@@ -1,5 +1,14 @@
 # PLD SMART - Pot d'Yaourt
 
+Un projet de l'équipe Hexotique :
+ - Romane Khalifa--Fauchon
+ - Rahul Ramsaha
+ - Guilhem Hermet
+ - Antony Martin
+ - Teck Wan Wong
+ - Chanèle Jourdan
+ - Maxime Woirin
+
 ### Présentation du Sujet
 Actuellement, à chaque achat, un ticket de caisse papier est imprimé et souvent perdu dans la journée. Comment garder une preuve de son achat et une trace des produits achetés sans consommer du papier ?
 
@@ -39,11 +48,30 @@ Insérer des tickets dans la BDD (interface commerces) | Oui, simulable via l'AP
 
 ### IHM
 
-![Vue liste de tickets]
-(https://github.com/Hexotique/pld_smart/blob/master/ressources/listeTickets.jpg)
+<p float="left">
+ <img src="https://github.com/Hexotique/pld_smart/blob/master/ressources/listeTickets.jpg" width="180" height="380">
 
-![Vue liste de tickets]
-(https://github.com/Hexotique/pld_smart/blob/master/ressources/listeTickets.jpg)
+ <img src="https://github.com/Hexotique/pld_smart/blob/master/ressources/gardeMANGER.jpg" width="180" height="380">
 
-![Vue liste de tickets]
-(https://github.com/Hexotique/pld_smart/blob/master/ressources/listeCourses.jpg)
+ <img src="https://github.com/Hexotique/pld_smart/blob/master/ressources/listeCourses.jpg" width="180" height="380">
+</p>
+
+
+### Procédure d'installation
+
+ATTENTION : l'application n'est disponible que pour Android pour le moment !   
+
+ATTENTION 2 : Le serveur pour faire fonctionner l'application sera arrêté 31 mai 2020
+
+1. Télécharger l'apk de l'application au lien ci dessus
+2. Copier le fichier sur votre téléphone
+3. L'ouvrir sur votre téléphone
+4. Accepter toutes les demandes d'autorisations
+
+### Ressources Complémentaires
+
+Lien de l'apk pour l'installation : https://drive.google.com/open?id=1L7D2WYMB7xutfmske0PCsqEUfgehKdxz    
+
+Lien de la Vidéo de présentation : https://www.youtube.com/watch?v=2KpjHpVoTaA   
+
+Lien de la présentation : https://prezi.com/view/vc2Cy82WGj3ykxfr9JVc/
