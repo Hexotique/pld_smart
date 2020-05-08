@@ -27,8 +27,9 @@ Example: to invoke the function named creerClient: `PUT https://BASEURL/api/clie
 | supprimer_produit_delete  | DELETE  | Supprimer un produit du garde-manger d'un client | api/garde-manger/supprimer-produit  | idproduit | OK |
 | recuperer-produits  | GET  | récupérer les produits | api/garde-manger/recuperer-produits  | null | {"Produits": [{"idProduit": "1","nom": "Pates","categorie": {"idCategorie": "1", "nomCategorie": "Feculents"}}]} |
 
-### Liste de courses
+
+### Achats réguliers
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
 |-------------------|------|----------------------------------------|-----------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| ajouter_produit_put  | PUT | ajoute un produit saisi par l'utilisateur à la liste de courses (V0) | api/liste-courses/ajouter-produit  | nomproduit | {message: Success} |
-| supprimer_produit_delete  | DELETE | supprime un produit de la liste de courses | api/liste-courses/supprimer-produit  | idproduit | {message: Success} |
+| recuperer_liste_course  | GET | ajoute un produit saisi par l'utilisateur à la liste de courses (V0) | api/achat-regulier/recuperer  | null | {ListeCourse: [{nom: 'eau de source}, {...}]} |
+| 
