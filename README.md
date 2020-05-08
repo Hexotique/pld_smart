@@ -1,5 +1,7 @@
 # PLD SMART - Pot d'Yaourt
 
+<img src="https://github.com/Hexotique/pld_smart/blob/master/ressources/logogif.gif" >
+
 Un projet de l'équipe Hexotique :
  - Romane Khalifa--Fauchon
  - Rahul Ramsaha
