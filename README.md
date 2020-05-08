@@ -40,10 +40,10 @@ Insérer des tickets dans la BDD (interface commerces) | Oui, simulable via l'AP
 ### IHM
 
 ![Vue liste de tickets]
-(/ressources/listeTickets.jpg)
+(https://github.com/Hexotique/pld_smart/blob/master/ressources/listeTickets.jpg)
 
 ![Vue liste de tickets]
-(/ressources/listeTickets.jpg)
+(https://github.com/Hexotique/pld_smart/blob/master/ressources/listeTickets.jpg)
 
 ![Vue liste de tickets]
-(/ressources/listeCourses.jpg)
+(https://github.com/Hexotique/pld_smart/blob/master/ressources/listeCourses.jpg)
