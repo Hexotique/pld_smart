@@ -32,4 +32,3 @@ Example: to invoke the function named creerClient: `PUT https://BASEURL/api/clie
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
 |-------------------|------|----------------------------------------|-----------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | recuperer_liste_course  | GET | ajoute un produit saisi par l'utilisateur à la liste de courses (V0) | api/achat-regulier/recuperer  | null | {ListeCourse: [{nom: 'eau de source}, {...}]} |
-| 
