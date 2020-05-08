@@ -48,8 +48,9 @@ Insérer des tickets dans la BDD (interface commerces) | Oui, simulable via l'AP
 
 ### IHM
 
-<img src="![Vue liste de ticket](https://github.com/Hexotique/pld_smart/blob/master/ressources/listeTickets.jpg)" width="200" height="100">
+<img src="https://github.com/Hexotique/pld_smart/blob/master/ressources/listeTickets.jpg" width="200" height="100">
 
+![Vue liste de ticket](https://github.com/Hexotique/pld_smart/blob/master/ressources/listeTickets.jpg)
 
 ![Vue Garde Manger](https://github.com/Hexotique/pld_smart/blob/master/ressources/gardeMANGER.jpg)
 
