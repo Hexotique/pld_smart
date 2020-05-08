@@ -22,11 +22,12 @@ Example: to invoke the function named creerClient: `PUT https://BASEURL/api/clie
 ### Garde-manger
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
 |-------------------|------|----------------------------------------|-----------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| modifier_quantite_post  | POST  | modifie la quantité ou supprime un produit du garde-manger | api/garde-manger/supprimer-produit  | idproduit, quantite | {message: Success} |
-| ajouter_produit_alamano_put  | PUT  | ajouter un produit au garde-manger saisi par l'utilisateur (V0) | api/garde-manger/ajouter-produit-alamano  | nomproduit, quantite | {message: Success} |
+| modifier_quantite_post  | POST  | modifie la quantité ou supprime des produits du garde-manger | api/garde-manger/supprimer-produit  | {modifications:[{idItem : "15252", quantite : "5"} ,{...} , ...]} | {message: Success} |
+| ajouter_produit_alamano_put  | PUT  | ajouter des produits au garde-manger saisi par l'utilisateur (V0) | api/garde-manger/ajouter-produit-alamano  | {Ajouts:[{"nomProduit:"Cacao", quanite:"5"},{...}, ...]} | {message: Success} |
 | recuperer_contenu_get  | GET  | récupérer les produits dans le garde manger d'un client | api/garde-manger/recuperer-contenu  | null | {produits : [{nomProduit: "Litre de lait", quantite: 3, categorie: "Produits laitiers"}, {..}]} |
-| supprimer_produit_delete  | DELETE  | Supprimer un produit du garde-manger d'un client | api/garde-manger/supprimer-produit  | idproduit | OK |
+| supprimer_produit_delete  | DELETE  | Supprimer un produit du garde-manger d'un client | api/garde-manger/supprimer-produit/idproduit  | null | OK |
 | recuperer-produits  | GET  | récupérer les produits | api/garde-manger/recuperer-produits  | null | {"Produits": [{"idProduit": "1","nom": "Pates","categorie": {"idCategorie": "1", "nomCategorie": "Feculents"}}]} |
+| ajouter_produit_scan_put  | PUT  | ajouter un produit grâce à son code barre après l'avoir scanné | api/garde-manger//scan-article/:codebar  | null | {message: Success} |
 
 ### Liste de courses
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
