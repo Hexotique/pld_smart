@@ -16,7 +16,6 @@ Example: to invoke the function named creerClient: `PUT https://BASEURL/api/clie
 | supprimer_ticket_delete  | DELETE  | supprime un ticket de la BD                 | api/ticket/supprimer-ticket/:idticket  | null   | null |
 | recuperer_tickets_get  | GET | Récupère la liste de tickets de l'utilisateur dans la BD                 | api/ticket/recuperer-tickets  | null | {"Tickets": [{idTicket: '1', montant: '10', nomGroupe: 'Auchan', date: '12/04/2020'}, {...}]} |
 | recuperer_detail_ticket_get  | GET | récupère un ticket dans la BD  | api/ticket/recuperer-detail-ticket/:idticket  | null    | {groupe: {nom: 'Carrefour'}, commerce: {nom: 'Carrefour Market'}, donneesTicket: {idTicket: '1', montant: '100', date: '12/04/2020', achats: [{nomArticle: 'lait', nomCategorieProduit: 'Produits laitiers', quantite: '2', prix: '1.2'}, {...}]}} |
-|
 
 ### Garde-manger
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
