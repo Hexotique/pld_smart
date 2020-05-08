@@ -9,7 +9,7 @@ Un projet de l'équipe Hexotique :
  - Antony Martin
  - Teck Wan Wong
  - Chanèle Jourdan
- - Maxime Woirin  <img src="https://github.com/Hexotique/pld_smart/blob/master/ressources/logogif.gif" >
+ - Maxime Woirin   <p float="left"> <img src="https://github.com/Hexotique/pld_smart/blob/master/ressources/logogif.gif" > </p>
 
 ### Présentation du Sujet
 Actuellement, à chaque achat, un ticket de caisse papier est imprimé et souvent perdu dans la journée. Comment garder une preuve de son achat et une trace des produits achetés sans consommer du papier ?
