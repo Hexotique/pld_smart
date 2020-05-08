@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { Ticket, Article, Client, Commerce, Achat, Groupe, Produit, CategorieProduit, Item, GardeManger } from '../database/models';
-import { json } from 'body-parser';
-import { Json } from 'sequelize/types/lib/utils';
 import sequelize, { Op } from 'sequelize';
 import { ajout_achat_regulier } from './controleurAchatRegulier';
 

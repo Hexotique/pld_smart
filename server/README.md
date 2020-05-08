@@ -4,20 +4,19 @@
 Example: to invoke the function named creerClient: `PUT https://BASEURL/api/client/creerclient`
 
 ### Client
-| Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
+| Name              | Type | Description                            | URL             | Body		| Example response                                                                                                                      |
 |-------------------|------|----------------------------------------|-----------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| inscrireClient  | PUT  | crée un client dans la BD                 | api/client/inscription  | email, mdp, nom, prenom               | {idClient: 1, email: 'abu@ama.com', mdp:'!@#321', nom: 'abu', prenom: 'whut'} |
-| connecterClient  | POST  | connecte un client  | api/client/connexion  | email, mdp | {email: 'abu@ali.com',token: '@#!abcd'} |
+| inscription_client_put  | PUT  | crée un client dans la BD                 | api/client/inscription  | {email: '123@hexotique.com', mdp: '123' , nom: 'Jean', prenom: 'Dupont'}               | {email: '123@hexotique.com', nom: 'Jean', prenom: 'Dupont', token: 'abcde'} |
+| connexion_client_post  | POST  | connecte un client  | api/client/connexion  | {email: '123@hexotique.com', mdp: '123'} | {email: '123@hexotique.com', nom: 'Jean', prenom: 'Dupont', token: 'abcde'} |
 
 ### Ticket
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |
 |-------------------|------|----------------------------------------|-----------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| creer_ticket_put  | PUT  | crée un ticket dans la BD                 | api/ticket/creer  | idlient, idagasin             | {message: Success, idTicket: 1} |
-| supprimer_ticket_delete  | DELETE  | supprime un ticket de la BD                 | api/ticket/supprimer-ticket  | idticket    | {message: Success} |
-| recuperer_tickets_get  | GET | récupère un ticket dans la BD                 | api/ticket/recuperer-tickets  | null | {"tickets": [{idTicket: 1, montant: 10, commerce: "Auchan"}, {...}]} |
-| recuperer_detail_ticket_get  | GET | récupère un ticket dans la BD  | api/ticket/recuperer-detail-ticket  | idticket    | {"ticket": {montant: 15, commerce: "Auchan", dateAchat: "13/05/2016"}, "achats": [{nomArticle: "beurre doux", quantite: 3, prix: 2, categorie: "Produits laitiers"}, {..}]} |
-| ajouterArticleTicket  | PUT | Ajoute un article au ticket  | api/ticket/ajouterarticleticket  | idTicket, codeBarre, quantite, prix    | {message: "Success"} |
-| validerCreationTicket  | PUT | Valide l'ajout des articles achetés au garde manger du client et au ticket.  | api/ticket/validerticket  | idTicket  | {message: "Success"} |
+| creer_ticket_put  | PUT  | crée un ticket dans la BD                 | api/ticket/creer-ticket  | {donneesMagasin: {idCommerce: '1'}, donneesClient: {idClient: '1'}, donneesTicket: {achats: [{codeBarre: '489814', quantite: '2', prix: '3,5'}, {...}]}}             | {id: '1', date_achat: '12/04/2020', montant: '120', createdAt: '12/04/2020', updatedAt: '12/04/2020'} |
+| supprimer_ticket_delete  | DELETE  | supprime un ticket de la BD                 | api/ticket/supprimer-ticket/:idticket  | null   | null |
+| recuperer_tickets_get  | GET | Récupère la liste de tickets de l'utilisateur dans la BD                 | api/ticket/recuperer-tickets  | null | {"Tickets": [{idTicket: '1', montant: '10', nomGroupe: 'Auchan', date: '12/04/2020'}, {...}]} |
+| recuperer_detail_ticket_get  | GET | récupère un ticket dans la BD  | api/ticket/recuperer-detail-ticket/:idticket  | null    | {groupe: {nom: 'Carrefour'}, commerce: {nom: 'Carrefour Market'}, donneesTicket: {idTicket: '1', montant: '100', date: '12/04/2020', achats: [{nomArticle: 'lait', nomCategorieProduit: 'Produits laitiers', quantite: '2', prix: '1.2'}, {...}]}} |
+|
 
 ### Garde-manger
 | Name              | Type | Description                            | URL             | Parameters         | Example response                                                                                                                      |

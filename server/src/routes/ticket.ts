@@ -14,9 +14,6 @@ router.get('/recuperer-tickets', passport.authenticate('jwt', { session: false }
 router.get('/recuperer-detail-ticket/:idticket', passport.authenticate('jwt', { session: false }), controleurTicket.recuperer_detail_ticket_get);
 
 //route de test
-// router.get('/test', controleurTicket.test_ticket);
-
-// router.put('/testarticle', controleurTicket.test_creation_article);
 
  router.put('/testcommerce', controleurTicket.test_creation_commerce);
 
