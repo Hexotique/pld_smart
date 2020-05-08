@@ -1,13 +1,15 @@
 # PLD SMART - Pot d'Yaourt
 
-Un projet de l'équipe Hexotique :
+
+
+Un projet de l'équipe Hexotique :                   
  - Romane Khalifa--Fauchon
  - Rahul Ramsaha
  - Guilhem Hermet
  - Antony Martin
  - Teck Wan Wong
  - Chanèle Jourdan
- - Maxime Woirin
+ - Maxime Woirin   <img   align="right" src="https://github.com/Hexotique/pld_smart/blob/master/ressources/logogif.gif" >
 
 ### Présentation du Sujet
 Actuellement, à chaque achat, un ticket de caisse papier est imprimé et souvent perdu dans la journée. Comment garder une preuve de son achat et une trace des produits achetés sans consommer du papier ?
