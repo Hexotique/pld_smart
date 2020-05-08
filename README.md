@@ -56,7 +56,8 @@ Insérer des tickets dans la BDD (interface commerces) | Oui, simulable via l'AP
 
 ### Procédure d'installation
 
-ATTENTION : l'application n'est disponible que pour Android pour le moment !
+ATTENTION : l'application n'est disponible que pour Android pour le moment !   
+
 ATTENTION 2 : Le serveur pour faire fonctionner l'application sera arrêté 31 mai 2020
 
 1. Télécharger l'apk de l'application au lien ci dessus
@@ -66,6 +67,8 @@ ATTENTION 2 : Le serveur pour faire fonctionner l'application sera arrêté 31 m
 
 ### Ressources Complémentaires
 
-Lien de l'apk pour l'installation : 
-Lien de la Vidéo de présentation : https://www.youtube.com/watch?v=2KpjHpVoTaA
+Lien de l'apk pour l'installation : https://drive.google.com/open?id=1L7D2WYMB7xutfmske0PCsqEUfgehKdxz    
+
+Lien de la Vidéo de présentation : https://www.youtube.com/watch?v=2KpjHpVoTaA   
+
 Lien de la présentation : https://prezi.com/view/vc2Cy82WGj3ykxfr9JVc/
