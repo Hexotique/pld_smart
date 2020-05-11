@@ -5,6 +5,7 @@ import routesAchatRegulier from './achatRegulier';
 import routesGardeManger from './gardeManger';
 import routesTicket from './ticket';
 import routesTest from './test';
+import routesCommerce from './commerce';
 
 export const init_rt = (app: express.Application) => {
     app.use('/api/client', authRoutes);
@@ -12,5 +13,6 @@ export const init_rt = (app: express.Application) => {
     app.use('/api/garde-manger', routesGardeManger);
     app.use('/api/ticket', routesTicket);
     app.use('/api/test', routesTest);
+    app.use('/api/commerce', routesCommerce);
 
 }
