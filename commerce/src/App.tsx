@@ -6,16 +6,15 @@ import {
   StatusBar,
 } from 'react-native';
 
+import Scanner from './screens/Scanner';
+
 const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic">
-          <Text>Coucou</Text>
-        </ScrollView>
-      </SafeAreaView>
+
+      <Scanner />
+
     </>
   );
 };

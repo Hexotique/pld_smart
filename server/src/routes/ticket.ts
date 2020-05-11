@@ -5,7 +5,7 @@ import * as controleurTicket from '../controllers/controleurTicket';
 
 const router = express.Router();
 
-router.put('/creer-ticket', passport.authenticate('jwt', { session: false }), controleurTicket.creer_ticket_put);
+router.put('/creer-ticket', /*passport.authenticate('jwt', { session: false }),*/ controleurTicket.creer_ticket_put);
 
 router.delete('/supprimer-ticket/:idticket', passport.authenticate('jwt', { session: false }), controleurTicket.supprimer_ticket_delete);
 
@@ -15,6 +15,6 @@ router.get('/recuperer-detail-ticket/:idticket', passport.authenticate('jwt', { 
 
 //route de test
 
- router.put('/testcommerce', controleurTicket.test_creation_commerce);
+router.put('/testcommerce', controleurTicket.test_creation_commerce);
 
 export default router;
