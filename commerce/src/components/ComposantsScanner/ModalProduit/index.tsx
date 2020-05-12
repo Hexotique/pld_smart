@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, TouchableOpacity, Image, TouchableWithoutFeedback, Text } from 'react-native';
+import { View, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Text, Vibration } from 'react-native';
 import styles from './styles';
 import Modal from 'react-native-modal';
+import Toast from 'react-native-simple-toast';
+
 
 export interface Propriete {
     show: boolean,
@@ -9,10 +11,27 @@ export interface Propriete {
     codebarre: string,
     url: string,
     nom: string,
+    ajouterArticleTicket: any,
 }
 
 function ModalProduit(props: Propriete) {
     console.log('code barre : ' + props.codebarre);
+
+    const [valPrix, setValPrix] = React.useState('');
+    const [valQuantite, setValQuantite] = React.useState('');
+
+    const valider = () => {
+        if (valQuantite !== '' && valQuantite !== '') {
+            props.ajouterArticleTicket(props.codebarre, valQuantite, valPrix);
+            props.close();
+            setValPrix('');
+            setValQuantite('');
+        } else {
+            Toast.show('Champs manquants', Toast.SHORT)
+            Vibration.vibrate([0, 80, 80, 80])
+        }
+    }
+
     return (
         props.show ?
 
@@ -38,8 +57,24 @@ function ModalProduit(props: Propriete) {
                                         <Text style={styles.nom}>{props.nom}</Text>
                                     </View>
                                     <Image style={styles.image} source={{ uri: props.url }}></Image>
+                                    <View style={styles.zoneSaisie}>
+                                        <TextInput
+                                            placeholder="Prix"
+                                            placeholderTextColor="#3b3b3bad"
+                                            autoCapitalize='none'
+                                            onChangeText={prix => setValPrix(prix)}
+                                            keyboardType='numeric'
+                                        />
+                                        <TextInput
+                                            placeholder="Quantite"
+                                            placeholderTextColor="#3b3b3bad"
+                                            autoCapitalize='none'
+                                            onChangeText={quantite => setValQuantite(quantite)}
+                                            keyboardType='numeric'
+                                        />
+                                    </View>
                                     <View style={styles.zoneBoutons}>
-                                        <TouchableOpacity style={styles.boutonOui} onPress={() => { props.close(); }}>
+                                        <TouchableOpacity style={styles.boutonOui} onPress={() => valider()}>
                                             <Text style={styles.texteBouton}>OUI</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity style={styles.boutonNon} onPress={props.close}>

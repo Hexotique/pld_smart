@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableHighlight, SafeAreaView, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { RNCamera } from 'react-native-camera';
@@ -7,6 +7,7 @@ import { recupererProduitViaCodeBarre } from '../../../api';
 import ModalProduit from '../ModalProduit';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { rayon } from './styles';
+import { Alerte } from '../Alerte';
 
 const iconOn = require('../../../assets/guide_de_style.json').Icones.Flash_On;
 const iconOff = require('../../../assets/guide_de_style.json').Icones.Flash_Off;
@@ -23,30 +24,34 @@ interface PaireDonneesArticle {
     prix: number,
 }
 
-function ScannerCodeBarre() {
+var ticket: Map<String, PaireDonneesArticle>;
+
+function ScannerCodeBarre({ idCommerce }: any) {
 
     const [flashAllume, setflahAllume] = useState(false);
     const [reconnaitreCode, setReconnaitreCode] = useState(true);
     const [articleScanne, setArtiCleScanne] = useState(['non reconnu', '../../assets/Flag_Blank.png'])
     const [montrerModal, setMontrerModal] = useState(false);
     const [code, setCode] = useState('');
+    const [alertVisible, setAlertVisible] = useState(false);
 
-    var ticket: Map<String, PaireDonneesArticle> = new Map<String, PaireDonneesArticle>();
+
+
+    useEffect(() => { ticket = new Map<String, PaireDonneesArticle>(); console.log('ok') }, []);
 
     const ajouterArticleTicket = (codeBarre: string, quantite: number, prix: number) => {
-        const ancienneQuantite = ticket.get(codeBarre)?.quantite;
-        if (ancienneQuantite === undefined) {
-            ticket.set(codeBarre, { quantite: quantite, prix: prix });
-        } else {
-            ticket.set(codeBarre, { quantite: quantite + ancienneQuantite, prix: prix })
-        }
+        console.log(codeBarre + " : " + quantite + " " + prix);
+        ticket.set(codeBarre, { quantite: quantite, prix: prix });
     }
 
     const _codeBarreLu = (donnees: DonneesCodeBarre) => {
         setCode(donnees.data as string);
         setReconnaitreCode(false);
         if (donnees.type === [RNCamera.Constants.BarCodeType.qr]) {
-
+            console.log("QR code : " + code);
+            setAlertVisible(true);
+            setReconnaitreCode(false);
+            ticket = new Map<String, PaireDonneesArticle>();
         } else {
             recupererProduitViaCodeBarre(donnees.data)
                 .then((res) => {
@@ -60,7 +65,6 @@ function ScannerCodeBarre() {
                     setMontrerModal(false);
                 });
         }
-        //Alert.alert("data : " + donnees.data + "\nrawData : " + donnees.rawData + "\ntype : " + donnees.type);
     }
 
     const onCloseHandler = () => {
@@ -68,6 +72,11 @@ function ScannerCodeBarre() {
         setReconnaitreCode(true);
         setArtiCleScanne(['non reconnu', '../../assets/Flag_Blank.png']);
         setMontrerModal(false);
+    }
+
+    const recHandler = () => {
+        setAlertVisible(false);
+        setReconnaitreCode(true);
     }
 
     return (
@@ -86,10 +95,25 @@ function ScannerCodeBarre() {
                 flashMode={flashAllume ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
             >
             </RNCamera>
-            <ModalProduit show={montrerModal} close={onCloseHandler} nom={articleScanne[0]} url={articleScanne[1]} codebarre={code} />
+            <ModalProduit
+                show={montrerModal}
+                close={onCloseHandler}
+                nom={articleScanne[0]}
+                url={articleScanne[1]}
+                codebarre={code}
+                ajouterArticleTicket={ajouterArticleTicket}
+            />
             <View style={styles.boutonBas}>
                 <Button type='clear' title='Annuler'></Button>
             </View>
+            <Alerte
+                visible={alertVisible}
+                setVisible={setAlertVisible}
+                texte="Voulez vous valider ce ticket ?"
+                couleur='rgba(217,31,31,1)'
+                funcValide={recHandler}
+                funcAnnule={() => { setAlertVisible(false); setReconnaitreCode(true) }}
+            />
         </SafeAreaView>
     );
 }

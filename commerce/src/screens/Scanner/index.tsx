@@ -6,7 +6,7 @@ import ScannerCodeBarre from '../../components/ComposantsScanner/ScannerCodeBarr
 function Scanner() {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            <ScannerCodeBarre />
+            <ScannerCodeBarre idCommerce={1} />
         </SafeAreaView>
     );
 }
