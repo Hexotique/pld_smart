@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableHighlight, SafeAreaView, Text, View } from 'react-native';
+import { TouchableHighlight, SafeAreaView, Text, View, Vibration } from 'react-native';
 import { Button } from 'react-native-elements';
 import { RNCamera } from 'react-native-camera';
 import styles from './styles';
-import { recupererProduitViaCodeBarre } from '../../../api';
+import { recupererProduitViaCodeBarre, AchatJSON, TicketJSON, setToken, creer_ticket__put } from '../../../api';
 import ModalProduit from '../ModalProduit';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { rayon } from './styles';
 import { Alerte } from '../Alerte';
+import Toast from 'react-native-simple-toast';
+
+
 
 const iconOn = require('../../../assets/guide_de_style.json').Icones.Flash_On;
 const iconOff = require('../../../assets/guide_de_style.json').Icones.Flash_Off;
@@ -35,8 +38,6 @@ function ScannerCodeBarre({ idCommerce }: any) {
     const [code, setCode] = useState('');
     const [alertVisible, setAlertVisible] = useState(false);
 
-
-
     useEffect(() => { ticket = new Map<String, PaireDonneesArticle>(); console.log('ok') }, []);
 
     const ajouterArticleTicket = (codeBarre: string, quantite: number, prix: number) => {
@@ -47,11 +48,14 @@ function ScannerCodeBarre({ idCommerce }: any) {
     const _codeBarreLu = (donnees: DonneesCodeBarre) => {
         setCode(donnees.data as string);
         setReconnaitreCode(false);
-        if (donnees.type === [RNCamera.Constants.BarCodeType.qr]) {
-            console.log("QR code : " + code);
-            setAlertVisible(true);
-            setReconnaitreCode(false);
-            ticket = new Map<String, PaireDonneesArticle>();
+        if (donnees.type === RNCamera.Constants.BarCodeType.qr) {
+            if (ticket.size !== 0) {
+                setAlertVisible(true);
+                setReconnaitreCode(false);
+            } else {
+                Toast.show('Ticket Vide', Toast.SHORT)
+                Vibration.vibrate([0, 80, 80, 80])
+            }
         } else {
             recupererProduitViaCodeBarre(donnees.data)
                 .then((res) => {
@@ -62,8 +66,27 @@ function ScannerCodeBarre({ idCommerce }: any) {
                     setMontrerModal(false);
                     setReconnaitreCode(true);
                     setArtiCleScanne(['non reconnu', '../../assets/Flag_Blank.png']);
-                    setMontrerModal(false);
                 });
+        }
+    }
+
+    const traduction_Ticket = (): TicketJSON => {
+        let achats: Array<AchatJSON> = new Array<AchatJSON>();
+        ticket.forEach((value, key) => {
+            const achat: AchatJSON = {
+                codeBarre: key,
+                quantite: value.quantite,
+                prix: value.prix
+            }
+            achats.push(achat);
+        })
+        return {
+            donneesMagasin: {
+                idCommerce: idCommerce,
+            },
+            donneesTicket: {
+                achats: achats,
+            }
         }
     }
 
@@ -76,6 +99,10 @@ function ScannerCodeBarre({ idCommerce }: any) {
 
     const recHandler = () => {
         setAlertVisible(false);
+        setToken(code);
+        const ticketJson: TicketJSON = traduction_Ticket();
+        creer_ticket__put(ticketJson);
+        ticket = new Map<String, PaireDonneesArticle>();
         setReconnaitreCode(true);
     }
 

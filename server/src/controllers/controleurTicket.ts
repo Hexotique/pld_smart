@@ -59,7 +59,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
 
         // Check de la présence des données nécessaires dans le corps de la requete
         if (!donnees.donneesMagasin.idCommerce) throw ('parametre idmagasin manquant');
-        if (!donnees.donneesClient.idClient) throw ('parametre idclient manquant');
+        //if (!donnees.donneesClient.idClient) throw ('parametre idclient manquant');
         if (!donnees.donneesTicket) throw ('Pas de données de ticket');
         if (!donnees.donneesTicket.achats || donnees.donneesTicket.achats.length === 0) throw ('Pas d\'achats dans le ticket');
         const donneesAchats: Array<DonneesAchat> = donnees.donneesTicket.achats;
@@ -69,8 +69,9 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         if (magasin === null) throw ('magasin inexistant dans la BDD');
 
         // Check de l'existence du client dans la BDD
-        const client = await Client.findByPk<Client>(donnees.donneesClient.idClient)
-        if (client === null) throw ('client inexistant dans la BDD');
+        //const client = await Client.findByPk<Client>(donnees.donneesClient.idClient)
+        //if (client === null) throw ('client inexistant dans la BDD');
+        const client = req.user as Client;
 
         // Tableau qui permettra de vérifier si l'article est déjà créé ou non en base
         const articlePromises: Array<Promise<Article>> = new Array<Promise<Article>>();
@@ -121,7 +122,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
 
         //On enlève tous les achats qui sont null et leur articles associés
         await retirer_AchatArticle_null(achats, articles);
-        
+
         // récupération des produits associés à chaque article
         const produitsPromises: Array<Promise<Produit>> = new Array<Promise<Produit>>();
         for (const article of articles) {
@@ -131,7 +132,7 @@ export const creer_ticket_put = async (req: Request, res: Response, next: NextFu
         const produits: Array<Produit> = await Promise.all(produitsPromises);
 
         // Ajout aux achats régulier du client
-        await ajout_achat_regulier(client.id, new Set (produits));
+        await ajout_achat_regulier(client.id, new Set(produits));
 
         // Création du ticket
         const ticket: Ticket = await Ticket.create({ date_achat: new Date(), montant: montant });
